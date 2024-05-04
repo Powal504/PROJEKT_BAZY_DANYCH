@@ -46,15 +46,13 @@ function Registration() {
   };
 
   return (
-    <div className="container"> {/* Używamy głównego kontenera */}
-      <div className="background"></div> {/* Tło jako div tła */}
-      <div className="registration-section"> {/* Sekcja rejestracji */}
+    <>
         {registrationSuccess ? (
           <div className="success-message">Rejestracja udana! Możesz teraz zalogować się na swoje konto.</div>
         ) : (
           <div className={styles.full}>
             <p>Rejestracja</p>
-            <Link to=""><div className={styles.homeButton}>Home</div></Link> {/* Poprawiamy klasę przycisku */}
+            <Link to="/"><div className={styles.homeButton}>Home</div></Link> {/* Poprawiamy klasę przycisku */}
             <p>Nick:</p>
             <input type="text" name="username" value={formData.username} onChange={handleChange} />
             <p>E-mail:</p>
@@ -71,8 +69,9 @@ function Registration() {
             </div>
           </div>
         )}
-      </div>
-    </div>
+      
+      
+      </>
   );
 }
 
