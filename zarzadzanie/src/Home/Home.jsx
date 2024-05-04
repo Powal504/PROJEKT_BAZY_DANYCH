@@ -1,13 +1,13 @@
-import styles from './Home.module.css'
-
+import styles from './Home.module.css';
 import React from 'react';
+import { Link } from 'react-router-dom'; 
 
-function Home({ onNavigate }) {
+function Home() {
   return (
-    <>
+    <div className={styles.home}> 
       <p>Strona główna</p>
-      <button onClick={() => onNavigate('Registration')}>Przejdź do rejestracji</button>
-    </>
+      <Link to="/registration" > <div className={styles.registerLink}>Registration </div> </Link>
+    </div>
   );
 }
 

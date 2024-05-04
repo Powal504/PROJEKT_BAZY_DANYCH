@@ -1,22 +1,19 @@
-import React, { useState } from 'react';
+import React from 'react';
 import Registration from './Registration/Registration';
 import Home from './Home/Home';
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 
 function App() {
-  const [currentScreen, setCurrentScreen] = useState('Home');
-
-  const handleNavigation = (screen) => {
-    setCurrentScreen(screen);
-  };
-
   return (
     <>
-      {currentScreen === 'Home' && (
-        <Home onNavigate={() => handleNavigation('Registration')} />
-      )}
-      {currentScreen === 'Registration' && (
-        <Registration onNavigate={() => handleNavigation('Home')} />
-      )}
+      <Router>
+        <div className='content'>
+          <Switch>
+            <Route exact path="/"> <Home/> </Route>
+            <Route exact path="/registration"> <Registration/> </Route> 
+          </Switch>
+        </div>
+      </Router>
     </>
   );
 }

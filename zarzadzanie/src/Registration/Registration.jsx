@@ -1,5 +1,6 @@
 import React, { useState } from "react";
-
+import styles from './Registration.module.css';
+import { Link } from "react-router-dom"; 
 function Registration() {
   const [formData, setFormData] = useState({
     username: "",
@@ -45,28 +46,32 @@ function Registration() {
   };
 
   return (
-    <div>
-      {registrationSuccess ? (
-        <div className="success-message">Rejestracja udana! Możesz teraz zalogować się na swoje konto.</div>
-      ) : (
-        <div className="full">
-          <p>Rejestracja</p>
-          <p>Nick:</p>
-          <input type="text" name="username" value={formData.username} onChange={handleChange} />
-          <p>E-mail:</p>
-          <input type="text" name="email" value={formData.email} onChange={handleChange} />
-          <p>Hasło:</p>
-          <input type="password" name="password" value={formData.password} onChange={handleChange} />
-          <p>Powtórz hasło:</p>
-          <input type="password" name="repeatPassword" value={formData.repeatPassword} onChange={handleChange} />
-          <p>Numer telefonu:</p>
-          <input type="text" name="phoneNumber" value={formData.phoneNumber} onChange={handleChange} />
-          <button onClick={handleSubmit}>Zarejestruj</button>
-          <div className="error">
-            {error && <label>{error}</label>}
+    <div className="container"> {/* Używamy głównego kontenera */}
+      <div className="background"></div> {/* Tło jako div tła */}
+      <div className="registration-section"> {/* Sekcja rejestracji */}
+        {registrationSuccess ? (
+          <div className="success-message">Rejestracja udana! Możesz teraz zalogować się na swoje konto.</div>
+        ) : (
+          <div className={styles.full}>
+            <p>Rejestracja</p>
+            <Link to=""><div className={styles.homeButton}>Home</div></Link> {/* Poprawiamy klasę przycisku */}
+            <p>Nick:</p>
+            <input type="text" name="username" value={formData.username} onChange={handleChange} />
+            <p>E-mail:</p>
+            <input type="text" name="email" value={formData.email} onChange={handleChange} />
+            <p>Hasło:</p>
+            <input type="password" name="password" value={formData.password} onChange={handleChange} />
+            <p>Powtórz hasło:</p>
+            <input type="password" name="repeatPassword" value={formData.repeatPassword} onChange={handleChange} />
+            <p>Numer telefonu:</p>
+            <input type="text" name="phoneNumber" value={formData.phoneNumber} onChange={handleChange} />
+            <button onClick={handleSubmit}>Zarejestruj</button>
+            <div className="error">
+              {error && <label>{error}</label>}
+            </div>
           </div>
-        </div>
-      )}
+        )}
+      </div>
     </div>
   );
 }
