@@ -6,10 +6,10 @@ using System.Threading.Tasks;
 
 namespace api.Models
 {
-    public class Actor
+    public class Role
     {
         [Key]
-        public int Actor_id { get; set; }
-        public string Actor_name { get; set; }
+        public int Role_id { get; set; }
+        public string? Role_name { get; set; }
     }
 }

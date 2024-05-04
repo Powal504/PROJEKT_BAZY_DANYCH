@@ -10,36 +10,99 @@ namespace api.Data
     public class ApplicationDBContext : DbContext
     {
         public ApplicationDBContext(DbContextOptions dbContextOptions)
-        :base(dbContextOptions)
+        : base(dbContextOptions)
         {
         }
-        public DbSet<User> Users{get;set;}
-        public DbSet<Review> Reviews{get;set;}
-        public DbSet<Rating> Ratings{get;set;}
-        public DbSet<Movie> Movies{get;set;}
-        
-        public DbSet<Movie_Language> Movie_Languages{get;set;}
-        public DbSet<Language> Languages{get;set;}
-        public DbSet<Movie_Production_Company> Movie_Production_Companies{get;set;}
-        public DbSet<Production_Company> Production_Companies{get;set;}
-        public DbSet<Movie_Actor> Movie_Actors{get;set;}
-        
-        public DbSet<Genre> Genres{get;set;}
-        public DbSet<Director> Directors{get;set;}
-        public DbSet<Actor> Actors{get;set;}
+        public DbSet<Users> Users { get; set; }
+        public DbSet<Reviews> Reviews { get; set; }
+        public DbSet<Movies> Movies { get; set; }
 
-        protected override void OnModelCreating(ModelBuilder modelBuilder)
+
+        public DbSet<Actors> Movie_Production_Company { get; set; }
+        public DbSet<Production_Companies> Production_Companies { get; set; }
+        public DbSet<Actors_Movies> Movie_Actors { get; set; }
+        public DbSet<Genres_Movies> Genres_Movies { get; set; }
+
+        public DbSet<Genres> Genres { get; set; }
+        public DbSet<Directors> Directors { get; set; }
+        public DbSet<Directors_Movies>Directors_Movies {get;set;}
+        public DbSet<Actors> Actors { get; set; }
+        public DbSet<Movie_Catalog> Movie_Catalog { get; set; }
+        public DbSet<Movie_Movie_Catalog> Movie_Movie_Catalog { get; set; }
+        public DbSet<Role> Role { get; set; }
+        
+        
+ protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<Movie>()
-                .HasKey(m => new { m.Movie_id, m.Genre_id, m.Director_id });
-            modelBuilder.Entity<Movie_Actor>()
-                .HasKey(ma=>new{ma.Movie_id,ma.Actor_id});
-            modelBuilder.Entity<Movie_Language>()
-                .HasKey(ml=>new{ml.Movie_id,ml.Language_id});
-            modelBuilder.Entity<Movie_Production_Company>()
-                .HasKey(mpc=>new{mpc.Company_id,mpc.Movie_id});
-            modelBuilder.Entity<Rating>()
-                .HasKey(r=>new{r.Movie_id,r.User_id,r.Rating_id});
+            modelBuilder.Entity<Genres_Movies>()
+                .HasKey(gm => new { gm.Genre_id, gm.Movie_id }); // Ustawienie klucza składającego się z obu kluczy obcych
+
+            modelBuilder.Entity<Genres_Movies>()
+                .HasOne(gm => gm.Genre)
+                .WithMany(g => g.GenresMovies)
+                .HasForeignKey(gm => gm.Genre_id);
+
+            modelBuilder.Entity<Genres_Movies>()
+                .HasOne(gm => gm.Movie)
+                .WithMany(m => m.GenresMovies)
+                .HasForeignKey(gm => gm.Movie_id);
+
+
+
+
+
+                modelBuilder.Entity<Directors_Movies>()
+                .HasKey(dm => new { dm.Director_id, dm.Movie_id }); // Ustawienie klucza składającego się z obu kluczy obcych
+
+            modelBuilder.Entity<Directors_Movies>()
+                .HasOne(dm => dm.Director)
+                .WithMany(d => d.DirectorsMovies)
+                .HasForeignKey(dm => dm.Director_id);
+
+            modelBuilder.Entity<Directors_Movies>()
+                .HasOne(dm => dm.Movie)
+                .WithMany(m => m.DirectorsMovies)
+                .HasForeignKey(dm => dm.Movie_id);
+
+
+
+                modelBuilder.Entity<Movie_Production_Companies>()
+                .HasKey(mp => new { mp.Company_id, mp.Movie_id });
+
+            modelBuilder.Entity<Movie_Production_Companies>()
+                .HasOne(mp => mp.Company)
+                .WithMany(c => c.MovieProductionCompanies)
+                .HasForeignKey(mp => mp.Company_id);
+
+            modelBuilder.Entity<Movie_Production_Companies>()
+                .HasOne(mp => mp.Movie)
+                .WithMany(m => m.MovieProductionCompanies)
+                .HasForeignKey(mp => mp.Movie_id);
+
+
+                modelBuilder.Entity<Movie_Movie_Catalog>()
+                .HasKey(mmc => mmc.Movie_catalog_id);
+
+            modelBuilder.Entity<Movie_Movie_Catalog>()
+                .HasOne(mmc => mmc.Movie)
+                .WithMany(m => m.MovieMovieCatalogs)
+                .HasForeignKey(mmc => mmc.Movie_id);
+
+
+                 modelBuilder.Entity<Actors_Movies>()
+                .HasKey(am => new { am.Actor_id, am.Movie_id });
+
+            // Configure relationships
+            modelBuilder.Entity<Actors_Movies>()
+                .HasOne(am => am.Actor)
+                .WithMany(a => a.Actors_Movies)
+                .HasForeignKey(am => am.Actor_id);
+
+            modelBuilder.Entity<Actors_Movies>()
+                .HasOne(am => am.Movie)
+                .WithMany(m => m.Actors_Movies)
+                .HasForeignKey(am => am.Movie_id);
         }
+
     }
 }

@@ -6,10 +6,12 @@ using System.Threading.Tasks;
 
 namespace api.Models
 {
-    public class Director
+    public class Directors
     {
         [Key]
         public int Director_id { get; set; }
-        public string Director_name { get; set; }
+        public string? Director_name { get; set; }
+        public string? Director_surname { get; set; }
+        public ICollection<Directors_Movies> DirectorsMovies { get; set; }
     }
 }

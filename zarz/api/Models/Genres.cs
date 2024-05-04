@@ -6,10 +6,12 @@ using System.Threading.Tasks;
 
 namespace api.Models
 {
-    public class Language
+    public class Genres
     {
         [Key]
-        public int Language_id { get; set; }
-        public string Language_name { get; set; }
+        public int Genre_id { get; set; }
+        public string? Genre_name { get; set; }
+        public ICollection<Genres_Movies> GenresMovies { get; set; }
+
     }
 }
