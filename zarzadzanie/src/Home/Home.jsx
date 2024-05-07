@@ -6,7 +6,7 @@ function Home() {
   return (
     <div className={styles.home}> 
       <p>Strona główna</p>
-      <Link to="/registration" > <div className={styles.registerLink}>Registration </div> </Link>
+    
     </div>
   );
 }

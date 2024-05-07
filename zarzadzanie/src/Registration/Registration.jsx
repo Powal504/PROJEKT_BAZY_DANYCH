@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import styles from './Registration.module.css';
 import { Link } from "react-router-dom"; 
+import Home from "../Home/Home";
 function Registration() {
   const [formData, setFormData] = useState({
     username: "",
@@ -47,12 +48,15 @@ function Registration() {
 
   return (
     <>
+    <div className={styles.background}>
+     <Home></Home>
+ 
+    </div>
         {registrationSuccess ? (
           <div className="success-message">Rejestracja udana! Możesz teraz zalogować się na swoje konto.</div>
         ) : (
           <div className={styles.full}>
             <p>Rejestracja</p>
-            <Link to="/"><div className={styles.homeButton}>Home</div></Link> {/* Poprawiamy klasę przycisku */}
             <p>Nick:</p>
             <input type="text" name="username" value={formData.username} onChange={handleChange} />
             <p>E-mail:</p>
@@ -62,8 +66,10 @@ function Registration() {
             <p>Powtórz hasło:</p>
             <input type="password" name="repeatPassword" value={formData.repeatPassword} onChange={handleChange} />
             <p>Numer telefonu:</p>
-            <input type="text" name="phoneNumber" value={formData.phoneNumber} onChange={handleChange} />
+            <input type="text" name="phoneNumber" value={formData.phoneNumber} onChange={handleChange} /><br/>
             <button onClick={handleSubmit}>Zarejestruj</button>
+            <br />
+            <label></label><br/>
             <div className="error">
               {error && <label>{error}</label>}
             </div>

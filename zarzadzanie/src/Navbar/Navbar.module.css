@@ -1,0 +1,46 @@
+body {
+    margin: 0;
+    padding: 0;
+}
+.navbar {
+   
+        display: flex;
+        justify-content: space-between; /* Aby linki były na przeciwnych krańcach */
+        align-items: center; 
+        border-bottom: 5px none white;
+        box-shadow: 20px 20px 10px 20px #151325;
+        background-color: #151325;
+        top: 0;
+        color: grey;
+        font-size: 20px
+      }
+    
+  
+  
+  .linkContainer {
+    display: flex;
+    align-items: center;
+  }
+  
+  .registerLink,
+  .homeLink {
+    background-color: white;
+    border: solid black;
+    width: 100px;
+    text-align: center;
+    text-decoration: none !important;
+    color: black;
+    margin-right: 10px;
+    white-space: nowrap;
+    
+    border-radius: 10%;
+  }
+  .registerLink,
+  .homeLink , p{
+  margin-bottom: 5px;
+  margin-top: 50px;}
+  
+
+  .homeLink {
+    margin-right: 5px; 
+  }
