@@ -26,3 +26,22 @@ link{
     
 
   }
+  img{
+    width: 200px;
+    height: 200px;
+    margin-right: 20px;
+    margin-top: 25px;
+    margin-bottom: 25px;
+    
+
+  }
+  img:hover{
+    filter: brightness(50%);
+  }
+  .categories{
+    text-align: center;
+    border-top: solid none 2px ;
+    border-bottom:  solid none 2px ;
+    background-color: #151325;
+    box-shadow:  20px 20px 20px 20px #151325;
+  }

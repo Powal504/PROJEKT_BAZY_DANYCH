@@ -10,7 +10,7 @@
   .background {
     filter: brightness(50%);
     position: absolute;
-    font-size: 500px; /* Dostosuj rozmiar czcionki do swoich potrzeb */
-    font-weight: bold; /* Opcjonalnie: pogrubienie tekstu */
-    z-index: -1; /* Ustaw niższy z-index, aby napis "Auto" był pod formularzem */
+    font-size: 500px; 
+    font-weight: bold; 
+    z-index: -1; 
   }

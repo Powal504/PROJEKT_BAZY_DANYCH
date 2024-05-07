@@ -48,10 +48,7 @@ function Registration() {
 
   return (
     <>
-    <div className={styles.background}>
-     <Home></Home>
- 
-    </div>
+    
         {registrationSuccess ? (
           <div className="success-message">Rejestracja udana! Możesz teraz zalogować się na swoje konto.</div>
         ) : (
