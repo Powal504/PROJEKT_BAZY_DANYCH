@@ -1,11 +1,11 @@
 import React, { useState } from "react";
-import styles from './Login.module.css';
+import styles from './Movie_Add.module.css';
 import { Link } from "react-router-dom"; 
 
-function Login() {
+function Movie_Add() {
     return (
     <>
     </>
     );
 }
-export default Login;
+export default Movie_Add;
