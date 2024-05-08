@@ -1,0 +1,74 @@
+.movie_add{
+    margin: 40px auto auto auto ;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: hsl(247, 34%, 14%);
+    width: 50%;
+
+}
+
+.textarea-component-description{
+    display: flex;
+    align-items: center;
+    width: 250px;
+    height: 80px;
+    margin: 5px;
+    resize: none;
+}
+
+.default-button{
+    cursor: pointer;
+}
+
+.confirm-button-ma{
+    color: black;
+    background-color: hsl(245,89%,79%);
+    font-weight: bold;
+    font-size: 1.5em;
+    border: none;
+    cursor: pointer;
+    width: 200px;
+    height: 40px;
+    margin: 30px;
+    padding: 10px;
+}
+
+.select-component-am{
+    margin: auto;
+    width: 140px;
+    text-align: center;
+    cursor: pointer;
+}
+.option-component-am{
+    max-height: 100px;
+    
+}
+
+body{
+    background-color: hsl(249, 30%, 18%);
+}
+
+.header-ma{
+    text-align: center;
+    color: white;
+    font-weight: bold;
+
+}
+
+.label-component{
+    color: white;
+    text-align: center;
+    font-size: 18px;
+    padding: 5px;
+}
+
+.input-component{
+    display: flex;
+    align-items: center;
+    width: 250px;
+    height: 30px;
+    margin: 5px;
+}
+
