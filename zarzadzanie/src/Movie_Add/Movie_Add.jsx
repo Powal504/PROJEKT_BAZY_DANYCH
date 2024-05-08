@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import './Movie_Add.css'
+import styles from './Movie_Add.module.css';
 import { Link } from "react-router-dom"; 
 
 function Movie_Add(){
@@ -41,27 +41,28 @@ function Movie_Add(){
     const movie_genre = ['Akcji','Horror','Animowany','Dramat','Komedia']
 
     return(
-        <div className='movie_add'>
-            <h1 className='header-ma'>DODAJ FILM</h1>
-            <input type='text' className='input-component' value={title} onChange={handleTitle}></input>
-            <label className='label-component'>Podaj tytuł filmu</label>
-            <textarea type='text' className='textarea-component-description' value={description} onChange={handleDescription}></textarea>
-            <label className='label-component'>Dodaj opis</label>
-            <button className='default-button' onClick={handlePoster}>Dodaj plik</button>
-            <label className='label-component'>Dodaj okładkę</label>
-            <input type='text' className='input-component' value={director} onChange={handleDirector}></input>
-            <label className='label-component' >Podaj imie i nazwisko reżysera</label>
-            <input type='text' className='input-component' value={company} onChange={handleCompany}></input>
-            <label className='label-component' >Podaj nazwę wytwórni</label>
-            <select className='select-component-am'>
+        <div className={styles.movie_add}>
+            <h1 className={styles.header}>DODAJ FILM</h1>
+            <input type='text' className={styles.input_component} value={title} onChange={handleTitle}></input>
+            <label className={styles.label_component}>Podaj tytuł filmu</label>
+            <textarea type='text' className={styles.textarea_component_description} value={description} onChange={handleDescription}></textarea>
+            <label className={styles.label_component}>Dodaj opis</label>
+            <button className={styles.default_button} onClick={handlePoster}>Dodaj plik</button>
+            <label className={styles.label_component}>Dodaj okładkę</label>
+            <input type='text' className={styles.input_component} value={director} onChange={handleDirector}></input>
+            <label className={styles.label_component} >Podaj imie i nazwisko reżysera</label>
+            <input type='text' className={styles.input_component} value={company} onChange={handleCompany}></input>
+            <label className={styles.label_component} >Podaj nazwę wytwórni</label>
+            <select className={styles.select_component_am}>
                 <option value="">Wybierz gatunek</option>
                     {movie_genre.map((category, index)=>
-                    (<option className='option-component-am' key={index} value={category}>{category}</option>))}
+                    (<option className={styles.option_component_am} key={index} value={category}>{category}</option>))}
             </select>
-            <label className='label-component'>Podaj gatunek filmu</label>
-            <button className='confirm-button-ma'>Dodaj film</button>
+            <label className={styles.label_component}>Podaj gatunek filmu</label>
+            <button className={styles.confirm_button}>Dodaj film</button>
             
         </div>
     );
 }
+
 export default Movie_Add;

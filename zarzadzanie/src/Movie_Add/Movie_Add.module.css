@@ -1,15 +1,14 @@
 .movie_add{
-    margin: 40px auto auto auto ;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
     background-color: hsl(247, 34%, 14%);
     width: 50%;
-
+    margin: 40px auto;
 }
 
-.textarea-component-description{
+.textarea_component_description{
     display: flex;
     align-items: center;
     width: 250px;
@@ -18,11 +17,11 @@
     resize: none;
 }
 
-.default-button{
+.default_button{
     cursor: pointer;
 }
 
-.confirm-button-ma{
+.confirm_button{
     color: black;
     background-color: hsl(245,89%,79%);
     font-weight: bold;
@@ -35,36 +34,33 @@
     padding: 10px;
 }
 
-.select-component-am{
+.select_component{
     margin: auto;
     width: 140px;
     text-align: center;
     cursor: pointer;
 }
-.option-component-am{
+.option_component_am{
     max-height: 100px;
     
 }
 
-body{
-    background-color: hsl(249, 30%, 18%);
-}
 
-.header-ma{
+.header{
     text-align: center;
     color: white;
     font-weight: bold;
 
 }
 
-.label-component{
+.label_component{
     color: white;
     text-align: center;
     font-size: 18px;
     padding: 5px;
 }
 
-.input-component{
+.input_component{
     display: flex;
     align-items: center;
     width: 250px;

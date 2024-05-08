@@ -1,0 +1,43 @@
+
+.login_page{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-top: 30px;
+}
+
+.header{
+    text-align: center;
+    color: white;
+    font-weight: bold;
+
+}
+
+.label_component{
+    color: white;
+    text-align: center;
+    font-size: 18px;
+    padding: 5px;
+}
+
+.input_component{
+    display: flex;
+    align-items: center;
+    width: 250px;
+    height: 30px;
+    margin: 5px;
+}
+
+.login_button{
+    color: black;
+    background-color: hsl(245,89%,79%);
+    font-weight: bold;
+    font-size: 1.5em;
+    border: none;
+    cursor: pointer;
+    width: 200px;
+    height: 40px;
+    margin: 60px;
+    padding: 10px;
+}
