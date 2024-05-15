@@ -8,9 +8,9 @@ function Registration() {
     roleid: 0,
     email: "",
     password: "",
-    repeatPassword: "",
-    phoneNumber: "",
-    dateOfBirth: "2024-05-15"
+    repeatPassowrd: "",
+    phone_number: "",
+    birth_date: "2024-05-15T19:52:00.690"
   });
 
   const [error, setError] = useState("");
@@ -24,6 +24,13 @@ function Registration() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
+      // Konwertuj datę na format UTC
+      const utcBirthDate = new Date(formData.birth_date).toISOString();
+  
+      // Aktualizuj formData z datą w formacie UTC
+      setFormData({ ...formData, birth_date: utcBirthDate });
+  
+      // Wysyłanie żądania do serwera
       const response = await fetch("http://localhost:5028/api/Registration/RegistrationPOST", {
         method: "POST",
         headers: {
@@ -31,15 +38,14 @@ function Registration() {
         },
         body: JSON.stringify(formData)
       });
-
-      const responseData = await response.json();
-
+  
+      const responseData = await response.text();
+  
       if (response.ok) {
         setRegistrationSuccess(true);
         console.log("Rejestracja udana!", responseData);
       } else {
-        const errorData = await response.json();
-        setError(errorData.error || "Wystąpił nieznany błąd");
+        setError(responseData || "Wystąpił nieznany błąd");
       }
     } catch (error) {
       console.error("Wystąpił problem z rejestracją:", error.message);
@@ -62,9 +68,9 @@ function Registration() {
             <p>Hasło:</p>
             <input type="password" name="password" value={formData.password} onChange={handleChange} />
             <p>Powtórz hasło:</p>
-            <input type="password" name="repeatPassword" value={formData.repeatPassword} onChange={handleChange} />
+            <input type="password" name="repeatPassowrd" value={formData.repeatPassowrd} onChange={handleChange} />
             <p>Numer telefonu:</p>
-            <input type="text" name="phoneNumber" value={formData.phoneNumber} onChange={handleChange} /><br/>
+            <input type="text" name="phone_number" value={formData.phone_number} onChange={handleChange} /><br/>
             <button onClick={handleSubmit}>Zarejestruj</button>
             <br />
             <label></label><br/>
