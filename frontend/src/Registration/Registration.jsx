@@ -10,7 +10,7 @@ function Registration() {
     password: "",
     repeatPassowrd: "",
     phone_number: "",
-    birth_date: "2024-05-15T19:52:00.690"
+    birth_date: "2024-05-15T20:50:59.433Z"
   });
 
   const [error, setError] = useState("");
@@ -38,7 +38,7 @@ function Registration() {
         },
         body: JSON.stringify(formData)
       });
-  
+  //fefref
       const responseData = await response.text();
   
       if (response.ok) {
