@@ -1,0 +1,46 @@
+﻿version: '3.4'
+
+services:
+  api:
+    image: ${DOCKER_REGISTRY-}zarz
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - 5000:80
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_HTTP_PORTS=5000
+      - ConnectionStrings__Default=localhost=db;Port=5432;Database=filmweb;Username=postgres;Password=xdxd
+    volumes:
+      - ${APPDATA}/Microsoft/UserSecrets:/home/app/.microsoft/usersecrets:ro
+      - ${APPDATA}/ASP.NET/Https:/home/app/.aspnet/https:ro
+    user: root
+    depends_on:
+      - db
+  
+  db:
+    image: postgres:latest
+    environment:
+      - POSTGRES_DB=filmweb
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=xdxd
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    ports:
+      - 5432:5432
+    restart: always
+    command: postgres -c 'listen_addresses=*'
+  
+  pgadmin:
+    image: dpage/pgadmin4
+    restart: always
+    environment:
+      - PGADMIN_DEFAULT_EMAIL=admin@admin.com
+      - PGADMIN_DEFAULT_PASSWORD=root
+    ports:
+      - "5050:80"
+
+volumes:
+  pgdata:
+    external: false

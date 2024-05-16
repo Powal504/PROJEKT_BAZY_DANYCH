@@ -38,7 +38,7 @@ function Registration() {
         },
         body: JSON.stringify(formData)
       });
-  //fefref
+  
       const responseData = await response.text();
   
       if (response.ok) {
