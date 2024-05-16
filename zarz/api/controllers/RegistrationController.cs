@@ -34,9 +34,9 @@ namespace api.controllers
             if(registrationModel.Password!=registrationModel.RepeatPassowrd) return BadRequest("Hasla nie sa identyczne");
 
             
-          if (!IsValidEmail(registrationModel.Email)) return BadRequest("Nie poprawny email.");
+        if (!IsValidEmail(registrationModel.Email)) return BadRequest("Nie poprawny email.");
             
-          if (!IsValidPhoneNumber(registrationModel.Phone_number)) return BadRequest("Nie poprawny numer telefonu.");
+        if (!IsValidPhoneNumber(registrationModel.Phone_number)) return BadRequest("Nie poprawny numer telefonu.");
           
 
             var userModel =registrationModel.ToUserFromDto();
@@ -56,7 +56,7 @@ namespace api.controllers
             {
                 // Normalize the domain
                 email = Regex.Replace(email, @"(@)(.+)$", DomainMapper,
-                                      RegexOptions.None, TimeSpan.FromMilliseconds(200));
+                                    RegexOptions.None, TimeSpan.FromMilliseconds(200));
 
                 // Examines the domain part of the email and normalizes it.
                 string DomainMapper(Match match)

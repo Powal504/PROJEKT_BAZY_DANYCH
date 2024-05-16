@@ -1,4 +1,7 @@
 using api.Data;
+using api.Services;
+using api.Models;
+using api.controllers;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -24,6 +27,8 @@ builder.Services.AddCors(options =>
                    .AllowAnyHeader();
         });
 });
+
+builder.Services.AddScoped<IMovieRepository<Movies>, MovieRepository>();
 
 var app = builder.Build();
 

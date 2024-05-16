@@ -1,31 +1,25 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\etzy\\Desktop\\zarzRepo\\PROJEKT_BAZY_DANYCH\\zarz\\api\\api.csproj": {}
+    "/Users/Vlad/Desktop/PROJEKT_BAZY_DANYCH/zarz/api/api.csproj": {}
   },
   "projects": {
-    "C:\\Users\\etzy\\Desktop\\zarzRepo\\PROJEKT_BAZY_DANYCH\\zarz\\api\\api.csproj": {
+    "/Users/Vlad/Desktop/PROJEKT_BAZY_DANYCH/zarz/api/api.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\etzy\\Desktop\\zarzRepo\\PROJEKT_BAZY_DANYCH\\zarz\\api\\api.csproj",
+        "projectUniqueName": "/Users/Vlad/Desktop/PROJEKT_BAZY_DANYCH/zarz/api/api.csproj",
         "projectName": "api",
-        "projectPath": "C:\\Users\\etzy\\Desktop\\zarzRepo\\PROJEKT_BAZY_DANYCH\\zarz\\api\\api.csproj",
-        "packagesPath": "C:\\Users\\etzy\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\etzy\\Desktop\\zarzRepo\\PROJEKT_BAZY_DANYCH\\zarz\\api\\obj\\",
+        "projectPath": "/Users/Vlad/Desktop/PROJEKT_BAZY_DANYCH/zarz/api/api.csproj",
+        "packagesPath": "/Users/Vlad/.nuget/packages/",
+        "outputPath": "/Users/Vlad/Desktop/PROJEKT_BAZY_DANYCH/zarz/api/obj/",
         "projectStyle": "PackageReference",
-        "fallbackFolders": [
-          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
-        ],
         "configFilePaths": [
-          "C:\\Users\\etzy\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+          "/Users/Vlad/.nuget/NuGet/NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net8.0"
         ],
         "sources": {
-          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -49,6 +43,10 @@
         "net8.0": {
           "targetAlias": "net8.0",
           "dependencies": {
+            "AutoMapper.Extensions.Microsoft.DependencyInjection": {
+              "target": "Package",
+              "version": "[7.0.0, )"
+            },
             "Microsoft.AspNetCore.Authentication.JwtBearer": {
               "target": "Package",
               "version": "[8.0.4, )"
@@ -61,9 +59,18 @@
               "target": "Package",
               "version": "[8.0.3, )"
             },
+            "Microsoft.AspNetCore.Razor.Design": {
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[2.2.0, )"
+            },
             "Microsoft.EntityFrameworkCore": {
               "target": "Package",
               "version": "[8.0.4, )"
+            },
+            "Microsoft.EntityFrameworkCore.SqlServer": {
+              "target": "Package",
+              "version": "[2.2.6, )"
             },
             "Microsoft.EntityFrameworkCore.Tools": {
               "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
@@ -74,6 +81,10 @@
             "Microsoft.Extensions.Identity.Core": {
               "target": "Package",
               "version": "[8.0.4, )"
+            },
+            "Microsoft.VisualStudio.Web.CodeGeneration.Design": {
+              "target": "Package",
+              "version": "[2.2.4, )"
             },
             "Npgsql.EntityFrameworkCore.PostgreSQL": {
               "target": "Package",
@@ -103,7 +114,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.203/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/8.0.204/PortableRuntimeIdentifierGraph.json"
         }
       }
     }
