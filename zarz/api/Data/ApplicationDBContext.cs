@@ -18,7 +18,7 @@ namespace api.Data
         public DbSet<Movies> Movies { get; set; }
 
 
-        public DbSet<Actors> Movie_Production_Company { get; set; }
+        public DbSet<Movie_Production_Companies> Movie_Production_Companies { get; set; }
         public DbSet<Production_Companies> Production_Companies { get; set; }
         public DbSet<Actors_Movies> Movie_Actors { get; set; }
         public DbSet<Genres_Movies> Genres_Movies { get; set; }
@@ -35,7 +35,7 @@ namespace api.Data
  protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Genres_Movies>()
-                .HasKey(gm => new { gm.Genre_id, gm.Movie_id }); // Ustawienie klucza składającego się z obu kluczy obcych
+                .HasKey(gm => new { gm.Genre_id, gm.Movie_id }); 
 
             modelBuilder.Entity<Genres_Movies>()
                 .HasOne(gm => gm.Genre)
@@ -52,7 +52,7 @@ namespace api.Data
 
 
                 modelBuilder.Entity<Directors_Movies>()
-                .HasKey(dm => new { dm.Director_id, dm.Movie_id }); // Ustawienie klucza składającego się z obu kluczy obcych
+                .HasKey(dm => new { dm.Director_id, dm.Movie_id }); 
 
             modelBuilder.Entity<Directors_Movies>()
                 .HasOne(dm => dm.Director)

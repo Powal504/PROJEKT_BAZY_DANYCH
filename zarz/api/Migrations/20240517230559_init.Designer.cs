@@ -12,7 +12,7 @@ using api.Data;
 namespace api.Migrations
 {
     [DbContext(typeof(ApplicationDBContext))]
-    [Migration("20240504140858_init")]
+    [Migration("20240517230559_init")]
     partial class init
     {
         /// <inheritdoc />
@@ -138,12 +138,12 @@ namespace api.Migrations
                     b.Property<string>("Catalog_name")
                         .HasColumnType("text");
 
-                    b.Property<int>("UserId")
+                    b.Property<int>("User_id")
                         .HasColumnType("integer");
 
                     b.HasKey("Movie_catalog_id");
 
-                    b.HasIndex("UserId");
+                    b.HasIndex("User_id");
 
                     b.ToTable("Movie_Catalog");
                 });
@@ -224,13 +224,13 @@ namespace api.Migrations
 
             modelBuilder.Entity("api.Models.Reviews", b =>
                 {
-                    b.Property<int>("Review_Id")
+                    b.Property<int>("Review_id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("integer");
 
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Review_Id"));
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Review_id"));
 
-                    b.Property<int>("MovieId")
+                    b.Property<int>("Movie_id")
                         .HasColumnType("integer");
 
                     b.Property<DateTime?>("Review_date")
@@ -242,14 +242,14 @@ namespace api.Migrations
                     b.Property<string>("Review_text")
                         .HasColumnType("text");
 
-                    b.Property<int>("UserId")
+                    b.Property<int>("User_id")
                         .HasColumnType("integer");
 
-                    b.HasKey("Review_Id");
+                    b.HasKey("Review_id");
 
-                    b.HasIndex("MovieId");
+                    b.HasIndex("Movie_id");
 
-                    b.HasIndex("UserId");
+                    b.HasIndex("User_id");
 
                     b.ToTable("Reviews");
                 });
@@ -292,7 +292,7 @@ namespace api.Migrations
                     b.Property<string>("Phone_number")
                         .HasColumnType("text");
 
-                    b.Property<int>("RoleId")
+                    b.Property<int>("Role_id")
                         .HasColumnType("integer");
 
                     b.Property<bool?>("State_of_user")
@@ -303,7 +303,7 @@ namespace api.Migrations
 
                     b.HasKey("User_id");
 
-                    b.HasIndex("RoleId");
+                    b.HasIndex("Role_id");
 
                     b.ToTable("Users");
                 });
@@ -369,7 +369,7 @@ namespace api.Migrations
                 {
                     b.HasOne("api.Models.Users", "User")
                         .WithMany()
-                        .HasForeignKey("UserId")
+                        .HasForeignKey("User_id")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -410,13 +410,13 @@ namespace api.Migrations
                 {
                     b.HasOne("api.Models.Movies", "Movie")
                         .WithMany()
-                        .HasForeignKey("MovieId")
+                        .HasForeignKey("Movie_id")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("api.Models.Users", "User")
                         .WithMany()
-                        .HasForeignKey("UserId")
+                        .HasForeignKey("User_id")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -429,7 +429,7 @@ namespace api.Migrations
                 {
                     b.HasOne("api.Models.Role", "Role")
                         .WithMany()
-                        .HasForeignKey("RoleId")
+                        .HasForeignKey("Role_id")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 

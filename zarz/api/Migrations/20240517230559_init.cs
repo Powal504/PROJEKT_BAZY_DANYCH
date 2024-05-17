@@ -217,7 +217,7 @@ namespace api.Migrations
                 {
                     User_id = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    RoleId = table.Column<int>(type: "integer", nullable: false),
+                    Role_id = table.Column<int>(type: "integer", nullable: false),
                     Username = table.Column<string>(type: "text", nullable: true),
                     Email = table.Column<string>(type: "text", nullable: false),
                     Password = table.Column<string>(type: "text", nullable: false),
@@ -229,8 +229,8 @@ namespace api.Migrations
                 {
                     table.PrimaryKey("PK_Users", x => x.User_id);
                     table.ForeignKey(
-                        name: "FK_Users_Role_RoleId",
-                        column: x => x.RoleId,
+                        name: "FK_Users_Role_Role_id",
+                        column: x => x.Role_id,
                         principalTable: "Role",
                         principalColumn: "Role_id",
                         onDelete: ReferentialAction.Cascade);
@@ -242,15 +242,15 @@ namespace api.Migrations
                 {
                     Movie_catalog_id = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    UserId = table.Column<int>(type: "integer", nullable: false),
+                    User_id = table.Column<int>(type: "integer", nullable: false),
                     Catalog_name = table.Column<string>(type: "text", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Movie_Catalog", x => x.Movie_catalog_id);
                     table.ForeignKey(
-                        name: "FK_Movie_Catalog_Users_UserId",
-                        column: x => x.UserId,
+                        name: "FK_Movie_Catalog_Users_User_id",
+                        column: x => x.User_id,
                         principalTable: "Users",
                         principalColumn: "User_id",
                         onDelete: ReferentialAction.Cascade);
@@ -260,26 +260,26 @@ namespace api.Migrations
                 name: "Reviews",
                 columns: table => new
                 {
-                    Review_Id = table.Column<int>(type: "integer", nullable: false)
+                    Review_id = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    UserId = table.Column<int>(type: "integer", nullable: false),
-                    MovieId = table.Column<int>(type: "integer", nullable: false),
+                    User_id = table.Column<int>(type: "integer", nullable: false),
+                    Movie_id = table.Column<int>(type: "integer", nullable: false),
                     Review_text = table.Column<string>(type: "text", nullable: true),
                     Review_date = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
                     Review_mark = table.Column<int>(type: "integer", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Reviews", x => x.Review_Id);
+                    table.PrimaryKey("PK_Reviews", x => x.Review_id);
                     table.ForeignKey(
-                        name: "FK_Reviews_Movies_MovieId",
-                        column: x => x.MovieId,
+                        name: "FK_Reviews_Movies_Movie_id",
+                        column: x => x.Movie_id,
                         principalTable: "Movies",
                         principalColumn: "Movie_id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_Reviews_Users_UserId",
-                        column: x => x.UserId,
+                        name: "FK_Reviews_Users_User_id",
+                        column: x => x.User_id,
                         principalTable: "Users",
                         principalColumn: "User_id",
                         onDelete: ReferentialAction.Cascade);
@@ -301,9 +301,9 @@ namespace api.Migrations
                 column: "Movie_id");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Movie_Catalog_UserId",
+                name: "IX_Movie_Catalog_User_id",
                 table: "Movie_Catalog",
-                column: "UserId");
+                column: "User_id");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Movie_Movie_Catalog_Movie_id",
@@ -316,19 +316,19 @@ namespace api.Migrations
                 column: "Movie_id");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Reviews_MovieId",
+                name: "IX_Reviews_Movie_id",
                 table: "Reviews",
-                column: "MovieId");
+                column: "Movie_id");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Reviews_UserId",
+                name: "IX_Reviews_User_id",
                 table: "Reviews",
-                column: "UserId");
+                column: "User_id");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Users_RoleId",
+                name: "IX_Users_Role_id",
                 table: "Users",
-                column: "RoleId");
+                column: "Role_id");
         }
 
         /// <inheritdoc />

@@ -9016,24 +9016,31 @@
     ]
   },
   "packageFolders": {
-    "/Users/Vlad/.nuget/packages/": {}
+    "C:\\Users\\etzy\\.nuget\\packages\\": {},
+    "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "/Users/Vlad/Desktop/PROJEKT_BAZY_DANYCH/zarz/api/api.csproj",
+      "projectUniqueName": "C:\\Users\\etzy\\Desktop\\zarzRepo\\PROJEKT_BAZY_DANYCH\\zarz\\api\\api.csproj",
       "projectName": "api",
-      "projectPath": "/Users/Vlad/Desktop/PROJEKT_BAZY_DANYCH/zarz/api/api.csproj",
-      "packagesPath": "/Users/Vlad/.nuget/packages/",
-      "outputPath": "/Users/Vlad/Desktop/PROJEKT_BAZY_DANYCH/zarz/api/obj/",
+      "projectPath": "C:\\Users\\etzy\\Desktop\\zarzRepo\\PROJEKT_BAZY_DANYCH\\zarz\\api\\api.csproj",
+      "packagesPath": "C:\\Users\\etzy\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\etzy\\Desktop\\zarzRepo\\PROJEKT_BAZY_DANYCH\\zarz\\api\\obj\\",
       "projectStyle": "PackageReference",
+      "fallbackFolders": [
+        "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+      ],
       "configFilePaths": [
-        "/Users/Vlad/.nuget/NuGet/NuGet.Config"
+        "C:\\Users\\etzy\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
         "net8.0"
       ],
       "sources": {
+        "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
@@ -9128,7 +9135,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/8.0.204/PortableRuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.203/PortableRuntimeIdentifierGraph.json"
       }
     }
   }
