@@ -12,6 +12,7 @@ namespace api.Dto
         public string Password { get; set; } = string.Empty;
         public string RepeatPassowrd { get; set; } = string.Empty;
         public string Phone_number { get; set; } = string.Empty;
+        public int Role_id { get; set; }
         public DateTime Birth_date { get; set; } = DateTime.MinValue;
     }
 }
