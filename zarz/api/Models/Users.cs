@@ -19,6 +19,6 @@ namespace api.Models
         public string Password { get; set; }
         public bool? State_of_user { get; set; }
         public string? Phone_number { get; set; }
-        public DateTime? Birth_date { get; set; }
+        public string? Birth_date { get; set; }
     }
 }
