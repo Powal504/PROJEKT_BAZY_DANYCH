@@ -13,6 +13,6 @@ namespace api.Dto
         public string RepeatPassowrd { get; set; } = string.Empty;
         public string Phone_number { get; set; } = string.Empty;
         public int Role_id { get; set; }
-        public DateTime Birth_date { get; set; } = DateTime.MinValue;
+        public string Birth_date { get; set; } = string.Empty;
     }
 }
