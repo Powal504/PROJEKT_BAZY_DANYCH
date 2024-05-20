@@ -10,7 +10,7 @@ function Registration() {
     password: "",
     repeatPassowrd: "",
     phone_number: "",
-    birth_date: "2024-05-15T20:50:59.433Z"
+    birth_date: "20.05.2002"
   });
 
   const [error, setError] = useState("");
@@ -24,12 +24,6 @@ function Registration() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      // Konwertuj datę na format UTC
-      const utcBirthDate = new Date(formData.birth_date).toISOString();
-  
-      // Aktualizuj formData z datą w formacie UTC
-      setFormData({ ...formData, birth_date: utcBirthDate });
-  
       // Wysyłanie żądania do serwera
       const response = await fetch("http://localhost:5028/api/Registration/RegistrationPOST", {
         method: "POST",

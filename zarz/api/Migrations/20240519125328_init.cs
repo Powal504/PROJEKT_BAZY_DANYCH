@@ -223,7 +223,7 @@ namespace api.Migrations
                     Password = table.Column<string>(type: "text", nullable: false),
                     State_of_user = table.Column<bool>(type: "boolean", nullable: true),
                     Phone_number = table.Column<string>(type: "text", nullable: true),
-                    Birth_date = table.Column<DateTime>(type: "timestamp with time zone", nullable: true)
+                    Birth_date = table.Column<string>(type: "text", nullable: true)
                 },
                 constraints: table =>
                 {

@@ -275,8 +275,8 @@ namespace api.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("User_id"));
 
-                    b.Property<DateTime?>("Birth_date")
-                        .HasColumnType("timestamp with time zone");
+                    b.Property<string>("Birth_date")
+                        .HasColumnType("text");
 
                     b.Property<string>("Email")
                         .IsRequired()

@@ -12,7 +12,7 @@ using api.Data;
 namespace api.Migrations
 {
     [DbContext(typeof(ApplicationDBContext))]
-    [Migration("20240517230559_init")]
+    [Migration("20240519125328_init")]
     partial class init
     {
         /// <inheritdoc />
@@ -278,8 +278,8 @@ namespace api.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("User_id"));
 
-                    b.Property<DateTime?>("Birth_date")
-                        .HasColumnType("timestamp with time zone");
+                    b.Property<string>("Birth_date")
+                        .HasColumnType("text");
 
                     b.Property<string>("Email")
                         .IsRequired()
