@@ -17,8 +17,7 @@ namespace api.Mappers
                 Email = userModel.Email,
                 Password = userModel.Password,
                 Phone_number = userModel.Phone_number,
-                Birth_date = userModel.Birth_date,
-                Role_id=userModel.Role_id
+                Birth_date = userModel.Birth_date
             };
         }
     }
