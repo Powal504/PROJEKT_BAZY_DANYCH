@@ -58,7 +58,9 @@ function Login(){
             <label className={styles.label_component}>Nazwa użytkownika</label>
             <input type="password" className={styles.input_component} value={password} onChange={handlePassword}/>
             <label className={styles.label_component}>Hasło</label>
+            <Link to="Forget_password" >zapomniałem hasła</Link>
             <button className={styles.login_button} onClick={handleSubmit}>LOGOWANIE</button>
+           
         </div>
     );
 }

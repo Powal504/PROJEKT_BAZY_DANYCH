@@ -4,6 +4,7 @@ import Home from './Home/Home';
 import Login from './Login/Login';
 import Navbar from './Navbar/Navbar';
 import Movie_Add from './Movie_Add/Movie_Add'
+import Forget_password from './Forget_password/Forget_password';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 
 function App() {
@@ -18,7 +19,7 @@ function App() {
             <Route exact path="/registration"> <Registration/></Route>
             <Route exact path="/login"> <Login/></Route>
             <Route exact path="/Movie_Add"> <Movie_Add/></Route>
-            
+            <Route exact path="/Forget_password"> <Forget_password/></Route>
 
           </Switch>
         </div>
