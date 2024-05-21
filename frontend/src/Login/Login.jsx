@@ -52,15 +52,6 @@ function Login() {
     return (
         <div className={styles.login_page}>
             <h1 className={styles.header}>ZALOGUJ SIĘ</h1>
-<<<<<<< HEAD
-            <input type="text" className={styles.input_component} value={username} onChange={handleUsername}/>
-            <label className={styles.label_component}>Nazwa użytkownika</label>
-            <input type="password" className={styles.input_component} value={password} onChange={handlePassword}/>
-            <label className={styles.label_component}>Hasło</label>
-            <Link to="Forget_password" >zapomniałem hasła</Link>
-            <button className={styles.login_button} onClick={handleSubmit}>LOGOWANIE</button>
-           
-=======
             <form className={styles.form_style} onSubmit={handleSubmit}>
                 <input type="text" className={styles.input_component} value={username} onChange={handleUsername} />
                 <label className={styles.label_component}>Nazwa użytkownika</label>
@@ -70,7 +61,7 @@ function Login() {
             </form>
             {loginSuccess && <p className={styles.message}>Logowanie udane!</p>}
             {error && <p className={styles.message}>{error}</p>}
->>>>>>> 56d048da88449d267d44bff52a8de54f91a0ebd0
+
         </div>
     );
 }
