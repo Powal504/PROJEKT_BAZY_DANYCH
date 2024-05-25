@@ -1,0 +1,28 @@
+.container {
+    display: flex;
+    margin: 60px 40px;
+}
+
+.poster {
+    width: 200px;
+    height: 300px;
+    margin-right: 40px;
+}
+
+.content {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    width: 100%;
+}
+
+.description {
+    color: white;
+    font-size: 1.5em;
+    margin-bottom: 20px;
+}
+.reviews_component{
+align-items: center;
+width: 1700px;
+height: 900px;  
+}
