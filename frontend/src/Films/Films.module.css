@@ -25,6 +25,7 @@ body
     color: white;
     font-size: 1.5em;
     margin-bottom: 20px;
+    max-width: 80%;
 }
 .reviews_component{
 align-items: center;

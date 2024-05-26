@@ -1,11 +1,13 @@
-import React, { useState } from "react";
+import React, { useState, useContext} from "react";
 import styles from './Login.module.css';
+import { GlobalContext } from '../GlobalContext/GlobalContext';
 
 function Login() {
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
     const [error, setError] = useState("");
     const [loginSuccess, setLoginSuccess] = useState(false);
+    const { setIsUserLogged } = useContext(GlobalContext);
 
     function handleUsername(event) {
         setUsername(event.target.value);
@@ -36,6 +38,7 @@ function Login() {
             if (response.ok) {
                 setLoginSuccess(true);
                 setError(""); // Resetowanie błędu po udanym logowaniu
+                setIsUserLogged(1);
                 console.log("Logowanie udane!", responseData);
             } else {
                 setLoginSuccess(false); // Resetowanie sukcesu po nieudanym logowaniu

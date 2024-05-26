@@ -1,9 +1,14 @@
 import styles from './Navbar.module.css';
-import React from 'react';
+import React, { useContext } from 'react';
 import { Link } from 'react-router-dom'; 
 import Button from 'react-bootstrap/Button'
 import 'bootstrap/dist/css/bootstrap.min.css'
+import { GlobalContext } from '../GlobalContext/GlobalContext';
+
 function Navbar() {
+
+  const { isUserLogged } = useContext(GlobalContext);
+
   return (
     
     <nav className={styles.navbar}> 
@@ -13,6 +18,7 @@ function Navbar() {
         <Link to="/registration" className={styles.registerLink}>Zarejestruj</Link>
         <Link to="login" className={styles.homeLink}>login</Link>
         <Link to="Films" className={styles.homeLink}>Film</Link>
+        {isUserLogged === 1 && <img src='src\assets\avatar.png' alt="Avatar" className={styles.avatar} />}
         
       </div>
     </nav>

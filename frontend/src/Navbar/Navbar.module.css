@@ -55,3 +55,8 @@ body {
   .homeLink {
     margin-right: 5px; 
   }
+
+.avatar{
+  width: 100px;
+  height: 100px;
+}
