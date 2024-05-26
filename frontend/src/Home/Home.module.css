@@ -45,4 +45,13 @@ link{
     background-color: #151325;
     box-shadow:  20px 20px 20px 20px #151325;
   }
-  
+  .sas {
+    margin-top: 100px;
+    width: 300px;
+    text-align: center;
+    margin-left: 40%;
+}
+.wyszukaj{
+  color: aliceblue;
+  font-size: 200%;
+}

@@ -186,10 +186,10 @@ namespace api.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Movie_id"));
 
-                    b.Property<string>("Avatar")
-                        .HasColumnType("text");
+                    b.Property<byte[]>("Avatar")
+                        .HasColumnType("bytea");
 
-                    b.Property<string>("Descritpion")
+                    b.Property<string>("Description")
                         .HasColumnType("text");
 
                     b.Property<DateTime?>("Release_date")

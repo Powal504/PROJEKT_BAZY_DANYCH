@@ -12,7 +12,7 @@ using api.Data;
 namespace api.Migrations
 {
     [DbContext(typeof(ApplicationDBContext))]
-    [Migration("20240526175129_init")]
+    [Migration("20240526220518_init")]
     partial class init
     {
         /// <inheritdoc />
@@ -189,10 +189,10 @@ namespace api.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Movie_id"));
 
-                    b.Property<string>("Avatar")
-                        .HasColumnType("text");
+                    b.Property<byte[]>("Avatar")
+                        .HasColumnType("bytea");
 
-                    b.Property<string>("Descritpion")
+                    b.Property<string>("Description")
                         .HasColumnType("text");
 
                     b.Property<DateTime?>("Release_date")

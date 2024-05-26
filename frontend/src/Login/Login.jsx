@@ -1,4 +1,5 @@
-import React, { useState, useContext} from "react";
+import React, { useState, useContext } from "react";
+import { useNavigate } from "react-router-dom";
 import styles from './Login.module.css';
 import { GlobalContext } from '../GlobalContext/GlobalContext';
 
@@ -8,6 +9,7 @@ function Login() {
     const [error, setError] = useState("");
     const [loginSuccess, setLoginSuccess] = useState(false);
     const { setIsUserLogged } = useContext(GlobalContext);
+    const navigate = useNavigate();
 
     function handleUsername(event) {
         setUsername(event.target.value);
@@ -37,17 +39,18 @@ function Login() {
 
             if (response.ok) {
                 setLoginSuccess(true);
-                setError(""); // Resetowanie błędu po udanym logowaniu
+                setError("");
                 setIsUserLogged(1);
                 console.log("Logowanie udane!", responseData);
+                navigate('/'); 
             } else {
-                setLoginSuccess(false); // Resetowanie sukcesu po nieudanym logowaniu
+                setLoginSuccess(false);
                 setError(responseData || "Wystąpił nieznany błąd!");
-                console.error(responseData); // Logowanie dokładnego komunikatu błędu z backendu
+                console.error(responseData);
             }
         } catch (error) {
             console.error("Wystąpił problem z logowaniem!", error.message);
-            setLoginSuccess(false); // Resetowanie sukcesu po nieudanym logowaniu
+            setLoginSuccess(false);
             setError("Wystąpił problem z logowaniem!");
         }
     }
@@ -64,7 +67,6 @@ function Login() {
             </form>
             {loginSuccess && <p className={styles.message}>Logowanie udane!</p>}
             {error && <p className={styles.message}>{error}</p>}
-
         </div>
     );
 }

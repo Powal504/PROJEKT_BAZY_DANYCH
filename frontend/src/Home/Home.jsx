@@ -32,6 +32,12 @@ function Home() {
   }
 
   return (
+    <>
+     <div className={styles.sas}>
+      <p className={styles.wyszukaj}>Wyszukaj</p>
+  <input type="text" id="form12" class="form-control" />
+  <label class="form-label" for="form12">Example label</label>
+</div>
     <div className={styles.home}> 
       <p>Witamy w świecie filmów</p>
       <p>Top of the top</p>
@@ -45,6 +51,8 @@ function Home() {
         ))}
       </div>
     </div>
+    
+    </>
   );
 }
 

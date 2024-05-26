@@ -61,8 +61,8 @@ namespace api.Migrations
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     Title = table.Column<string>(type: "text", nullable: true),
                     Release_date = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
-                    Descritpion = table.Column<string>(type: "text", nullable: true),
-                    Avatar = table.Column<string>(type: "text", nullable: true)
+                    Description = table.Column<string>(type: "text", nullable: true),
+                    Avatar = table.Column<byte[]>(type: "bytea", nullable: true)
                 },
                 constraints: table =>
                 {

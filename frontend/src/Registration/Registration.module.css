@@ -4,7 +4,8 @@
     text-align: center;
     margin-left: 25%;
     margin-top: 5%;
-    position: relative; /* Dodaj position: relative dla .full */
+    position: relative; 
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
   }
   
   .background {
