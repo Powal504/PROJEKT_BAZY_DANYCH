@@ -1,8 +1,8 @@
+using AutoMapper;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using AutoMapper;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -11,8 +11,6 @@ using api.Models;
 using api.Dto;
 using api.Mappers;
 using api.Services;
-
-
 
 namespace api.controllers
 {   
@@ -24,10 +22,11 @@ namespace api.controllers
     
         //private readonly IMapper _mapper;
 
+
         public MoviesController(IMovieRepository<Movies> movieRepository)
         {
             _movieRepository = movieRepository;
-           // _mapper = mapper;
+            //_mapper = mapper;
         }
 
         
@@ -48,14 +47,12 @@ namespace api.controllers
             return Ok(results);
         }
 
-
         // GET: api/Movies
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Movies>>> GetMovie()
         {
             var movie = await _movieRepository.GetAll();
             var results = movie.ToList<Movies>();
-               
             return Ok(results);
         }
         // GET: api/Movies/5
@@ -74,15 +71,36 @@ namespace api.controllers
             return Ok(movie);
         }
 
-        // POST: api/Movies
-        // [HttpPost]
-        // public async Task<ActionResult<Movies>> PostMovie(Movies movieDto)
-        // {
-        //     if (movieDto == null) BadRequest();
-        //      var movie = _mapper.Map<Movies>(movieDto);
-        //     await _movieRepository.Add(movie);
-        //     return CreatedAtAction("GetMovie", new { id = movie.Movie_id }, movie);
-        // }
+        //POST: api/Movies
+        [HttpPost]
+public async Task<ActionResult<Movies>> PostMovie(Movies movieDto)
+{
+    if (movieDto == null)
+    {
+        return BadRequest();
+    }
+
+    // Manually map properties from movieDto to a new Movies entity
+    var movie = new Movies
+    {
+        Movie_id = movieDto.Movie_id,
+        Title = movieDto.Title,
+        Release_date = movieDto.Release_date?.ToUniversalTime(),
+        Description = movieDto.Description,
+        Avatar = movieDto.Avatar,
+        GenresMovies = movieDto.GenresMovies,
+        DirectorsMovies = movieDto.DirectorsMovies,
+        MovieProductionCompanies = movieDto.MovieProductionCompanies,
+        MovieMovieCatalogs = null,
+        Actors_Movies = movieDto.Actors_Movies
+        // Copy all other necessary properties
+    };
+
+    await _movieRepository.Add(movie);
+
+    return CreatedAtAction("GetMovie", new { id = movie.Movie_id }, movie);
+}
+
         
     }
 }

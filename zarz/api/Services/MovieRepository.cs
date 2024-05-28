@@ -34,10 +34,15 @@ namespace api.Services
         }
         public async Task<Movies> GetById(int? MovieId)
         {
-            return await _context.Movies
-                                .Include(c => c.GenresMovies)
-                                .Include(c => c.Actors_Movies)
+
+            if (MovieId == null)
+    {
+        throw new ArgumentNullException(nameof(MovieId));
+    } else {
+        return await _context.Movies
                                 .SingleOrDefaultAsync(item => item.Movie_id == MovieId.Value);
+    }
+            
 
         }
 

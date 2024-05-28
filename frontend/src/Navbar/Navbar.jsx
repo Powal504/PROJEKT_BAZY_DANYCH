@@ -1,10 +1,8 @@
 import styles from './Navbar.module.css';
 import React, { useContext } from 'react';
-import { Link } from 'react-router-dom'; 
-import Button from 'react-bootstrap/Button'
-import 'bootstrap/dist/css/bootstrap.min.css'
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import { GlobalContext } from '../GlobalContext/GlobalContext';
-
+import { Link } from 'react-router-dom';
 function Navbar() {
 
   const { isUserLogged } = useContext(GlobalContext);
