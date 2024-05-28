@@ -1,5 +1,5 @@
 import React, { useState, useContext } from "react";
-import { useNavigate } from "react-router-dom";
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import styles from './Login.module.css';
 import { GlobalContext } from '../GlobalContext/GlobalContext';
 
@@ -9,7 +9,6 @@ function Login() {
     const [error, setError] = useState("");
     const [loginSuccess, setLoginSuccess] = useState(false);
     const { setIsUserLogged } = useContext(GlobalContext);
-    const navigate = useNavigate();
 
     function handleUsername(event) {
         setUsername(event.target.value);
@@ -42,7 +41,7 @@ function Login() {
                 setError("");
                 setIsUserLogged(1);
                 console.log("Logowanie udane!", responseData);
-                navigate('/'); 
+
             } else {
                 setLoginSuccess(false);
                 setError(responseData || "Wystąpił nieznany błąd!");
