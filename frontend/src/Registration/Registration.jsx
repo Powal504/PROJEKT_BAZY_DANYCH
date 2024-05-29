@@ -5,7 +5,6 @@ import Home from "../Home/Home";
 function Registration() {
   const [formData, setFormData] = useState({
     username: "",
-    roleid: 0,
     email: "",
     password: "",
     repeatPassowrd: "",
@@ -59,12 +58,15 @@ function Registration() {
             <input type="text" name="username" value={formData.username} onChange={handleChange} />
             <p>E-mail:</p>
             <input type="text" name="email" value={formData.email} onChange={handleChange} />
+            <p>Data urodzenia:</p>
+            <input type="date" name="date" value={formData.birth_date} onChange={handleChange} /><br/>
+            <p>Numer telefonu:</p>
+            <input type="text" name="phone_number" value={formData.phone_number} onChange={handleChange} /><br/>
             <p>Hasło:</p>
             <input type="password" name="password" value={formData.password} onChange={handleChange} />
             <p>Powtórz hasło:</p>
             <input type="password" name="repeatPassowrd" value={formData.repeatPassowrd} onChange={handleChange} />
-            <p>Numer telefonu:</p>
-            <input type="text" name="phone_number" value={formData.phone_number} onChange={handleChange} /><br/>
+            
             <button onClick={handleSubmit}>Zarejestruj</button>
             <br />
             <label></label><br/>

@@ -8,7 +8,6 @@ namespace api.Dto
     public class ReviewDto
     {
         public int Review_id{get;set;}
-        public int User_id { get; set; }
         public int Movie_id { get; set; }
         public string? Review_text { get; set; }
         public DateTime? Review_date { get; set; }

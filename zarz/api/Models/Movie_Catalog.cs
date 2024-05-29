@@ -11,7 +11,7 @@ namespace api.Models
     {
         [Key]
         public int Movie_catalog_id { get; set; }
-        public int User_id { get; set; }
+        public string User_id { get; set; }
         [ForeignKey("User_id")]
         public Users User { get; set; }
         public string? Catalog_name { get; set; }

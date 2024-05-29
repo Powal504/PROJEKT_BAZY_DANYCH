@@ -14,7 +14,6 @@ namespace api.Mappers
             return new ReviewDto
             {
                 Review_id=review.Review_id,
-                User_id = review.User_id,
                 Movie_id = review.Movie_id,
                 Review_text = review.Review_text,
                 Review_date = DateTime.Now,
@@ -27,7 +26,6 @@ namespace api.Mappers
             return new Reviews
             {
                 Review_id=reviewDto.Review_id,
-                User_id = reviewDto.User_id,
                 Movie_id = reviewDto.Movie_id,
                 Review_text = reviewDto.Review_text,
                 Review_date = reviewDto.Review_date,

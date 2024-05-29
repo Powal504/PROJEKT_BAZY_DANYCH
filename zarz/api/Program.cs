@@ -3,6 +3,10 @@ using api.Services;
 using api.Models;
 using api.controllers;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using api.Interfaces;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -11,6 +15,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+builder.Services.AddScoped<ITokenService,TokenService>();
 
 builder.Services.AddDbContext<ApplicationDBContext>(options =>
 {
@@ -28,6 +33,39 @@ builder.Services.AddCors(options =>
         });
 });
 
+builder.Services.AddIdentity<Users,IdentityRole>(options=>{
+
+    options.Password.RequiredLength = 7;
+    options.Password.RequireNonAlphanumeric = false;
+    options.Password.RequireDigit = false;
+    options.Password.RequireUppercase = false;
+    options.Password.RequireLowercase = false;
+    options.User.RequireUniqueEmail = false;
+    options.User.AllowedUserNameCharacters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-._@+";
+})
+.AddEntityFrameworkStores<ApplicationDBContext>();
+
+builder.Services.AddAuthentication(options=>{
+options.DefaultAuthenticateScheme=
+options.DefaultChallengeScheme=
+options.DefaultForbidScheme=
+options.DefaultScheme=
+options.DefaultSignInScheme=
+options.DefaultSignOutScheme=JwtBearerDefaults.AuthenticationScheme;
+
+}).AddJwtBearer(options=>{
+    options.TokenValidationParameters=new TokenValidationParameters
+    {
+        ValidateIssuer = true,
+        ValidIssuer=builder.Configuration["JWT:Issuer"],
+        ValidateAudience=true,
+        ValidAudience=builder.Configuration["JWT:Audience"],
+        ValidateIssuerSigningKey=true,
+        IssuerSigningKey = new SymmetricSecurityKey(
+        System.Text.Encoding.UTF8.GetBytes(builder.Configuration["JWT:SigningKey"]))
+    };
+});
+
 builder.Services.AddScoped<IMovieRepository<Movies>, MovieRepository>();
 
 var app = builder.Build();
@@ -40,6 +78,8 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+
+app.UseAuthentication();
 
 app.UseRouting();
 

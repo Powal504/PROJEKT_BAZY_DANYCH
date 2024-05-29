@@ -9,6 +9,8 @@ using api.Mappers;
 using Microsoft.AspNetCore.Mvc;
 using System.Globalization;
 using System.Text.RegularExpressions;
+using Microsoft.AspNetCore.Identity;
+using api.Interfaces;
 
 namespace api.controllers
 {
@@ -17,14 +19,17 @@ namespace api.controllers
     public class RegistrationPageController : ControllerBase
     {
         private readonly ApplicationDBContext _context;
+        private readonly UserManager<Users> _userManager;
+        private readonly ITokenService _tokenService;
 
-
-        public RegistrationPageController(ApplicationDBContext context)
+        public RegistrationPageController(ApplicationDBContext context,UserManager<Users> userManager,ITokenService tokenService)
         {
             _context = context;
+            _userManager = userManager;
+            _tokenService=tokenService;
         }
         [HttpPost("RegistrationPOST")]
-        public IActionResult Create([FromBody] RegistrationDto registrationModel)
+        public async Task<IActionResult> CreateAsync([FromBody] RegistrationDto registrationModel)
         {
             var existingCandidate = _context.Users.FirstOrDefault(c => c.Email == registrationModel.Email);
             if (existingCandidate != null) return BadRequest("Konto o podanym adresie email juz istnieje");
@@ -40,13 +45,31 @@ namespace api.controllers
 
             if (!IsValidDateOfBirth(registrationModel.Birth_date)) return BadRequest("Niepoprawna albo nieistniejaca data urodzenia. Poprawny format: DD.MM.YYYY");
 
-
-
             var userModel = registrationModel.ToUserFromDto();
-            _context.Users.Add(userModel);
-            _context.SaveChanges();
 
-            return Ok("Zarejestrowano");
+
+            var result = await _userManager.CreateAsync(userModel, registrationModel.Password);
+
+
+            if (!result.Succeeded)
+            {
+                if (result.Errors.Any(error => error.Code == "DuplicateUserName"))
+                {
+                    return Conflict("Użytkownik o tej nazwie już istnieje");
+                }
+                else { return BadRequest("cos zle"); }
+            }
+            var roleResult = await _userManager.AddToRoleAsync(userModel, "User");
+
+
+            return Ok(
+                new newUserDto
+                {
+                    UserName=userModel.UserName,
+                    Email=userModel.Email,
+                    Token=_tokenService.CreateToken(userModel)
+                }
+            );
         }
 
 

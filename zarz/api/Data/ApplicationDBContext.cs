@@ -5,9 +5,11 @@ using System.Security.Cryptography.X509Certificates;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using api.Models;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 namespace api.Data
 {
-    public class ApplicationDBContext : DbContext
+    public class ApplicationDBContext : IdentityDbContext<Users>
     {
         public ApplicationDBContext(DbContextOptions dbContextOptions)
         : base(dbContextOptions)
@@ -29,7 +31,6 @@ namespace api.Data
         public DbSet<Actors> Actors { get; set; }
         public DbSet<Movie_Catalog> Movie_Catalog { get; set; }
         public DbSet<Movie_Movie_Catalog> Movie_Movie_Catalog { get; set; }
-        public DbSet<Role> Role { get; set; }
         
         
  protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -102,7 +103,28 @@ namespace api.Data
                 .HasOne(am => am.Movie)
                 .WithMany(m => m.Actors_Movies)
                 .HasForeignKey(am => am.Movie_id);
+
+
+
+                base.OnModelCreating(modelBuilder);
+
+            List<IdentityRole> roles = new List<IdentityRole>
+            {
+                new IdentityRole
+                {
+                    Name="Admin",
+                    NormalizedName="ADMIN"
+                },
+                new IdentityRole
+                {
+                    Name="User",
+                    NormalizedName="USER"
+                },
+                
+            };
+            modelBuilder.Entity<IdentityRole>().HasData(roles);
         }
+        
 
     }
 }

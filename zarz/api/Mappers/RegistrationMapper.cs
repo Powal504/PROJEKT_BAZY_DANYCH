@@ -13,10 +13,9 @@ namespace api.Mappers
         {
             return new Users
             {
-                Username = userModel.Username,
+                UserName = userModel.UserName,
+                PhoneNumber=userModel.Phone_number,
                 Email = userModel.Email,
-                Password = userModel.Password,
-                Phone_number = userModel.Phone_number,
                 Birth_date = userModel.Birth_date
             };
         }

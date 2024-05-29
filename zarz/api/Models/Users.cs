@@ -4,21 +4,13 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Identity;
 
 namespace api.Models
 {
-    public class Users
+    public class Users :IdentityUser
     {
-        [Key]
-        public int User_id { get; set; }
-        public int Role_id { get; set; }
-        [ForeignKey("Role_id")]
-        public Role Role{get;set;}
-        public string? Username { get; set; }
-        public string Email { get; set; }
-        public string Password { get; set; }
         public bool? State_of_user { get; set; }
-        public string? Phone_number { get; set; }
         public string? Birth_date { get; set; }
     }
 }

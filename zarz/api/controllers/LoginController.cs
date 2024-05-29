@@ -29,9 +29,9 @@ namespace api.controllers
             //loginModel.Username = "nefafix";
             //loginModel.Password = "password";
             //var existingCandidate = _context.Users.Find(123);
-            var existingCandidate = _context.Users.FirstOrDefault(c =>c.Username == loginModel.Username);
+            var existingCandidate = _context.Users.FirstOrDefault(c =>c.UserName == loginModel.Username);
             if (existingCandidate == null)return BadRequest("Niepoprowany login lub hasło");
-            if (existingCandidate.Password != loginModel.Password)return BadRequest("Niepoprowany login lub hasło");
+            //if (existingCandidate.Password != loginModel.Password)return BadRequest("Niepoprowany login lub hasło");
 
             return Ok(existingCandidate);
         }
