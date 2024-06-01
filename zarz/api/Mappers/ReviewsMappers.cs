@@ -13,11 +13,12 @@ namespace api.Mappers
         {
             return new ReviewDto
             {
-                Review_id=review.Review_id,
+                Review_id = review.Review_id,
                 Movie_id = review.Movie_id,
                 Review_text = review.Review_text,
-                Review_date = DateTime.Now,
-                Review_mark = review.Review_mark
+               // Review_date = DateTime.Now,
+                Review_mark = review.Review_mark,
+                UserId = review.User_id  
             };
         }
 
@@ -25,11 +26,12 @@ namespace api.Mappers
         {
             return new Reviews
             {
-                Review_id=reviewDto.Review_id,
+                Review_id = reviewDto.Review_id,
                 Movie_id = reviewDto.Movie_id,
                 Review_text = reviewDto.Review_text,
-                Review_date = reviewDto.Review_date,
-                Review_mark = reviewDto.Review_mark
+               // Review_date = reviewDto.Review_date,
+                Review_mark = reviewDto.Review_mark,
+                User_id = reviewDto.UserId  
             };
         }
     }

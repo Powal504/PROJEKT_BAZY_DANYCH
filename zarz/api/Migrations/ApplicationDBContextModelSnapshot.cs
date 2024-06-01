@@ -50,13 +50,13 @@ namespace api.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "ac3113e4-2cad-4a77-bc65-9c0e124ed592",
+                            Id = "4133f66d-46c8-4911-a80f-7e5aed134fc5",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
-                            Id = "bd08cc13-d788-4ba0-9a4e-e888478720db",
+                            Id = "546f3ddc-a1e5-4a95-b0d8-651151a049af",
                             Name = "User",
                             NormalizedName = "USER"
                         });
@@ -294,18 +294,15 @@ namespace api.Migrations
 
             modelBuilder.Entity("api.Models.Movie_Movie_Catalog", b =>
                 {
-                    b.Property<int>("Movie_catalog_id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Movie_catalog_id"));
-
                     b.Property<int>("Movie_id")
                         .HasColumnType("integer");
 
-                    b.HasKey("Movie_catalog_id");
+                    b.Property<int>("Movie_Catalog_id")
+                        .HasColumnType("integer");
 
-                    b.HasIndex("Movie_id");
+                    b.HasKey("Movie_id", "Movie_Catalog_id");
+
+                    b.HasIndex("Movie_Catalog_id");
 
                     b.ToTable("Movie_Movie_Catalog");
                 });
@@ -376,9 +373,6 @@ namespace api.Migrations
 
                     b.Property<int>("Movie_id")
                         .HasColumnType("integer");
-
-                    b.Property<DateTime?>("Review_date")
-                        .HasColumnType("timestamp with time zone");
 
                     b.Property<int?>("Review_mark")
                         .HasColumnType("integer");
@@ -590,6 +584,12 @@ namespace api.Migrations
 
             modelBuilder.Entity("api.Models.Movie_Movie_Catalog", b =>
                 {
+                    b.HasOne("api.Models.Movie_Catalog", "Movie_Catalog")
+                        .WithMany("MovieMovieCatalogs")
+                        .HasForeignKey("Movie_Catalog_id")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("api.Models.Movies", "Movie")
                         .WithMany("MovieMovieCatalogs")
                         .HasForeignKey("Movie_id")
@@ -597,6 +597,8 @@ namespace api.Migrations
                         .IsRequired();
 
                     b.Navigation("Movie");
+
+                    b.Navigation("Movie_Catalog");
                 });
 
             modelBuilder.Entity("api.Models.Movie_Production_Companies", b =>
@@ -650,6 +652,11 @@ namespace api.Migrations
             modelBuilder.Entity("api.Models.Genres", b =>
                 {
                     b.Navigation("GenresMovies");
+                });
+
+            modelBuilder.Entity("api.Models.Movie_Catalog", b =>
+                {
+                    b.Navigation("MovieMovieCatalogs");
                 });
 
             modelBuilder.Entity("api.Models.Movies", b =>

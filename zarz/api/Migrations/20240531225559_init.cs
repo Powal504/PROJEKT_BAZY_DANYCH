@@ -325,25 +325,6 @@ namespace api.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Movie_Movie_Catalog",
-                columns: table => new
-                {
-                    Movie_catalog_id = table.Column<int>(type: "integer", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    Movie_id = table.Column<int>(type: "integer", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Movie_Movie_Catalog", x => x.Movie_catalog_id);
-                    table.ForeignKey(
-                        name: "FK_Movie_Movie_Catalog_Movies_Movie_id",
-                        column: x => x.Movie_id,
-                        principalTable: "Movies",
-                        principalColumn: "Movie_id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "Reviews",
                 columns: table => new
                 {
@@ -352,7 +333,6 @@ namespace api.Migrations
                     User_id = table.Column<string>(type: "text", nullable: false),
                     Movie_id = table.Column<int>(type: "integer", nullable: false),
                     Review_text = table.Column<string>(type: "text", nullable: true),
-                    Review_date = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
                     Review_mark = table.Column<int>(type: "integer", nullable: true)
                 },
                 constraints: table =>
@@ -396,13 +376,37 @@ namespace api.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "Movie_Movie_Catalog",
+                columns: table => new
+                {
+                    Movie_Catalog_id = table.Column<int>(type: "integer", nullable: false),
+                    Movie_id = table.Column<int>(type: "integer", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Movie_Movie_Catalog", x => new { x.Movie_id, x.Movie_Catalog_id });
+                    table.ForeignKey(
+                        name: "FK_Movie_Movie_Catalog_Movie_Catalog_Movie_Catalog_id",
+                        column: x => x.Movie_Catalog_id,
+                        principalTable: "Movie_Catalog",
+                        principalColumn: "Movie_catalog_id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Movie_Movie_Catalog_Movies_Movie_id",
+                        column: x => x.Movie_id,
+                        principalTable: "Movies",
+                        principalColumn: "Movie_id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
             migrationBuilder.InsertData(
                 table: "AspNetRoles",
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
                 values: new object[,]
                 {
-                    { "ac3113e4-2cad-4a77-bc65-9c0e124ed592", null, "Admin", "ADMIN" },
-                    { "bd08cc13-d788-4ba0-9a4e-e888478720db", null, "User", "USER" }
+                    { "4133f66d-46c8-4911-a80f-7e5aed134fc5", null, "Admin", "ADMIN" },
+                    { "546f3ddc-a1e5-4a95-b0d8-651151a049af", null, "User", "USER" }
                 });
 
             migrationBuilder.CreateIndex(
@@ -463,9 +467,9 @@ namespace api.Migrations
                 column: "User_id");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Movie_Movie_Catalog_Movie_id",
+                name: "IX_Movie_Movie_Catalog_Movie_Catalog_id",
                 table: "Movie_Movie_Catalog",
-                column: "Movie_id");
+                column: "Movie_Catalog_id");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Movie_Production_Companies_Movie_id",
@@ -511,9 +515,6 @@ namespace api.Migrations
                 name: "Movie_Actors");
 
             migrationBuilder.DropTable(
-                name: "Movie_Catalog");
-
-            migrationBuilder.DropTable(
                 name: "Movie_Movie_Catalog");
 
             migrationBuilder.DropTable(
@@ -535,13 +536,16 @@ namespace api.Migrations
                 name: "Actors");
 
             migrationBuilder.DropTable(
+                name: "Movie_Catalog");
+
+            migrationBuilder.DropTable(
                 name: "Production_Companies");
 
             migrationBuilder.DropTable(
-                name: "AspNetUsers");
+                name: "Movies");
 
             migrationBuilder.DropTable(
-                name: "Movies");
+                name: "AspNetUsers");
         }
     }
 }

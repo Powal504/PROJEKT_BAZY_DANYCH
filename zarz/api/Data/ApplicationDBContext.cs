@@ -15,7 +15,7 @@ namespace api.Data
         : base(dbContextOptions)
         {
         }
-        public DbSet<Users> Users { get; set; }
+
         public DbSet<Reviews> Reviews { get; set; }
         public DbSet<Movies> Movies { get; set; }
 
@@ -81,13 +81,19 @@ namespace api.Data
                 .HasForeignKey(mp => mp.Movie_id);
 
 
-                modelBuilder.Entity<Movie_Movie_Catalog>()
-                .HasKey(mmc => mmc.Movie_catalog_id);
+modelBuilder.Entity<Movie_Movie_Catalog>()
+        .HasKey(mc => new { mc.Movie_id, mc.Movie_Catalog_id });
 
-            modelBuilder.Entity<Movie_Movie_Catalog>()
-                .HasOne(mmc => mmc.Movie)
-                .WithMany(m => m.MovieMovieCatalogs)
-                .HasForeignKey(mmc => mmc.Movie_id);
+    modelBuilder.Entity<Movie_Movie_Catalog>()
+        .HasOne(mc => mc.Movie)
+        .WithMany(m => m.MovieMovieCatalogs)
+        .HasForeignKey(mc => mc.Movie_id);
+
+    modelBuilder.Entity<Movie_Movie_Catalog>()
+        .HasOne(mc => mc.Movie_Catalog)
+        .WithMany(c => c.MovieMovieCatalogs)
+        .HasForeignKey(mc => mc.Movie_Catalog_id);
+
 
 
                  modelBuilder.Entity<Actors_Movies>()
