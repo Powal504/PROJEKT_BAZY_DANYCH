@@ -38,7 +38,10 @@ namespace api.Controllers
 
             var userCatalogs = await _context.Movie_Catalog
                 .Where(c => c.User_id == appUser.Id)
-                .ToListAsync();
+                .Select(c=>new 
+                {
+                    c.Catalog_name,
+                }).ToListAsync();
 
             return Ok(userCatalogs);
         }
