@@ -12,5 +12,6 @@ namespace api.Dto
         public string? Review_text { get; set; }
         public DateTime? Review_date { get; set; }
         public int? Review_mark { get; set; }
+        public string UserId{get;set;}
     }
 }
