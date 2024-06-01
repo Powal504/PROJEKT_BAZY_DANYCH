@@ -29,7 +29,7 @@ namespace api.Controllers
         [HttpPost]
         public async Task<ActionResult<ReviewDto>> PostReview(ReviewDto reviewDto)
         {
-            // Pobranie nazwy użytkownika zalogowanego użytkownika
+
             var username = User.GetUsername();
 
             if (username == null)
@@ -37,27 +37,24 @@ namespace api.Controllers
                 return Unauthorized("Brak autoryzacji.");
             }
 
-            // Pobranie ID użytkownika na podstawie nazwy użytkownika
+
             var user = await _userManager.FindByNameAsync(username);
             if (user == null)
             {
                 return Unauthorized("Użytkownik nie został znaleziony.");
             }
 
-            // Sprawdzenie, czy film o podanym ID istnieje
             var movieExists = _context.Movies.FirstOrDefault(m => m.Movie_id == reviewDto.Movie_id);
             if (movieExists == null)
             {
                 return BadRequest("Film o podanym ID nie istnieje.");
             }
 
-            // Utworzenie obiektu recenzji na podstawie DTO przy użyciu mappera
             var review = ReviewMapper.ToEntity(reviewDto);
 
-            // Przypisanie UserId
+
             review.User_id = user.Id;
 
-            // Dodanie recenzji do kontekstu bazy danych i zapisanie zmian
             _context.Reviews.Add(review);
             await _context.SaveChangesAsync();
 
