@@ -11,6 +11,13 @@ using System.Globalization;
 using System.Text.RegularExpressions;
 using Microsoft.AspNetCore.Identity;
 using api.Interfaces;
+using System.Text.Encodings.Web;
+using System.Net.Mail;
+using System.Net;
+using Microsoft.AspNetCore.Identity.UI.Services;
+using Humanizer;
+using System.Security.Policy;
+using NuGet.Common;
 
 namespace api.controllers
 {
@@ -48,6 +55,8 @@ namespace api.controllers
             var userModel = registrationModel.ToUserFromDto();
 
 
+        
+
             var result = await _userManager.CreateAsync(userModel, registrationModel.Password);
 
 
@@ -62,16 +71,63 @@ namespace api.controllers
             var roleResult = await _userManager.AddToRoleAsync(userModel, "User");
 
 
-            return Ok(
-                new newUserDto
-                {
-                    UserName=userModel.UserName,
-                    Email=userModel.Email,
-                    Token=_tokenService.CreateToken(userModel)
-                }
-            );
+            // return Ok(
+            // new newUserDto
+            // {
+            //     UserName = userModel.UserName,
+            //     Email = userModel.Email,
+            //     Token = _tokenService.CreateToken(userModel)
+            // };
+            //);
+            var code = _tokenService.CreateToken(userModel);
+
+            var callbackUrl = Url.Action(nameof(ConfirmEmail), "RegistrationPage", new
+            {
+                userId = userModel.Id,
+                code = WebUtility.UrlEncode(code)
+            }, protocol: HttpContext.Request.Scheme);
+
+            await SendEmailAsync(userModel.Email, "Confirm your email",
+                $"Please confirm your account by clicking here'{callbackUrl}'");
+
+           new newUserDto
+           {
+                UserName = userModel.UserName,
+                Email = userModel.Email,
+                Token = code
+           };
+
+            return Ok("Registration successful. Please check your email to confirm your account.");
         }
 
+        [HttpGet("confirmemail")]
+        public async Task<IActionResult> ConfirmEmail(string userId, string code)
+        {
+            if (userId == null || code == null)
+            {
+                return BadRequest("Error confirming your email.");
+            }
+
+            var user = await _userManager.FindByIdAsync(userId);
+            if (user == null)
+            {
+                return NotFound($"Unable to load user with ID '{userId}'.");
+            }
+
+            var result = await _userManager.ConfirmEmailAsync(user, code);// _urlEncoder.Decode(code));
+            if (result.Succeeded)
+            {
+                return Ok("Thank you for confirming your email.");
+            }
+            else
+            {
+                return BadRequest("Error confirming your email.");
+            }
+        }
+
+
+
+        ///////////////////////////////////////////////////////////////////////////////////////////////
 
         public static bool IsValidEmail(string email)
         {
@@ -160,6 +216,30 @@ namespace api.controllers
             return true;
         }
 
+        public static Task SendEmailAsync(string to, string subject, string htmlMessage)
+        {
+            string fromMail = "mihaylobs@gmail.com";
+            string fromPassword = "pvppewlueiilugnr";
+
+            MailMessage message = new MailMessage();
+            message.From = new MailAddress(fromMail);
+            message.Subject = subject;
+            message.To.Add(new MailAddress(to));
+
+            message.Body = htmlMessage;
+            //message.IsBodyHtml = true;
+            
+            var smtpClient = new SmtpClient("smtp.gmail.com")
+            {
+                Port = 587,
+                Credentials = new NetworkCredential(fromMail, fromPassword),
+                EnableSsl = true,
+            };
+
+            smtpClient.Send(message);
+
+            return Task.CompletedTask;
+        }
 
     }
 }
