@@ -50,7 +50,7 @@ function Registration() {
     <>
     
         {registrationSuccess ? (
-          <div className="success-message">Rejestracja udana! Możesz teraz zalogować się na swoje konto.</div>
+          <div className="success-message">Rejestracja udana! Mcdożesz teraz zalogować się na swoje konto.</div>
         ) : (
           <div className={styles.full}>
             <p>Rejestracja</p>
