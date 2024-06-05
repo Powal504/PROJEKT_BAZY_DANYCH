@@ -11,7 +11,7 @@ namespace api.Models
         [Key]
         public int Genre_id { get; set; }
         public string? Genre_name { get; set; }
-        public ICollection<Genres_Movies> GenresMovies { get; set; }
+        public ICollection<Genres_Movies> GenresMovies { get; set; } = new List<Genres_Movies>();
 
     }
 }

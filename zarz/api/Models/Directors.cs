@@ -12,6 +12,6 @@ namespace api.Models
         public int Director_id { get; set; }
         public string? Director_name { get; set; }
         public string? Director_surname { get; set; }
-        public ICollection<Directors_Movies> DirectorsMovies { get; set; }
+        public ICollection<Directors_Movies> DirectorsMovies { get; set; } = new List<Directors_Movies>();
     }
 }

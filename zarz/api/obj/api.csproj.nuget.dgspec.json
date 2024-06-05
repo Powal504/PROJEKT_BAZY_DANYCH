@@ -1,27 +1,25 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\pioko\\Desktop\\PROJEKT_BAZY_DANYCH\\zarz\\api\\api.csproj": {}
+    "/Users/Vlad/PROJEKT_BAZY_DANYCH/zarz/api/api.csproj": {}
   },
   "projects": {
-    "C:\\Users\\pioko\\Desktop\\PROJEKT_BAZY_DANYCH\\zarz\\api\\api.csproj": {
+    "/Users/Vlad/PROJEKT_BAZY_DANYCH/zarz/api/api.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\pioko\\Desktop\\PROJEKT_BAZY_DANYCH\\zarz\\api\\api.csproj",
+        "projectUniqueName": "/Users/Vlad/PROJEKT_BAZY_DANYCH/zarz/api/api.csproj",
         "projectName": "api",
-        "projectPath": "C:\\Users\\pioko\\Desktop\\PROJEKT_BAZY_DANYCH\\zarz\\api\\api.csproj",
-        "packagesPath": "C:\\Users\\pioko\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\pioko\\Desktop\\PROJEKT_BAZY_DANYCH\\zarz\\api\\obj\\",
+        "projectPath": "/Users/Vlad/PROJEKT_BAZY_DANYCH/zarz/api/api.csproj",
+        "packagesPath": "/Users/Vlad/.nuget/packages/",
+        "outputPath": "/Users/Vlad/PROJEKT_BAZY_DANYCH/zarz/api/obj/",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\pioko\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+          "/Users/Vlad/.nuget/NuGet/NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net8.0"
         ],
         "sources": {
-          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -116,7 +114,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.300/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/8.0.204/PortableRuntimeIdentifierGraph.json"
         }
       }
     }
