@@ -56,7 +56,7 @@ function Movie_Add(){
     const handleSubmit = async(e)=> {
         e.preventDefault();
         try{
-            const response = await fetch("http://localhost:5028/api/Movie_Add/Movie_AddPOST",{
+            const response = await fetch("http://localhost:5028/api/Movies",{
                 method: "POST",
                 headers:{
                     "Content-Type":"application/json"
