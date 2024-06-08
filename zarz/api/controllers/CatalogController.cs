@@ -59,6 +59,8 @@ namespace api.Controllers
                 .Select(c=>new 
                 {
                     c.Catalog_name,
+                    c.Movie_catalog_id,
+                    c.MovieMovieCatalogs,
                 }).ToListAsync();
 
             return Ok(userCatalogs);
@@ -82,11 +84,22 @@ namespace api.Controllers
             var catalog = CatalogMapper.ToEntity(newCatalogDto);
 
             //var lastCatalog = _context.Movie_Catalog.
-            catalog.Movie_catalog_id = 3; //lastCatalog.Movie_catalog_id + 1;
-            catalog.User_id = "6e5bfc61-e18a-4d43-8b86-723ff77064a2"; //appUser.Id;
+
+            
+
+            int id = 1;
+            var maxCatalog = _context.Movie_Catalog
+                            .OrderByDescending(c => c.Movie_catalog_id)
+                            .FirstOrDefault();
+
+            if (maxCatalog != null) id = maxCatalog.Movie_catalog_id + 1;
+            
+            catalog.Movie_catalog_id = id;//lastCatalog.Movie_catalog_id + 1;
+            catalog.MovieMovieCatalogs = new List<Movie_Movie_Catalog>();
+            catalog.User_id = appUser.Id;
             catalog.User = appUser;
-            //_context.Movie_Catalog.Add(catalog);
-            //_context.SaveChanges();
+            _context.Movie_Catalog.Add(catalog);
+            _context.SaveChanges();
             return Ok(_context.Movie_Catalog);
             
 
@@ -98,15 +111,21 @@ namespace api.Controllers
         
         public async Task<IActionResult> AddToCatalog([FromBody] AddToCatalogDto addToCatalogDto){
 
+            var test =_context.Movie_Movie_Catalog
+                .Where(c => c.Movie_id == addToCatalogDto.Movie_id && c.Movie_Catalog_id == addToCatalogDto.Movie_Catalog_id);
+            if (!test.IsNullOrEmpty()) return BadRequest("Film jest na liscie");
             var added = AddToCatalogMapper.ToEntity(addToCatalogDto);
             added.Movie = _context.Movies.FirstOrDefault(c => c.Movie_id == addToCatalogDto.Movie_id);
-            
             added.Movie_Catalog = _context.Movie_Catalog.FirstOrDefault(c => c.Movie_catalog_id == addToCatalogDto.Movie_Catalog_id);
-            return Ok("XD");
             
             await _context.Movie_Movie_Catalog.AddAsync(added);
+            var catalog = await _context.Movie_Catalog.FirstOrDefaultAsync(c => c.Movie_catalog_id == addToCatalogDto.Movie_Catalog_id);
+
+            _context.Movie_Catalog
+                .FirstOrDefault(c => c.Movie_catalog_id == addToCatalogDto.Movie_Catalog_id)
+                .MovieMovieCatalogs.Append(added);
             await _context.SaveChangesAsync();
-            return Ok(3);
+            return Ok("Dodano");
         }
         
     }

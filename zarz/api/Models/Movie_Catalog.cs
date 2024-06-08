@@ -14,8 +14,10 @@ namespace api.Models
         public string User_id { get; set; }
         
         public ICollection<Movie_Movie_Catalog> MovieMovieCatalogs { get; set; }
-        public Users User { get; set; }
+        
         [ForeignKey("User_id")]
+        public Users User { get; set; }
+        
         public string? Catalog_name { get; set; }
     }
 }
