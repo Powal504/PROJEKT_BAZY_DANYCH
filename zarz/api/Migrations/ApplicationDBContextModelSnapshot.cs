@@ -50,13 +50,13 @@ namespace api.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "4133f66d-46c8-4911-a80f-7e5aed134fc5",
+                            Id = "a09b1456-6d72-4020-bb1e-94c2e7ebab30",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
-                            Id = "546f3ddc-a1e5-4a95-b0d8-651151a049af",
+                            Id = "48d10a6d-906c-4a83-8abb-6403fe14c5e3",
                             Name = "User",
                             NormalizedName = "USER"
                         });
@@ -373,6 +373,9 @@ namespace api.Migrations
 
                     b.Property<int>("Movie_id")
                         .HasColumnType("integer");
+
+                    b.Property<DateTime?>("Review_date")
+                        .HasColumnType("timestamp with time zone");
 
                     b.Property<int?>("Review_mark")
                         .HasColumnType("integer");
