@@ -46,10 +46,34 @@ namespace api.Services
 
         }
 
-        public async Task Add(Movies movie)
+        public async Task AddMovie(Movies movie)
         {
             _context.Movies.Add(movie);
             await _context.SaveChangesAsync();
+        }
+
+        public async Task<bool> DeleteMovie(int id)
+        {
+            var movie = await _context.Movies
+                .Include(m => m.GenresMovies)
+                .Include(m => m.DirectorsMovies)
+                .Include(m => m.MovieProductionCompanies)
+                .Include(m => m.Actors_Movies)
+                .FirstOrDefaultAsync(m => m.Movie_id == id);
+
+            if (movie == null)
+            {
+                return false;
+            }
+
+            _context.Genres_Movies.RemoveRange(movie.GenresMovies);
+            _context.Directors_Movies.RemoveRange(movie.DirectorsMovies);
+            _context.Movie_Production_Companies.RemoveRange(movie.MovieProductionCompanies);
+            _context.Movie_Actors.RemoveRange(movie.Actors_Movies);
+
+            _context.Movies.Remove(movie);
+            await _context.SaveChangesAsync();
+            return true;
         }
 
 

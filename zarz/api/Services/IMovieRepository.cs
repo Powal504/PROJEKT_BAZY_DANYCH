@@ -15,7 +15,8 @@ namespace api.Services
         Task<IEnumerable<E>> GetByTitle(string movieTitle);
         Task<IEnumerable<E>> GetAll();
         Task<E> GetById(int? Id);
+        Task AddMovie(E e);
+        Task<bool> DeleteMovie(int id);
 
-        Task Add(E e);
     }
 }

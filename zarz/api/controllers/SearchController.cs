@@ -88,19 +88,51 @@ public async Task<ActionResult<Movies>> PostMovie(Movies movieDto)
         Release_date = movieDto.Release_date?.ToUniversalTime(),
         Description = movieDto.Description,
         Avatar = movieDto.Avatar,
-        GenresMovies = movieDto.GenresMovies,
-        DirectorsMovies = movieDto.DirectorsMovies,
-        MovieProductionCompanies = movieDto.MovieProductionCompanies,
-        MovieMovieCatalogs = null,
-        Actors_Movies = movieDto.Actors_Movies
+        GenresMovies = movieDto.GenresMovies.Select(gm => new Genres_Movies
+            {
+                Genre_id = gm.Genre_id,
+                Movie_id = movieDto.Movie_id
+            }).ToList(),
+        DirectorsMovies = movieDto.DirectorsMovies.Select(gm => new Directors_Movies
+            {
+                Director_id = gm.Director_id,
+                Movie_id = movieDto.Movie_id
+            }).ToList(),
+        MovieProductionCompanies = movieDto.MovieProductionCompanies.Select(gm => new Movie_Production_Companies
+            {
+                Company_id = gm.Company_id,
+                Movie_id = movieDto.Movie_id
+            }).ToList(),
+        Actors_Movies = movieDto.Actors_Movies.Select(gm => new Actors_Movies
+            {
+                Actor_id = gm.Actor_id,
+                Movie_id = movieDto.Movie_id,
+                Role_of_actor_in_film = gm.Role_of_actor_in_film
+            }).ToList()
         // Copy all other necessary properties
     };
 
-    await _movieRepository.Add(movie);
+    await _movieRepository.AddMovie(movie);
 
     return CreatedAtAction("GetMovie", new { id = movie.Movie_id }, movie);
 }
-
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteMovie(int id)
+        {
+            try
+            {
+                var deleted = await _movieRepository.DeleteMovie(id);
+                if (!deleted)
+                {
+                    return NotFound($"Movie with ID = {id} not found.");
+                }
+                return NoContent();
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Internal server error: {ex.Message}");
+            }
+        }
         
     }
 }

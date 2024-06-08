@@ -11,6 +11,6 @@ namespace api.Models
         [Key]
         public int Company_id { get; set; }
         public string? Company_name { get; set; }
-        public ICollection<Movie_Production_Companies> MovieProductionCompanies { get; set; }
+        public ICollection<Movie_Production_Companies> MovieProductionCompanies { get; set; } = new List<Movie_Production_Companies>();
     }
 }

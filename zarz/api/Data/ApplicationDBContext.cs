@@ -47,12 +47,8 @@ namespace api.Data
                 .HasOne(gm => gm.Movie)
                 .WithMany(m => m.GenresMovies)
                 .HasForeignKey(gm => gm.Movie_id);
-
-
-
-
-
-                modelBuilder.Entity<Directors_Movies>()
+            
+            modelBuilder.Entity<Directors_Movies>()
                 .HasKey(dm => new { dm.Director_id, dm.Movie_id }); 
 
             modelBuilder.Entity<Directors_Movies>()

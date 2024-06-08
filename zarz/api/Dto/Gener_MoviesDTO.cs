@@ -10,10 +10,8 @@ namespace api.Dto
     public class Genres_MoviesDTO
     {
         public int Genre_id { get; set; }
-        [ForeignKey("Genre_id")]
-        public Genres Genre{get;set;}
+
         public int Movie_id { get; set; }
-        [ForeignKey("Movie_id")]
-        public Movies Movie{get;set;}
+        
     }
 }
