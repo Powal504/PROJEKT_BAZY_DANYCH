@@ -18,7 +18,7 @@ namespace api.Models
         [ForeignKey("Movie_id")]
         public Movies Movie{get;set;}
         public string? Review_text { get; set; }
-        public DateTime? Review_date { get; set; }=DateTime.Now;
+        public DateTime? Review_date { get; set; }
         public int? Review_mark { get; set; }
 
     }
