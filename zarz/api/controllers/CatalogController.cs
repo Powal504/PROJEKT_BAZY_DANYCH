@@ -100,7 +100,7 @@ namespace api.Controllers
             catalog.User = appUser;
             _context.Movie_Catalog.Add(catalog);
             _context.SaveChanges();
-            return Ok(_context.Movie_Catalog);
+            return Ok("Utworzono katalog");
             
 
         
@@ -114,12 +114,12 @@ namespace api.Controllers
             var test =_context.Movie_Movie_Catalog
                 .Where(c => c.Movie_id == addToCatalogDto.Movie_id && c.Movie_Catalog_id == addToCatalogDto.Movie_Catalog_id);
             if (!test.IsNullOrEmpty()) return BadRequest("Film jest na liscie");
+
             var added = AddToCatalogMapper.ToEntity(addToCatalogDto);
             added.Movie = _context.Movies.FirstOrDefault(c => c.Movie_id == addToCatalogDto.Movie_id);
             added.Movie_Catalog = _context.Movie_Catalog.FirstOrDefault(c => c.Movie_catalog_id == addToCatalogDto.Movie_Catalog_id);
             
             await _context.Movie_Movie_Catalog.AddAsync(added);
-            var catalog = await _context.Movie_Catalog.FirstOrDefaultAsync(c => c.Movie_catalog_id == addToCatalogDto.Movie_Catalog_id);
 
             _context.Movie_Catalog
                 .FirstOrDefault(c => c.Movie_catalog_id == addToCatalogDto.Movie_Catalog_id)
@@ -128,5 +128,39 @@ namespace api.Controllers
             return Ok("Dodano");
         }
         
+        [Authorize]
+        [HttpDelete("RemoveCatalog")]
+        
+        public async Task<IActionResult> RemoveCatalog([FromBody] RemoveCatalogDto removeCatalogDto){
+            
+            var test =_context.Movie_Catalog
+                .Where(c => c.Catalog_name == removeCatalogDto.Catalog_name && c.Movie_catalog_id == removeCatalogDto.Movie_Catalog_id);
+            if (test.IsNullOrEmpty()) return BadRequest ("Katalog nie istnieje");
+            Movie_Catalog catalog = await _context.Movie_Catalog.FirstOrDefaultAsync(c => c.Movie_catalog_id == removeCatalogDto.Movie_Catalog_id);
+            _context.Movie_Catalog.Remove(catalog);
+            var listToDelete = _context.Movie_Movie_Catalog
+                .Where(c => c.Movie_Catalog_id == removeCatalogDto.Movie_Catalog_id)
+                .ToList();
+            _context.Movie_Movie_Catalog.RemoveRange(listToDelete);
+            _context.SaveChangesAsync();
+            return Ok("Usunięto");
+
+        }
+
+        [Authorize]
+        [HttpDelete("RemoveFromCatalog")]
+        
+        public async Task<IActionResult> RemoveFromCatalog([FromBody] RemoveFromCatalogDto removeFromCatalogDto){
+
+            var test =_context.Movie_Movie_Catalog
+                .Where(c => c.Movie_id == removeFromCatalogDto.Movie_id && c.Movie_Catalog_id == removeFromCatalogDto.Movie_Catalog_id);
+            if (test.IsNullOrEmpty()) return BadRequest("Film nie jest na liscie");
+            Movie_Movie_Catalog movieCatalog = await _context.Movie_Movie_Catalog.FirstOrDefaultAsync(c => c.Movie_Catalog_id == removeFromCatalogDto.Movie_Catalog_id && c.Movie_id == removeFromCatalogDto.Movie_id);
+            _context.Movie_Movie_Catalog.Remove(movieCatalog);
+            await _context.SaveChangesAsync(); 
+            return Ok("Usunięto");
+        }   
     }
+
+
 }
