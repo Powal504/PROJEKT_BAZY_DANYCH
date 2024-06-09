@@ -53,18 +53,18 @@ function Registration() {
           <div className="success-message">Rejestracja udana! Mcdożesz teraz zalogować się na swoje konto.</div>
         ) : (
           <div className={styles.full}>
-            <p>Rejestracja</p>
-            <p>Nick:</p>
+            <p className={styles.pp}>Rejestracja</p>
+            <p className={styles.pp}>Nick:</p>
             <input type="text" name="username" value={formData.username} onChange={handleChange} />
-            <p>E-mail:</p>
+            <p className={styles.pp}>E-mail:</p>
             <input type="text" name="email" value={formData.email} onChange={handleChange} />
-            <p>Data urodzenia:</p>
+            <p className={styles.pp}>Data urodzenia:</p>
             <input type="date" name="date" value={formData.birth_date} onChange={handleChange} /><br/>
-            <p>Numer telefonu:</p>
+            <p className={styles.pp}>Numer telefonu:</p>
             <input type="text" name="phone_number" value={formData.phone_number} onChange={handleChange} /><br/>
-            <p>Hasło:</p>
+            <p className={styles.pp}>Hasło:</p>
             <input type="password" name="password" value={formData.password} onChange={handleChange} />
-            <p>Powtórz hasło:</p>
+            <p className={styles.pp}>Powtórz hasło:</p>
             <input type="password" name="repeatPassowrd" value={formData.repeatPassowrd} onChange={handleChange} />
             
             <button onClick={handleSubmit}>Zarejestruj</button>

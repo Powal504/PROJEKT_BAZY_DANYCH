@@ -6,8 +6,11 @@
     margin-top: 5%;
     position: relative; 
     font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    color: black;
   }
-  
+  .pp{
+    color: black;
+  }
   .background {
     filter: brightness(50%);
     position: absolute;
