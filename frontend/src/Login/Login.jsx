@@ -9,6 +9,7 @@ function Login() {
     const [error, setError] = useState("");
     const [loginSuccess, setLoginSuccess] = useState(false);
     const { setIsUserLogged } = useContext(GlobalContext);
+    const { setUsernameGlobal } = useContext(GlobalContext);
 
     function handleUsername(event) {
         setUsername(event.target.value);
@@ -38,8 +39,9 @@ function Login() {
 
             if (response.ok) {
                 setLoginSuccess(true);
-                setError("");
+                setError("");   
                 setIsUserLogged(1);
+                setUsernameGlobal(username);
                 console.log("Logowanie udane!", responseData);
 
             } else {

@@ -61,3 +61,8 @@ body {
   width: 100px;
   height: 100px;
 }
+
+.nazwaUzytkownika{
+text-align: right;
+margin-right: 5%;
+}
