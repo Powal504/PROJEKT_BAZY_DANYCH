@@ -19,7 +19,5 @@ namespace api.Models
         public Users User { get; set; }
         
         public string? Catalog_name { get; set; }
-        public ICollection<Movie_Movie_Catalog> MovieMovieCatalogs { get; set; }
-        
     }
 }
