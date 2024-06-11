@@ -101,15 +101,15 @@ img:hover {
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin: 15px; 
+  margin: 15px;
+  text-align: center; /* Added to center-align the text */
 }
 
 .name {
   font-size: 20px;
   margin-top: 10px;
-  text-align: center;
+  /* Removed text-align property */
 }
-
 .avatar {
   height: 150px;
   width: 100px;
