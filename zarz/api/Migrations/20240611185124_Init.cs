@@ -105,7 +105,7 @@ namespace api.Migrations
                     Title = table.Column<string>(type: "text", nullable: true),
                     Release_date = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
                     Description = table.Column<string>(type: "text", nullable: true),
-                    Avatar = table.Column<byte[]>(type: "bytea", nullable: true)
+                    Avatar = table.Column<string>(type: "text", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -406,8 +406,8 @@ namespace api.Migrations
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
                 values: new object[,]
                 {
-                    { "60bc1bcd-90a5-4e40-ac14-5fdef065b88b", null, "User", "USER" },
-                    { "c016c952-fd48-40d2-82cd-88b934330ae9", null, "Admin", "ADMIN" }
+                    { "3bda9b5a-9099-488f-aeef-7d8b704431c2", null, "Admin", "ADMIN" },
+                    { "d697b47e-7db8-4797-8458-75fd592d5aa7", null, "User", "USER" }
                 });
 
             migrationBuilder.CreateIndex(

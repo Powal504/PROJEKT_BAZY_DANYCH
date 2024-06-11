@@ -58,7 +58,7 @@ function Registration() {
     <>
       {registrationSuccess ? (
         <div className={styles.full}>
-          <p className={styles.pp}>Rejestracja</p>
+          <p className={styles.ss}>Rejestracja</p>
           <p className={styles.pp}>Nick:</p>
           <input type="text" name="username" value={formData.username} onChange={handleChange} />
           <p className={styles.pp}>E-mail:</p>
@@ -72,7 +72,9 @@ function Registration() {
           <p className={styles.pp}>Powtórz hasło:</p>
           <input type="password" name="repeatPassowrd" value={formData.repeatPassowrd} onChange={handleChange} />
           
-          <button onClick={handleSubmit} className={styles.button}>Zarejestruj</button>
+          <button onClick={handleSubmit} className={styles.button}>
+            <span className={styles.reg}>Zarejestruj</span>
+            </button>
           
           <div className={styles.error}>
             <p>Brawo udało sie na mailu masz powiadomienie</p>
@@ -80,7 +82,7 @@ function Registration() {
         </div>
       ) : (
         <div className={styles.full}>
-          <p className={styles.pp}>Rejestracja</p>
+          <p className={styles.ss}>Rejestracja</p>
           <p className={styles.pp}>Nick:</p>
           <input type="text" name="username" value={formData.username} onChange={handleChange} />
           <p className={styles.pp}>E-mail:</p>
@@ -94,8 +96,9 @@ function Registration() {
           <p className={styles.pp}>Powtórz hasło:</p>
           <input type="password" name="repeatPassowrd" value={formData.repeatPassowrd} onChange={handleChange} />
           
-          <button onClick={handleSubmit} className={styles.button}>Zarejestruj</button>
-          
+          <button onClick={handleSubmit} className={styles.button}>
+          <span className={styles.reg}>Zarejestruj</span>
+          </button>
           <div className={styles.error}>
             {error && <label>{error}</label>}
           </div>

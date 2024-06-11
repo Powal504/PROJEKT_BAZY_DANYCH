@@ -21,7 +21,10 @@ input[type="password"] {
   padding: 10px;
   font-size: 1em;
 }
-
+.ss
+{
+  font-size: 50px;
+}
 .button {
   color: black;
   background-color: hsl(245, 89%, 79%);
@@ -33,9 +36,16 @@ input[type="password"] {
   height: 40px;
   margin-top: 20px;
   padding: 10px;
+  margin-bottom: 20px;
 }
 
 .error {
   color: red;
   margin-top: 20px;
+}
+.reg {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%; /* Ustaw wysokość, aby tekst był wyśrodkowany w pionie */
 }

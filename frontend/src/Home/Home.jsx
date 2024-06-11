@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import styles from './Home.module.css';
 import { fetchMoviesWithImages } from '../services/apiService';
-import Button from 'react-bootstrap/Button';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faSearch } from '@fortawesome/free-solid-svg-icons';
 
 function Home() {
   const [movies, setMovies] = useState([]);
@@ -34,27 +35,29 @@ function Home() {
 
   return (
     <>
-      <div className={styles.sas}>
-        <p className={styles.wyszukaj}>Wyszukaj</p>
-        <input type="text" id="form12" className="form-control" />
-        <label className="form-label" htmlFor="form12">Example label</label>
+      <div className={styles.searchContainer}>
+        <div className="input-group">
+          <input type="search" className={`form-control ${styles.searchInput}`} />
+          <button type="button" className={styles.searchButton}>
+            <FontAwesomeIcon icon={faSearch} />
+          </button>
+        </div>
       </div>
       <div className={styles.home}>
-        <p>Witamy w świecie filmów</p>
         <p>Top of the top</p>
-
         <div className={styles.categories}>
           {movies.map((movie) => (
             <div key={movie.movie_id} className={styles.movieItem}>
-              <p>{movie.title}</p>
-              {movie.imageUrl ? (
-                <img src={movie.imageUrl} alt={movie.title} />
-              ) : (
-                <p>No image available</p>
-              )}
+              <p className={styles.name}>{movie.title}</p>
+              <img src='src\assets\maska.jpg' alt="maska" className={styles.avatar} />
+            
             </div>
+            
           ))}
+          
+
         </div>
+        <p>katalogi:</p>
       </div>
     </>
   );

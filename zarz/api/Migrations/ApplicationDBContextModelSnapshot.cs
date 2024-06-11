@@ -50,13 +50,13 @@ namespace api.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "c016c952-fd48-40d2-82cd-88b934330ae9",
+                            Id = "3bda9b5a-9099-488f-aeef-7d8b704431c2",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
-                            Id = "60bc1bcd-90a5-4e40-ac14-5fdef065b88b",
+                            Id = "d697b47e-7db8-4797-8458-75fd592d5aa7",
                             Name = "User",
                             NormalizedName = "USER"
                         });
@@ -330,8 +330,8 @@ namespace api.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Movie_id"));
 
-                    b.Property<byte[]>("Avatar")
-                        .HasColumnType("bytea");
+                    b.Property<string>("Avatar")
+                        .HasColumnType("text");
 
                     b.Property<string>("Description")
                         .HasColumnType("text");
