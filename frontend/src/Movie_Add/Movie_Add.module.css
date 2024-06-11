@@ -68,3 +68,8 @@
     margin: 5px;
 }
 
+.file_upload_button{
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+}
