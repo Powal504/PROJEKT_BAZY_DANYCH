@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import styles from './Registration.module.css';
-import { Link } from "react-router-dom"; 
-import Home from "../Home/Home";
+
 function Registration() {
   const [formData, setFormData] = useState({
     username: "",
@@ -9,7 +8,7 @@ function Registration() {
     password: "",
     repeatPassowrd: "",
     phone_number: "",
-    birth_date: "20.05.2002"
+    birth_date: ""  
   });
 
   const [error, setError] = useState("");
@@ -20,16 +19,25 @@ function Registration() {
     setFormData({ ...formData, [name]: value });
   };
 
+  const convertDateFormat = (date) => {
+    const [year, month, day] = date.split("-");
+    return `${day}.${month}.${year}`;
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      // Wysyłanie żądania do serwera
+      const formattedData = {
+        ...formData,
+        birth_date: convertDateFormat(formData.birth_date),
+      };
+
       const response = await fetch("http://localhost:5028/api/Registration/RegistrationPOST", {
         method: "POST",
         headers: {
           "Content-Type": "application/json"
         },
-        body: JSON.stringify(formData)
+        body: JSON.stringify(formattedData)
       });
   
       const responseData = await response.text();
@@ -48,36 +56,52 @@ function Registration() {
 
   return (
     <>
-    
-        {registrationSuccess ? (
-          <div className="success-message">Rejestracja udana! Mcdożesz teraz zalogować się na swoje konto.</div>
-        ) : (
-          <div className={styles.full}>
-            <p className={styles.pp}>Rejestracja</p>
-            <p className={styles.pp}>Nick:</p>
-            <input type="text" name="username" value={formData.username} onChange={handleChange} />
-            <p className={styles.pp}>E-mail:</p>
-            <input type="text" name="email" value={formData.email} onChange={handleChange} />
-            <p className={styles.pp}>Data urodzenia:</p>
-            <input type="date" name="date" value={formData.birth_date} onChange={handleChange} /><br/>
-            <p className={styles.pp}>Numer telefonu:</p>
-            <input type="text" name="phone_number" value={formData.phone_number} onChange={handleChange} /><br/>
-            <p className={styles.pp}>Hasło:</p>
-            <input type="password" name="password" value={formData.password} onChange={handleChange} />
-            <p className={styles.pp}>Powtórz hasło:</p>
-            <input type="password" name="repeatPassowrd" value={formData.repeatPassowrd} onChange={handleChange} />
-            
-            <button onClick={handleSubmit}>Zarejestruj</button>
-            <br />
-            <label></label><br/>
-            <div className="error">
-              {error && <label>{error}</label>}
-            </div>
+      {registrationSuccess ? (
+        <div className={styles.full}>
+          <p className={styles.pp}>Rejestracja</p>
+          <p className={styles.pp}>Nick:</p>
+          <input type="text" name="username" value={formData.username} onChange={handleChange} />
+          <p className={styles.pp}>E-mail:</p>
+          <input type="text" name="email" value={formData.email} onChange={handleChange} />
+          <p className={styles.pp}>Data urodzenia:</p>
+          <input type="date" name="birth_date" value={formData.birth_date} onChange={handleChange} /><br/>
+          <p className={styles.pp}>Numer telefonu:</p>
+          <input type="text" name="phone_number" value={formData.phone_number} onChange={handleChange} /><br/>
+          <p className={styles.pp}>Hasło:</p>
+          <input type="password" name="password" value={formData.password} onChange={handleChange} />
+          <p className={styles.pp}>Powtórz hasło:</p>
+          <input type="password" name="repeatPassowrd" value={formData.repeatPassowrd} onChange={handleChange} />
+          
+          <button onClick={handleSubmit} className={styles.button}>Zarejestruj</button>
+          
+          <div className={styles.error}>
+            <p>Brawo udało sie na mailu masz powiadomienie</p>
           </div>
-        )}
-      
-      
-      </>
+        </div>
+      ) : (
+        <div className={styles.full}>
+          <p className={styles.pp}>Rejestracja</p>
+          <p className={styles.pp}>Nick:</p>
+          <input type="text" name="username" value={formData.username} onChange={handleChange} />
+          <p className={styles.pp}>E-mail:</p>
+          <input type="text" name="email" value={formData.email} onChange={handleChange} />
+          <p className={styles.pp}>Data urodzenia:</p>
+          <input type="date" name="birth_date" value={formData.birth_date} onChange={handleChange} /><br/>
+          <p className={styles.pp}>Numer telefonu:</p>
+          <input type="text" name="phone_number" value={formData.phone_number} onChange={handleChange} /><br/>
+          <p className={styles.pp}>Hasło:</p>
+          <input type="password" name="password" value={formData.password} onChange={handleChange} />
+          <p className={styles.pp}>Powtórz hasło:</p>
+          <input type="password" name="repeatPassowrd" value={formData.repeatPassowrd} onChange={handleChange} />
+          
+          <button onClick={handleSubmit} className={styles.button}>Zarejestruj</button>
+          
+          <div className={styles.error}>
+            {error && <label>{error}</label>}
+          </div>
+        </div>
+      )}
+    </>
   );
 }
 

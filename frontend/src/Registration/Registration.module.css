@@ -1,20 +1,41 @@
 .full {
-    background-color: white;
-    width: 50%;
-    text-align: center;
-    margin-left: 25%;
-    margin-top: 5%;
-    position: relative; 
-    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
-    color: black;
-  }
-  .pp{
-    color: black;
-  }
-  .background {
-    filter: brightness(50%);
-    position: absolute;
-    font-size: 500px; 
-    font-weight: bold; 
-    z-index: -1; 
-  }
+  width: 50%;
+  text-align: center;
+  margin: 5% auto;
+  position: relative;
+  font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+}
+
+.pp {
+  display: block;
+  margin-bottom: 10px;
+}
+
+input[type="text"],
+input[type="date"],
+input[type="password"] {
+  display: block;
+  margin: 10px auto;
+  width: calc(100% - 40px); /* Reduced width to allow space for padding */
+  max-width: 300px;
+  padding: 10px;
+  font-size: 1em;
+}
+
+.button {
+  color: black;
+  background-color: hsl(245, 89%, 79%);
+  font-weight: bold;
+  font-size: 1.5em;
+  border: none;
+  cursor: pointer;
+  width: 200px;
+  height: 40px;
+  margin-top: 20px;
+  padding: 10px;
+}
+
+.error {
+  color: red;
+  margin-top: 20px;
+}

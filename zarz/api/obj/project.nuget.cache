@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "uLPjEVUu4Q4=",
+  "dgSpecHash": "Q8grd9OYRZE=",
   "success": true,
-  "projectFilePath": "C:\\Users\\pioko\\Desktop\\PROJEKT_BAZY_DANYCH\\zarz\\api\\api.csproj",
+  "projectFilePath": "C:\\Users\\pioko\\Documents\\GitHub\\PROJEKT_BAZY_DANYCH\\zarz\\api\\api.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\pioko\\.nuget\\packages\\automapper\\12.0.1\\automapper.12.0.1.nupkg.sha512",
     "C:\\Users\\pioko\\.nuget\\packages\\automapper.extensions.microsoft.dependencyinjection\\12.0.1\\automapper.extensions.microsoft.dependencyinjection.12.0.1.nupkg.sha512",
