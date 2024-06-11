@@ -6,12 +6,13 @@ import { GlobalContext } from '../GlobalContext/GlobalContext';
 function Lists() {
     return(
         <> 
-        <p className={styles.Add}>Twoje listy: </p>
-            <div className={styles.lists}>
-               
-                <p className={styles.plus}>+</p> 
+        <div className={styles.lists}>
+        <p className={styles.Add}>Stworz listy: </p>
+           
+               <input className={styles.list}></input>
+                 
             
-            </div>
+           </div>
         </>
 
     );

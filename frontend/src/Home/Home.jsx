@@ -5,12 +5,12 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSearch } from '@fortawesome/free-solid-svg-icons';
 import { Link } from 'react-router-dom'; // Importujemy Link z React Router
-
+import { GlobalContext } from '../GlobalContext/GlobalContext';
 function Home() {
   const [movies, setMovies] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
-  const [searchTerm, setSearchTerm] = useState(""); // Zmienna globalna przechowująca wartość wyszukiwania
+  const [searchTerm, setSearchTerm] = useState(GlobalContext); 
 
   useEffect(() => {
     const getMovies = async () => {
@@ -28,14 +28,8 @@ function Home() {
   }, []);
 
   const handleSearch = () => {
-    // Tutaj możesz dodać logikę wyszukiwania, np. przekierowanie do nowej ścieżki zawierającej wyszukiwany termin
-    console.log("Searched for:", searchTerm);
+    console.log(searchTerm);
   };
-
-  if (loading) {
-    return <div>Loading...</div>;
-  }
-
   if (error) {
     return <div>{error}</div>;
   }
@@ -50,7 +44,7 @@ function Home() {
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
           />
-          <Link to={`/search/${searchTerm}`} className={styles.searchButton} onClick={handleSearch}>
+          <Link to="/search" className={styles.searchButton} onClick={handleSearch}>
             <div className={styles.searchIcon}>
               <FontAwesomeIcon icon={faSearch} />
             </div>
@@ -67,7 +61,7 @@ function Home() {
             </div>
           ))}
         </div>
-        <p>katalogi:</p>
+        <p>katalogi: </p>
       </div>
     </>
   );

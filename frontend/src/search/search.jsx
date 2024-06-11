@@ -1,39 +1,37 @@
-import React, { useState, useContext, useEffect } from "react";
-import { Link } from 'react-router-dom';
-import styles from './Lists.module.css';
-import { searchMoviesByTitle } from '../services/apiService'; // Importujemy funkcję wyszukującą filmy
+import React, { useState, useEffect } from "react";
+import styles from './Search.module.css';
+import { searchMoviesByTitle } from '../services/apiService'; // Importuj funkcję do wyszukiwania filmów
 
 function Search() {
     const [searchedMovies, setSearchedMovies] = useState([]); // Stan przechowujący znalezione filmy
     const [searchTerm, setSearchTerm] = useState(""); // Stan przechowujący wyszukiwany termin
 
     useEffect(() => {
-        // W momencie zmiany searchTerm, wyszukujemy filmy i ustawiamy je w stanie searchedMovies
         const searchMovies = async () => {
             try {
-                const foundMovies = await searchMoviesByTitle(searchTerm);
-                setSearchedMovies(foundMovies);
+                if (searchTerm.trim() !== "") { // Upewnij się, że searchTerm nie jest pusty
+                    const foundMovies = await searchMoviesByTitle(searchTerm);
+                    setSearchedMovies(foundMovies);
+                } else {
+                    setSearchedMovies([]); // Wyczyść searchedMovies, jeśli searchTerm jest pusty
+                }
             } catch (error) {
-                console.error("There was a problem searching movies:", error);
+                console.error("Wystąpił problem podczas wyszukiwania filmów:", error);
             }
         };
 
         searchMovies();
-    }, [searchTerm]); // useEffect wywoływany jest za każdym razem, gdy zmienia się searchTerm
+    }, [searchTerm]); 
 
     return (
-        <> 
-            <p className={styles.Add}>Znalezione filmy: </p>
-            <div className={styles.lists}>
-                {/* Mapujemy znalezione filmy i wyświetlamy je */}
+        <div className={styles.searchResults}>
+            <h2>Znalezione filmy:</h2>
+            <ul>
                 {searchedMovies.map((movie) => (
-                    <div key={movie.id} className={styles.movieLink}>
-                        <p className={styles.movieTitle}>{movie.title}</p>
-                        {movie.imageUrl && <img src={movie.imageUrl} alt={movie.title} className={styles.movieImage} />}
-                    </div>
+                    <li key={movie.id}>{movie.title}</li>
                 ))}
-            </div>
-        </>
+            </ul>
+        </div>
     );
 }
 
