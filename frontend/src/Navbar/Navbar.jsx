@@ -19,7 +19,8 @@ function Navbar() {
           <Link to="/registration" className={styles.registerLink}>Zarejestruj</Link>
           <Link to="login" className={styles.homeLink}>login</Link>
           <Link to="Films" className={styles.homeLink}>Film</Link>
-          {isUserLogged === 1 && <img src='src\assets\avatar.png' alt="Avatar" className={styles.avatar} />}
+          
+         
           {isUserLogged === 1 && <p className={styles.nazwaUzytkownika}>{usernameGlobal}</p>}
         </div>
 

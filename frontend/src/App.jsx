@@ -26,6 +26,7 @@ function App() {
             <Route exact path="/Forget_password"> <Forget_password/></Route>
             <Route exact path="/Films"> <Films/></Route>
             <Route exact path="/Lists"> <Lists/></Route>
+            
           </Switch>
         </div>
       </Router>

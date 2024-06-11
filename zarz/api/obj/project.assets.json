@@ -8475,24 +8475,19 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\pioko\\.nuget\\packages\\": {},
-    "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
+    "C:\\Users\\pioko\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\pioko\\Documents\\GitHub\\PROJEKT_BAZY_DANYCH\\zarz\\api\\api.csproj",
+      "projectUniqueName": "C:\\Users\\pioko\\Desktop\\PROJEKT_BAZY_DANYCH\\zarz\\api\\api.csproj",
       "projectName": "api",
-      "projectPath": "C:\\Users\\pioko\\Documents\\GitHub\\PROJEKT_BAZY_DANYCH\\zarz\\api\\api.csproj",
+      "projectPath": "C:\\Users\\pioko\\Desktop\\PROJEKT_BAZY_DANYCH\\zarz\\api\\api.csproj",
       "packagesPath": "C:\\Users\\pioko\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\pioko\\Documents\\GitHub\\PROJEKT_BAZY_DANYCH\\zarz\\api\\obj\\",
+      "outputPath": "C:\\Users\\pioko\\Desktop\\PROJEKT_BAZY_DANYCH\\zarz\\api\\obj\\",
       "projectStyle": "PackageReference",
-      "fallbackFolders": [
-        "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
-      ],
       "configFilePaths": [
         "C:\\Users\\pioko\\AppData\\Roaming\\NuGet\\NuGet.Config",
-        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
@@ -8500,7 +8495,6 @@
       ],
       "sources": {
         "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-        "C:\\Program Files\\dotnet\\library-packs": {},
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
