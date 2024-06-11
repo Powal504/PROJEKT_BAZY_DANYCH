@@ -43,6 +43,7 @@ function Login() {
                 setIsUserLogged(1);
                 setUsernameGlobal(username);
                 console.log("Logowanie udane!", responseData);
+                console.log(responseData.token)
 
             } else {
                 setLoginSuccess(false);
