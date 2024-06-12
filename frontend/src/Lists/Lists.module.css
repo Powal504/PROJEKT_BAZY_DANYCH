@@ -1,4 +1,12 @@
 .lists{
-    margin-top: 50px;
-    margin-left: 10px;
+    color: white;
 }
+  .movieList {
+    list-style-type: none;
+    padding: 0;
+  }
+  
+  .movieItem {
+    margin: 5px 0;
+  }
+  
