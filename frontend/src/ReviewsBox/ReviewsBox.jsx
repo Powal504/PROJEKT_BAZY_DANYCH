@@ -2,18 +2,16 @@ import React, { useState, useEffect } from "react";
 import styles from "./ReviewsBox.module.css";
 
 function ReviewsBox() {
-  const [data, setData] = useState([]);
+  const [reviews, setReviews] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  let zmienna = 12;
-
-  // Funkcja pobierająca dane z API
+  // Funkcja pobierająca recenzje z API
   const fetchData = async () => {
     try {
       const token = localStorage.getItem('token');
 
-      const response = await fetch('http://localhost:5028/api/Reviews/2', {
+      const response = await fetch('http://localhost:5028/api/Reviews/movie/2', {
         method: 'GET',
         headers: {
           "Content-Type": "application/json",
@@ -26,10 +24,10 @@ function ReviewsBox() {
       }
 
       const data = await response.json();
-      setData(data);
+      setReviews(data); // Ustawiamy pobrane recenzje
       setLoading(false);
       console.log("Token:", token);
-      console.log("Pobrane dane: ", data);
+      console.log("Pobrane recenzje: ", data);
     } catch (error) {
       setError(error.message);
       setLoading(false);
@@ -42,25 +40,21 @@ function ReviewsBox() {
   }, []);
 
   return (
-
-  <div className={styles.mainBox}>
-    {/* Treść komponentu ReviewsBox */}
-    <div className={styles.commentsContainer}>
-      <div className={styles.comment}> 
-      <button onClick={fetchData}>kliknij</button>
-      <p>Nazwa użytkownika ocenił film na:</p>
-      <img src = 'src/assets/avatar.png' alt="avatar" className={styles.avatar}></img>
-      <p className={styles.comment_text}></p>
+    <div className={styles.mainBox}>
+      <div className={styles.commentsContainer}>
+        {loading && <p>Ładowanie...</p>}
+        {error && <p>Błąd: {error}</p>}
+        {!loading && !error && reviews.length === 0 && <p>Brak recenzji do wyświetlenia.</p>}
+        {!loading && !error && reviews.map((review, index) => (
+          <div key={index} className={styles.comment}>
+            <p>Użytkownik ocenił film na: {review.review_mark}</p>
+            <img src='src/assets/avatar.png' alt="avatar" className={styles.avatar}></img>
+            <div className={styles.comment_text}>{review.review_text}</div>
+          </div>
+        ))}
       </div>
-      <div className={styles.comment}>Komentarz 2</div>
-      <div className={styles.comment}>Komentarz 3</div>
-      <div className={styles.comment}>Komentarz 4</div>
-      <div className={styles.comment}>Komentarz 5</div>
-      <div className={styles.comment}>Komentarz 6</div>
-      {/* Możesz dodać więcej komentarzy tutaj */}
     </div>
-  </div>
-);
+  );
 }
 
 export default ReviewsBox;
