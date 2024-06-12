@@ -5,7 +5,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSearch } from '@fortawesome/free-solid-svg-icons';
 import { Link } from 'react-router-dom'; 
-import { GlobalContext } from '../GlobalContext/GlobalContext';
+
 
 function Home() {
   const [movies, setMovies] = useState([]);
@@ -67,7 +67,9 @@ function Home() {
           {movies.map((movie) => (
             <div key={movie.movie_id} className={styles.movieItem}>
               <p className={styles.name}>{movie.title}</p>
-              <img src='src\assets\maska.jpg' alt="maska" className={styles.avatar} />
+              <Link to="/Films">
+                <img src='src/assets/maska.jpg' alt="maska" className={styles.avatar} />
+              </Link>
             </div>
           ))}
         </div>
