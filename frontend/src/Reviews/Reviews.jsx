@@ -1,11 +1,15 @@
 import React, { useState } from "react";
 import styles from "./Reviews.module.css";
 
-function Reviews({ token }) {
+function Reviews() {
     const [rating, setRating] = useState(0);
     const [description, setDescription] = useState("");
     const [error, setError] = useState("");
     const [addSuccess, setAddSuccess] = useState(false);
+    const token = localStorage.getItem('token')?.replace(/["']/g, ''); // Usunięcie cudzysłowów
+    const movie_id = 2;  // Przykładowy movie_id, powinien być dynamiczny
+    const review_date = new Date().toISOString();  // Aktualna data w formacie ISO
+    const date = "";
 
     const handleDescription = (event) => {
         setDescription(event.target.value);
@@ -18,17 +22,24 @@ function Reviews({ token }) {
     const handleSubmit = async (e) => {
         e.preventDefault();
 
+        console.log("Token:", token);
+
         try {
             const reviewData = {
                 review_text: description,
-                review_mark: rating
+                review_mark: rating,
+                movie_id: movie_id,
+                review_date: date,
+                userId: "c5966b04-e408-42a9-8a0e-c92da120bdea"
             };
+
+            console.log("Wysyłane dane:", reviewData);
 
             const response = await fetch("http://localhost:5028/api/Reviews", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
-                    "Authorization": `${token}`
+                    "Authorization": `Bearer ${token}`
                 },
                 body: JSON.stringify(reviewData)
             });
@@ -38,7 +49,9 @@ function Reviews({ token }) {
                 setAddSuccess(true);
                 console.log("Recenzja dodana!");
             } else {
-                setError("Wystąpił błąd podczas dodawania recenzji.");
+                const errorText = await response.text();
+                setError(`Wystąpił błąd podczas dodawania recenzji: ${errorText}`);
+                console.error(`Error: ${response.status} ${response.statusText}`);
             }
         } catch(error) {
             console.error("Wystąpił problem z dodaniem recenzji!", error.message);
@@ -65,6 +78,8 @@ function Reviews({ token }) {
                 onChange={handleDescription} 
             />
             <button onClick={handleSubmit}>Dodaj recenzję!</button>
+            {addSuccess && <p className={styles.message}>Recenzja została dodana pomyślnie!</p>}
+            {error && <p className={styles.error_message}>{error}</p>}
         </div>
     );
 }

@@ -35,7 +35,7 @@ function Login() {
                 body: JSON.stringify(loginData)
             });
 
-            const responseData = await response.text();
+            const responseData = await response.json();
 
             if (response.ok) {
                 setLoginSuccess(true);
@@ -44,6 +44,7 @@ function Login() {
                 setUsernameGlobal(username);
                 console.log("Logowanie udane!", responseData);
                 console.log(responseData.token)
+                localStorage.setItem('token', responseData.token);
 
             } else {
                 setLoginSuccess(false);
