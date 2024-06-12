@@ -21,11 +21,15 @@ input[type="password"] {
   max-width: 300px;
   padding: 10px;
   font-size: 1em;
+ 
 }
-.ss
-{
+input[name="phone_number"] {
+  margin-bottom: -5px; /* Zwiększ odstęp od pola numeru telefonu do następnego pola */
+}
+.ss {
   font-size: 50px;
 }
+
 .button {
   color: black;
   background-color: hsl(245, 89%, 79%);
@@ -38,12 +42,21 @@ input[type="password"] {
   margin-top: 20px;
   padding: 10px;
   margin-bottom: 20px;
+  transition: background-color 0.3s, color 0.3s, box-shadow 0.3s, transform 0.3s; /* Dodaj efekt przejścia */
+}
+
+.button:hover {
+  background-color: hsl(265, 50%, 85%); /* Delikatniejszy fiolet na najechaniu myszką */
+  color: #000000; /* Czarny kolor tekstu na najechaniu myszką */
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3); /* Cień na najechaniu myszką */
+  transform: scale(1.05); /* Powiększenie przycisku na najechaniu myszką */
 }
 
 .error {
   color: red;
   margin-top: 20px;
 }
+
 .reg {
   display: flex;
   justify-content: center;
