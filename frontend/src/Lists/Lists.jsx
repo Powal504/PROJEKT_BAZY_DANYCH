@@ -5,7 +5,7 @@ const Lists = () => {
   const [catalogName, setCatalogName] = useState(""); // State to manage the catalog name
   const [error, setError] = useState(""); // State to manage errors
   const [addSuccess, setAddSuccess] = useState(false); // State to manage success message
-  const [token, setToken] = useState(""); // State to manage the authentication token
+  const token = localStorage.getItem('token')?.replace(/["']/g, '');
 
   // Function to handle adding catalogs
   const handleAddToCatalog = async (e) => {
@@ -20,22 +20,22 @@ const Lists = () => {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}` // Include token in the request headers
+          'Authorization': `Bearer ${token}` 
         },
         body: JSON.stringify(data)
       });
       
-      const responseData = await response.json();
-
       if (response.ok) {
         setAddSuccess(true);
-        console.log('Catalog added successfully:', responseData);
+        setCatalogName(""); // Clear input field after successful addition
+        console.log('Catalog added successfully');
       } else {
-        setError(responseData || 'Failed to add catalog');
+        const errorText = await response.text();
+        setError(errorText || 'Failed to add catalog');
       }
     } catch (error) {
-      console.error('niedodano:', error);
-      setError('niedodano');
+      console.error('Error adding catalog:', error);
+      setError('Error adding catalog');
     }
   };
 
@@ -58,6 +58,7 @@ const Lists = () => {
       </form>
       {error && <p className={styles.error}>{error}</p>}
       {addSuccess && <p className={styles.success}>Katalog dodany pomyślnie!</p>}
+      <p>Twoje katalogi</p>
     </div>
   );
 }
