@@ -48,7 +48,19 @@ export const fetchMovieById = async (id) => {
     throw error;
   }
 };
-
+export const fetchUserCatalogs = async () => {
+  const token = localStorage.getItem('token')?.replace(/["']/g, '');
+  const response = await fetch('http://localhost:5028/api/catalogs', {
+    headers: {
+      'Authorization': `Bearer ${token}`
+    }
+  });
+  if (response.ok) {
+    return response.json();
+  } else {
+    throw new Error('Failed to fetch catalogs');
+  }
+};
 export const searchMoviesByTitle = async (title) => {
   try {
     const response = await fetch(`http://localhost:5028/api/Movies/searchTitle/${title}`);
