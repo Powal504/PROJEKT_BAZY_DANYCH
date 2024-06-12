@@ -1,20 +1,20 @@
 /* ReviewsBox.module.css */
 .mainBox {
-    display: flex;
-    justify-content: space-between;
-    width: 80%;
-    height: 90%;
-    background-color: white;
-    border-radius: 10px;
+  display: flex;
+  justify-content: space-between;
+  width: 80%;
+  height: 90%;
+  background-color: white;
+  border-radius: 10px;
     margin-left: 13%;
   }
-  
+
   .commentsContainer {
     overflow: auto; /* Ustawienie przewijania */
     padding: 10px; /* Dodaj trochę marginesu wewnątrz kontenera */
     width: 100%;
   }
-  
+
   .comment {
     margin-bottom: 10px; /* Opcjonalnie, dodaj odstęp między komentarzami */
     /* Dodaj inne style dla komentarzy */
@@ -25,4 +25,3 @@
 
 
   }
-  

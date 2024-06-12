@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import styles from "./Reviews.module.css";
+import ReviewsBox from "../ReviewsBox/ReviewsBox";
 
 function Reviews() {
     const [rating, setRating] = useState(0);

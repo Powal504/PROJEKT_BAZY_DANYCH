@@ -1,6 +1,7 @@
 import React from "react";
 import styles from "./Films.module.css";
 import Reviews from "../Reviews/Reviews";
+import ReviewsBox from "../ReviewsBox/ReviewsBox";
 
 
 function Films() {
