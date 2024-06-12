@@ -22,6 +22,7 @@ function Films() {
             <div className={styles.reviewBox_container}>
             <ReviewsBox />
             </div>
+
             
         </div>
     );

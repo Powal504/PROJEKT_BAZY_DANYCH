@@ -6,7 +6,6 @@ body
 .container {
     display: flex;
     margin: 60px 40px;
-    background-color: aqua;
     height: 600px;
     max-width: 100%;
 }
@@ -31,9 +30,11 @@ body
     max-width: 80%;
 }
 .reviews_component{
-align-items: center;
-width: 1700px;
-height: 1900px;  
+        width: auto;
+        height: 1000px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
 }
 
 .title{
@@ -43,7 +44,6 @@ height: 1900px;
 }
 
 .reviewBox_container{
-background-color: chartreuse;
 height: 500px;
 display: flex;
 justify-content: center;
