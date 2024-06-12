@@ -4,11 +4,13 @@ import { fetchMoviesWithImages } from '../services/apiService';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSearch } from '@fortawesome/free-solid-svg-icons';
-
+import { Link } from 'react-router-dom'; // Importujemy Link z React Router
+import { GlobalContext } from '../GlobalContext/GlobalContext';
 function Home() {
   const [movies, setMovies] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
+  const [searchTerm, setSearchTerm] = useState(GlobalContext); 
 
   useEffect(() => {
     const getMovies = async () => {
@@ -17,7 +19,7 @@ function Home() {
         setMovies(moviesData);
         setLoading(false);
       } catch (error) {
-        setError("Failed to fetch movies");
+        setError("");
         setLoading(false);
       }
     };
@@ -25,10 +27,9 @@ function Home() {
     getMovies();
   }, []);
 
-  if (loading) {
-    return <div>Loading...</div>;
-  }
-
+  const handleSearch = () => {
+    console.log(searchTerm);
+  };
   if (error) {
     return <div>{error}</div>;
   }
@@ -37,10 +38,17 @@ function Home() {
     <>
       <div className={styles.searchContainer}>
         <div className="input-group">
-          <input type="search" className={`form-control ${styles.searchInput}`} />
-          <button type="button" className={styles.searchButton}>
-            <FontAwesomeIcon icon={faSearch} />
-          </button>
+          <input
+            type="search"
+            className={`form-control ${styles.searchInput}`}
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+          />
+          <Link to="/search" className={styles.searchButton} onClick={handleSearch}>
+            <div className={styles.searchIcon}>
+              <FontAwesomeIcon icon={faSearch} />
+            </div>
+          </Link>
         </div>
       </div>
       <div className={styles.home}>
@@ -50,14 +58,10 @@ function Home() {
             <div key={movie.movie_id} className={styles.movieItem}>
               <p className={styles.name}>{movie.title}</p>
               <img src='src\assets\maska.jpg' alt="maska" className={styles.avatar} />
-            
             </div>
-            
           ))}
-          
-
         </div>
-        <p>katalogi:</p>
+        <p>katalogi: </p>
       </div>
     </>
   );

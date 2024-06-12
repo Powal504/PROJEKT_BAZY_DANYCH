@@ -1,26 +1,4 @@
-p {
-    color: white;
-}
-.lists {
-    border: 5px dashed white;
-    width: 15%;
-    height: 2%;
-    margin-left: 2%;
-    text-align: center;
-    background-color: #2b2a3b;
-    font-size: 10em;
-    margin-top: 20
-}
-.plus {
-    margin-bottom: 20%;
-    
-}
-.lists:hover{
-    filter: brightness(70%);
-}
-.Add{
-    font-size: 4em;
-    margin-top: 2%;
-    margin-left: 2%;
-    margin-bottom: 2%;
+.lists{
+    margin-top: 50px;
+    margin-left: 10px;
 }
