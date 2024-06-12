@@ -8,6 +8,7 @@ function Navbar() {
 
   const handleLogout = () => {
     setIsUserLogged(0);
+    localStorage.clear();
   };
 
   return (
