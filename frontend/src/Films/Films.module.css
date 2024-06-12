@@ -6,6 +6,8 @@ body
 .container {
     display: flex;
     margin: 60px 40px;
+    height: 600px;
+    max-width: 100%;
 }
 
 .poster {
@@ -28,7 +30,24 @@ body
     max-width: 80%;
 }
 .reviews_component{
+        width: auto;
+        height: 1000px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+}
+
+.title{
+    color: white;
+    margin-left: 18%;
+    margin-top: 40px;
+}
+
+.reviewBox_container{
+height: 500px;
+display: flex;
+justify-content: center;
+margin: 60px 40px;
+max-width: 100%;
 align-items: center;
-width: 1700px;
-height: 1900px;  
 }

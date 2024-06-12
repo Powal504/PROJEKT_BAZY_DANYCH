@@ -2,6 +2,7 @@
   "dependencies": {
     "bootstrap": "^5.3.3",
     "cors": "^2.8.5",
-    "react-bootstrap": "^2.10.2"
+    "react-bootstrap": "^2.10.2",
+    "react-router-dom": "^6.23.1"
   }
 }
