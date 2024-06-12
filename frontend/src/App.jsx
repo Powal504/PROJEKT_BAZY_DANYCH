@@ -13,7 +13,6 @@ import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import { GlobalProvider } from './GlobalContext/GlobalContext';
 import Search from './Search/Search';
 import ReviewsBox from './ReviewsBox/ReviewsBox';
-
 function App() {
   return (
     <>

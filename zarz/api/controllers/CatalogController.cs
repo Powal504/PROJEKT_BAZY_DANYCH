@@ -146,25 +146,7 @@ namespace api.Controllers
             return Ok("Usunięto");
 
         }
-        [Authorize]
-        [HttpGet("UserCatalogNames")]
-        public async Task<IActionResult> GetUserCatalogNames()
-        {
-            var username = User.GetUsername();
 
-            var appUser = await _userManager.FindByNameAsync(username);
-            if (appUser == null)
-            {
-                return NotFound("Nie znaleziono użytkownika.");
-            }
-
-            var userCatalogNames = await _context.Movie_Catalog
-                .Where(c => c.User_id == appUser.Id)
-                .Select(c => c.Catalog_name)
-                .ToListAsync();
-
-            return Ok(userCatalogNames);
-        }
         [Authorize]
         [HttpDelete("RemoveFromCatalog")]
         
