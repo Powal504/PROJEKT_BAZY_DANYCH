@@ -4,7 +4,11 @@ import { Link } from 'react-router-dom';
 import styles from './Navbar.module.css';
 
 function Navbar() {
-  const { isUserLogged, usernameGlobal } = useContext(GlobalContext);
+  const { isUserLogged, usernameGlobal, setIsUserLogged } = useContext(GlobalContext);
+
+  const handleLogout = () => {
+    setIsUserLogged(0);
+  };
 
   return (
     <nav className={styles.navbar}> 
@@ -23,7 +27,9 @@ function Navbar() {
             </>
           )}
           <Link to="Films" className={styles.homeLink}>Film</Link>
+          {isUserLogged === 1 && <img src='src\assets\avatar.png' alt="Avatar" className={styles.avatar} />}
           {isUserLogged === 1 && <p className={styles.nazwaUzytkownika}>{usernameGlobal}</p>}
+          {isUserLogged === 1 && <button className={styles.registerLink} onClick={handleLogout}>Wyloguj się</button>}
         </div>
       </div>
     </nav>

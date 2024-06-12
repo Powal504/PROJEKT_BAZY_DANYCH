@@ -1,19 +1,17 @@
 import React, { useEffect, useState } from 'react';
 import styles from './Home.module.css';
-import { fetchMoviesWithImages, fetchUserCatalogs } from '../services/apiService';
+import { fetchMoviesWithImages } from '../services/apiService';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSearch } from '@fortawesome/free-solid-svg-icons';
-import { Link } from 'react-router-dom';
-import { GlobalContext } from '../GlobalContext/GlobalContext';
+import { Link } from 'react-router-dom'; 
+
 
 function Home() {
   const [movies, setMovies] = useState([]);
-  const [catalogs, setCatalogs] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const [searchTerm, setSearchTerm] = useState("");
-
   useEffect(() => {
     const getMovies = async () => {
       try {
@@ -25,33 +23,22 @@ function Home() {
         setLoading(false);
       }
     };
-
-    const getCatalogs = async () => {
-      try {
-        const catalogsData = await fetchUserCatalogs();
-        setCatalogs(catalogsData);
-      } catch (error) {
-        console.error('Error fetching catalogs:', error);
-      }
-    };
-
     getMovies();
-    getCatalogs();
   }, []);
-
   const handleSearch = () => {
     console.log(searchTerm);
+    // If search term is empty, show all movies
     if (!searchTerm.trim()) {
+      // Fetch all movies again
       getMovies();
     } else {
       // Handle search functionality
+      // Maybe update the state or navigate to a search page
     }
   };
-
   if (error) {
     return <div>{error}</div>;
   }
-
   return (
     <>
       <div className={styles.searchContainer}>
@@ -70,33 +57,18 @@ function Home() {
         </div>
       </div>
       <div className={styles.home}>
-        <p>Wszystkie filmy</p>
+        <p>Top of the top</p>
         <div className={styles.categories}>
           {movies.map((movie) => (
             <div key={movie.movie_id} className={styles.movieItem}>
               <p className={styles.name}>{movie.title}</p>
-              <img src='src/assets/maska.jpg' alt="maska" className={styles.avatar} />
+              <Link to="/Films">
+                <img src='src/assets/maska.jpg' alt="maska" className={styles.avatar} />
+              </Link>
             </div>
           ))}
         </div>
-        <p className={styles.katalogs}>Katalogi:</p>
-        <div className={styles.catalogsContainer}>
-          {catalogs.map((catalog) => (
-            <div key={catalog.id} className={styles.catalogItem}>
-              <p className={styles.catalogTitle}>{catalog.catalog_name}</p>
-              <ul>
-                {catalog.movies?.map((movieId) => {
-                  const movie = movies.find((m) => m.id === movieId);
-                  return (
-                    <li key={movieId}>
-                      {movie ? movie.title : "Unknown"}
-                    </li>
-                  );
-                })}
-              </ul>
-            </div>
-          ))}
-        </div>
+        <p>katalogi: </p>
       </div>
     </>
   );

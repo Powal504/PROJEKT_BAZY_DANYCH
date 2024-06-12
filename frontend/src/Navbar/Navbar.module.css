@@ -57,12 +57,16 @@ body {
   color: #333333;
   box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
   transform: scale(1.05);
+  padding: 5px;
+  justify-content: center;
 }
 
 .registerLink:active, .homeLink:active {
   background-color: #e0e0e0;
   color: #000000;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  padding-right:5px;
+  justify-content: center;
   transform: scale(1);
 }
 
