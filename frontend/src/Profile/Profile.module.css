@@ -1,3 +1,14 @@
-.background{
-    margin-top: 50px;
+.background {
+    margin-top: 55px;
+}
+
+.cre {
+    height: 150px !important; /* Set height as needed */
+}
+
+.card-body {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 100%;
 }
