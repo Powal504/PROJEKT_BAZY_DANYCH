@@ -2,6 +2,7 @@ import React from "react";
 import styles from "./Films.module.css";
 import Reviews from "../Reviews/Reviews";
 import ReviewsBox from "../ReviewsBox/ReviewsBox";
+import { GlobalContext } from "../GlobalContext/GlobalContext";
 import { useState, useEffect } from "react";
 
 function Films() {
