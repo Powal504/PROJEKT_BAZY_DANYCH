@@ -13,6 +13,6 @@ namespace api.Dto
     public class AddToCatalogDto 
     {
         public int Movie_Catalog_id {get; set;} = 0;
-        public int Movie_id {get; set;} = 0;
+        public string Title {get; set;} = string.Empty;
     }
 }

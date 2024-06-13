@@ -67,7 +67,7 @@ namespace api.Controllers
         }
         [Authorize]
         [HttpPost("CreateCatalog")]
-        public async Task<IActionResult> CreateUserCatalog([FromBody] Movie_CatalogDto newCatalogDto)
+        public async Task<IActionResult> CreateUserCatalog([FromBody] CreateMovie_CatalogDto newCatalogDto)
         {
             var username = User.GetUsername();
             
@@ -79,9 +79,10 @@ namespace api.Controllers
                 return NotFound("Nie znaleziono użytkownika.");
             }
 
+            Movie_CatalogDto create = new Movie_CatalogDto();
+            create.Catalog_name = newCatalogDto.Catalog_name;
             
-            
-            var catalog = CatalogMapper.ToEntity(newCatalogDto);
+            var catalog = CatalogMapper.ToEntity(create);
 
             //var lastCatalog = _context.Movie_Catalog.
 
@@ -94,11 +95,26 @@ namespace api.Controllers
 
             if (maxCatalog != null) id = maxCatalog.Movie_catalog_id + 1;
             
-            catalog.Movie_catalog_id = id;//lastCatalog.Movie_catalog_id + 1;
+            catalog.Movie_catalog_id = id;
             catalog.MovieMovieCatalogs = new List<Movie_Movie_Catalog>();
             catalog.User_id = appUser.Id;
             catalog.User = appUser;
             _context.Movie_Catalog.Add(catalog);
+
+            for(int i = 0; i < newCatalogDto.AddMovies.Count(); i++){
+                var movi = _context.Movies.FirstOrDefault(c => c.Title == newCatalogDto.AddMovies.ElementAt(i));
+                if (movi == null) continue;
+
+                var added = new Movie_Movie_Catalog();
+                added.Movie = _context.Movies.FirstOrDefault(c => c.Movie_id == movi.Movie_id);
+                added.Movie_id = movi.Movie_id;
+                added.Movie_Catalog = _context.Movie_Catalog.FirstOrDefault(c => c.Movie_catalog_id == id);
+                added.Movie_Catalog_id = id;
+
+                await _context.Movie_Movie_Catalog.AddAsync(added);
+            }
+
+
             _context.SaveChanges();
             return Ok("Utworzono katalog");
             
@@ -111,13 +127,18 @@ namespace api.Controllers
         
         public async Task<IActionResult> AddToCatalog([FromBody] AddToCatalogDto addToCatalogDto){
 
+            var movi = _context.Movies.FirstOrDefault(c => c.Title == addToCatalogDto.Title);
+
             var test =_context.Movie_Movie_Catalog
-                .Where(c => c.Movie_id == addToCatalogDto.Movie_id && c.Movie_Catalog_id == addToCatalogDto.Movie_Catalog_id);
+                .Where(c => c.Movie == movi && c.Movie_Catalog_id == addToCatalogDto.Movie_Catalog_id);
+
             if (!test.IsNullOrEmpty()) return BadRequest("Film jest na liscie");
 
-            var added = AddToCatalogMapper.ToEntity(addToCatalogDto);
-            added.Movie = _context.Movies.FirstOrDefault(c => c.Movie_id == addToCatalogDto.Movie_id);
+            var added = new Movie_Movie_Catalog();
+            added.Movie = _context.Movies.FirstOrDefault(c => c.Movie_id == movi.Movie_id);
+            added.Movie_id = movi.Movie_id;
             added.Movie_Catalog = _context.Movie_Catalog.FirstOrDefault(c => c.Movie_catalog_id == addToCatalogDto.Movie_Catalog_id);
+            added.Movie_Catalog_id = addToCatalogDto.Movie_Catalog_id;
             
             await _context.Movie_Movie_Catalog.AddAsync(added);
 
@@ -152,11 +173,14 @@ namespace api.Controllers
         
         public async Task<IActionResult> RemoveFromCatalog([FromBody] RemoveFromCatalogDto removeFromCatalogDto){
 
+            var movi = _context.Movies.FirstOrDefault(c => c.Title == removeFromCatalogDto.Title);
+
             var test =_context.Movie_Movie_Catalog
-                .Where(c => c.Movie_id == removeFromCatalogDto.Movie_id && c.Movie_Catalog_id == removeFromCatalogDto.Movie_Catalog_id);
+                .Where(c => c.Movie == movi && c.Movie_Catalog_id == removeFromCatalogDto.Movie_Catalog_id);
             if (test.IsNullOrEmpty()) return BadRequest("Film nie jest na liscie");
-            Movie_Movie_Catalog movieCatalog = await _context.Movie_Movie_Catalog.FirstOrDefaultAsync(c => c.Movie_Catalog_id == removeFromCatalogDto.Movie_Catalog_id && c.Movie_id == removeFromCatalogDto.Movie_id);
-            _context.Movie_Movie_Catalog.Remove(movieCatalog);
+            Movie_Movie_Catalog movieMovieCatalog = await _context.Movie_Movie_Catalog.FirstOrDefaultAsync(c => c.Movie_Catalog_id == removeFromCatalogDto.Movie_Catalog_id && c.Movie == movi);
+
+            _context.Movie_Movie_Catalog.Remove(movieMovieCatalog);
             await _context.SaveChangesAsync(); 
             return Ok("Usunięto");
         }   
