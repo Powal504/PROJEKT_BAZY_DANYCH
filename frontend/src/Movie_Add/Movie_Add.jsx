@@ -52,7 +52,7 @@ function Movie_Add() {
         const data = {
             title: title,
             description: description,
-            poster: poster,
+            avatar: avatar,
             director: director,
             company: company,
             genre: genre

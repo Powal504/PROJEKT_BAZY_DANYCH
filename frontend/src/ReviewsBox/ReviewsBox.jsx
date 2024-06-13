@@ -35,28 +35,11 @@ function ReviewsBox() {
 
       const data = await response.json();
 
-      // Pobieranie danych użytkowników do mapowania nazw użytkowników
-      const usersResponse = await fetch('http://localhost:5028/api/Users', {
-        method: 'GET',
-        headers: {
-          "Content-Type": "application/json",
-          "Authorization": `Bearer ${token}`
-        }
-      });
-
-      if (!usersResponse.ok) {
-        throw new Error(`Network response was not ok: ${usersResponse.status} ${usersResponse.statusText}`);
-      }
 
       const usersData = await usersResponse.json();
 
-      // Mapowanie userid na nazwę użytkownika
-      const reviewsWithUsername = data.reverse().map(review => {
-        const user = usersData.find(user => user.id === review.userid);
-        return { ...review, username: user ? user.username : 'Unknown' }; // Dodanie pola username do recenzji
-      });
 
-      setReviews(reviewsWithUsername);
+      setReviews(data);
       setLoading(false);
       console.log("Pobrane recenzje: ", reviewsWithUsername);
 
