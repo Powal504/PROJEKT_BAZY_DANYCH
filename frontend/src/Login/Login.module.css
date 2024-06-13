@@ -1,72 +1,49 @@
-.login_page {
-    width: 50%;
-    text-align: center;
-    margin: 5% auto;
-    position: relative;
-    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
-}
-
-.header {
-    color: white;
-    text-align: center;
-    font-weight: bold;
-    font-size: 50px;
-    padding: 5px;
-    margin-top: 90px;
-}
-
-.label_component {
-    color: white;
-    text-align: center;
-    font-weight: bold; /* Pogrubienie tekstu */
-    font-size: 18px;
-    padding: 5px;
-}
-
-.input_component input {
-    width: 250px;
-    max-width: 250px;
-    height: 30px;
-    padding: 5px;
-    margin: 5px;
-    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
-}
-
-.login_button, .button {
-    color: black;
-    background-color: hsl(245, 89%, 79%);
-    font-weight: bold;
-    font-size: 1.5em;
-    border: none;
-    cursor: pointer;
-    width: 200px;
-    height: 40px;
-    margin-top: 20px;
-    padding: 10px;
-    transition: background-color 0.3s, color 0.3s, box-shadow 0.3s, transform 0.3s;
-}
-
-.login_button:hover, .button:hover {
-    background-color: hsl(245, 50%, 85%); /* Jasniejszy fiolet na najechaniu myszką */
-    color: #000000; /* Czarny kolor tekstu na najechaniu myszką */
-    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3); /* Cień na najechaniu myszką */
-    transform: scale(1.05); /* Powiększenie przycisku na najechaniu myszką */
-}
-
-.login_button span {
-    position: relative;
-    top: -7px;
-}
-
-.form_style {
+.gradient {
+    /* fallback for old browsers */
+    background: #fccb90;
+    
+    /* Chrome 10-25, Safari 5.1-6 */
+    background: -webkit-linear-gradient(to right, #8361db, #3a2fba, #060338, #14010e);
+    
+    /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+    background: linear-gradient(to right, #8361db, #3a2fba, #060338, #14010e);
     display: flex;
-    flex-direction: column;
-    justify-content: center;
     align-items: center;
-    margin-top: 20px;
+    justify-content: center;
+    color: white;
+    border-top-right-radius: .3rem;
+    border-bottom-right-radius: .3rem;
 }
 
-.message {
-    font-size: 20px;
-    color: rgb(255, 255, 255);
+   
+
+@media (min-width: 768px) {
+    .gradient-form {
+        height: 100vh !important;
+    }
+}
+.fulllogin{
+    margin-top: 55px;
+
+    border: none;
+    
+}
+.card {
+    border: none; /* Remove border from the card */
+}
+.btn-primary {
+    color: black;
+}
+.formlabel{
+    text-align: center;
+    display: flex;
+    margin-left: 13%;
+}
+.left-side {
+    background-color: pink;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-top-left-radius: .3rem;
+    border-bottom-left-radius: .3rem;
 }

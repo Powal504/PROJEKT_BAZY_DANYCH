@@ -1,65 +1,20 @@
-.full {
-  width: 50%;
-  text-align: center;
-  margin: 5% auto;
-  position: relative;
-  font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
-  color: white;
-}
-
-.pp {
-  display: block;
-  margin-bottom: 10px;
-}
-
-input[type="text"],
-input[type="date"],
-input[type="password"] {
-  display: block;
-  margin: 10px auto;
-  width: calc(100% - 40px); /* Reduced width to allow space for padding */
-  max-width: 300px;
-  padding: 10px;
-  font-size: 1em;
- 
-}
-input[name="phone_number"] {
-  margin-bottom: -5px; /* Zwiększ odstęp od pola numeru telefonu do następnego pola */
-}
-.ss {
-  font-size: 50px;
-}
-
-.button {
-  color: black;
-  background-color: hsl(245, 89%, 79%);
-  font-weight: bold;
-  font-size: 1.5em;
-  border: none;
-  cursor: pointer;
-  width: 200px;
-  height: 40px;
-  margin-top: 20px;
-  padding: 10px;
-  margin-bottom: 20px;
-  transition: background-color 0.3s, color 0.3s, box-shadow 0.3s, transform 0.3s; /* Dodaj efekt przejścia */
-}
-
-.button:hover {
-  background-color: hsl(265, 50%, 85%); /* Delikatniejszy fiolet na najechaniu myszką */
-  color: #000000; /* Czarny kolor tekstu na najechaniu myszką */
-  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3); /* Cień na najechaniu myszką */
-  transform: scale(1.05); /* Powiększenie przycisku na najechaniu myszką */
-}
-
-.error {
-  color: red;
-  margin-top: 20px;
-}
-
-.reg {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100%; /* Ustaw wysokość, aby tekst był wyśrodkowany w pionie */
-}
+.gradient-custom {
+  /* fallback for old browsers */
+  background: #f093fb;
+  
+  /* Chrome 10-25, Safari 5.1-6 */
+  background: -webkit-linear-gradient(to bottom right, rgba(240, 147, 251, 1), rgba(245, 87, 108, 1));
+  
+  /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+  background: linear-gradient(to bottom right, rgba(240, 147, 251, 1), rgba(245, 87, 108, 1))
+  }
+  
+  .card-registration .select-input.form-control[readonly]:not([disabled]) {
+  font-size: 1rem;
+  line-height: 2.15;
+  padding-left: .75em;
+  padding-right: .75em;
+  }
+  .card-registration .select-arrow {
+  top: 13px;
+  }

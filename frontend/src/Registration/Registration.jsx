@@ -54,57 +54,72 @@ function Registration() {
     }
   };
 
+
   return (
-    <>
-      {registrationSuccess ? (
-        <div className={styles.full}>
-          <p className={styles.ss}>Rejestracja</p>
-          <p className={styles.pp}>Nick:</p>
-          <input type="text" name="username" value={formData.username} onChange={handleChange} />
-          <p className={styles.pp}>E-mail:</p>
-          <input type="text" name="email" value={formData.email} onChange={handleChange} />
-          <p className={styles.pp}>Data urodzenia:</p>
-          <input type="date" name="birth_date" value={formData.birth_date} onChange={handleChange} /><br/>
-          <p className={styles.pp}>Numer telefonu:</p>
-          <input type="text" name="phone_number" value={formData.phone_number} onChange={handleChange} /><br/>
-          <p className={styles.pp}>Hasło:</p>
-          <input type="password" name="password" value={formData.password} onChange={handleChange} />
-          <p className={styles.pp}>Powtórz hasło:</p>
-          <input type="password" name="repeatPassowrd" value={formData.repeatPassowrd} onChange={handleChange} />
-          
-          <button onClick={handleSubmit} className={styles.button}>
-            <span className={styles.reg}>Zarejestruj</span>
-            </button>
-          
-          <div className={styles.error}>
-            <p>Brawo udało sie na mailu masz powiadomienie</p>
+    <section className="vh-100 gradient-custom">
+      <div className="container py-5 h-100">
+        <div className="row justify-content-center align-items-center h-100">
+          <div className="col-12 col-lg-9 col-xl-7">
+            <div className="card shadow-2-strong card-registration" style={{ borderRadius: '15px' }}>
+              <div className="card-body p-4 p-md-5">
+                
+                <h3 className="mb-4 pb-2 pb-md-0 mb-md-5">Rejestracja</h3>
+                
+                <form onSubmit={handleSubmit}>
+
+                  <div className="row">
+                    <div className="col-md-6 mb-4">
+                      <div className="form-outline">
+                        <input type="text" id="username" className="form-control form-control-lg" name="username" value={formData.username} onChange={handleChange} placeholder="Username" />
+                      </div>
+                    </div>
+                    <div className="col-md-6 mb-4">
+                      <div className="form-outline">
+                        <input type="email" id="email" className="form-control form-control-lg" name="email" value={formData.email} onChange={handleChange} placeholder="Email" />
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="row">
+                    <div className="col-md-6 mb-4">
+                      <div className="form-outline">
+                        <input type="password" id="password" className="form-control form-control-lg" name="password" value={formData.password} onChange={handleChange} placeholder="Password" />
+                      </div>
+                    </div>
+                    <div className="col-md-6 mb-4">
+                      <div className="form-outline">
+                        <input type="password" id="repeatPassowrd" className="form-control form-control-lg" name="repeatPassowrd" value={formData.repeatPassowrd} onChange={handleChange} placeholder="Repeat Password" />
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="row">
+                    <div className="col-md-6 mb-4">
+                      <div className="form-outline">
+                        <input type="tel" id="phoneNumber" className="form-control form-control-lg" name="phone_number" value={formData.phone_number} onChange={handleChange} placeholder="Phone Number" />
+                      </div>
+                    </div>
+                    <div className="col-md-6 mb-4">
+                      <div className="form-outline">
+                        <input type="date" id="birthDate" className="form-control form-control-lg" name="birth_date" value={formData.birth_date} onChange={handleChange} placeholder="Birth Date (dd.mm.yyyy)" />
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="mt-4">
+                    <button className="btn btn-primary btn-lg" type="submit">Submit</button>
+                  </div>
+
+                  {error && <div className="alert alert-danger mt-4" role="alert">{error}</div>}
+                  {registrationSuccess && <div className="alert alert-success mt-4" role="alert">Registration successful!</div>}
+
+                </form>
+              </div>
+            </div>
           </div>
         </div>
-      ) : (
-        <div className={styles.full}>
-          <p className={styles.ss}>Rejestracja</p>
-          <p className={styles.pp}>Nick:</p>
-          <input type="text" name="username" value={formData.username} onChange={handleChange} />
-          <p className={styles.pp}>E-mail:</p>
-          <input type="text" name="email" value={formData.email} onChange={handleChange} />
-          <p className={styles.pp}>Data urodzenia:</p>
-          <input type="date" name="birth_date" value={formData.birth_date} onChange={handleChange} /><br/>
-          <p className={styles.pp}>Numer telefonu:</p>
-          <input type="text" name="phone_number" value={formData.phone_number} onChange={handleChange} /><br/>
-          <p className={styles.pp}>Hasło:</p>
-          <input type="password" name="password" value={formData.password} onChange={handleChange} />
-          <p className={styles.pp}>Powtórz hasło:</p>
-          <input type="password" name="repeatPassowrd" value={formData.repeatPassowrd} onChange={handleChange} />
-          
-          <button onClick={handleSubmit} className={styles.button}>
-          <span className={styles.reg}>Zarejestruj</span>
-          </button>
-          <div className={styles.error}>
-            {error && <label>{error}</label>}
-          </div>
-        </div>
-      )}
-    </>
+      </div>
+    </section>
   );
 }
 
