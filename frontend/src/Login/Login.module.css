@@ -61,6 +61,7 @@
 .Createnew:hover{
     background-color: #3a2fba;
     border: #3a2fba;
+    filter: brightness(130%);
 
 }
 .prefer{

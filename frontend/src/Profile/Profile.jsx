@@ -16,7 +16,7 @@ function Profile() {
                         </div>
                     </div>
                     <div className={`card mb-4 mb-lg-0 ${styles.cre}`}>
-                        <div className={`card-body p-0 ${styles.cre}`}>
+                        <div className={styles.cre}>
                             <h3>Stwórz listę:</h3>
                             <hr />
                             <div className="form-group">

@@ -108,7 +108,9 @@ function Registration() {
 
                   <div className="mt-4">
                   <div className="d-flex align-items-center justify-content-center pb-4">
-                    <button className="btn btn-primary btn-lg" type="submit">Zarejestruj</button>
+                  <button className={`btn btn-primary btn-block fa-lg mb-3 ${styles.buttonregister}`} type="submit" >
+                                                                    Zarejestruj
+                                                                  </button>
                   </div></div>
                   <br />
                   <div className="d-flex align-items-center justify-content-center pb-4">

@@ -1,9 +1,11 @@
 .background {
     margin-top: 55px;
+    margin-left: 10px;
+    margin-right: 10px;
 }
 
 .cre {
-    height: 150px !important; /* Set height as needed */
+    height: 300px !important; /* Set height as needed */
 }
 
 .card-body {
