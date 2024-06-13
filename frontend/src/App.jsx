@@ -12,6 +12,7 @@ import Reviews from "./Reviews/Reviews"
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import { GlobalProvider } from './GlobalContext/GlobalContext';
 import Search from './Search/Search';
+import Profile from './Profile/Profile';
 import ReviewsBox from './ReviewsBox/ReviewsBox';
 
 function App() {
@@ -29,6 +30,7 @@ function App() {
             <Route exact path="/Films"> <Films/></Route>
             <Route exact path="/Lists"> <Lists/></Route>
             <Route exact path="/Search"> <Search/></Route>
+            <Route exact path="/Profile"><Profile/></Route>
           </Switch>
         </div>
       </Router>

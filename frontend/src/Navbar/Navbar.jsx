@@ -28,7 +28,7 @@ function Navbar() {
             </>
           )}
           <Link to="Films" className={styles.homeLink}>Film</Link>
-          {isUserLogged === 1 && <img src='src\assets\avatar.png' alt="Avatar" className={styles.avatar} />}
+          {isUserLogged === 1 &&  <Link to="/"><img src='src\assets\avatar.png' alt="Avatar" className={styles.avatar} /></Link>}
           {isUserLogged === 1 && <p className={styles.nazwaUzytkownika}>{usernameGlobal}</p>}
           {isUserLogged === 1 && <button className={styles.registerLink} onClick={handleLogout}>Wyloguj się</button>}
         </div>
