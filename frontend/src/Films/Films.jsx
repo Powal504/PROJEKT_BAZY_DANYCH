@@ -2,9 +2,45 @@ import React from "react";
 import styles from "./Films.module.css";
 import Reviews from "../Reviews/Reviews";
 import ReviewsBox from "../ReviewsBox/ReviewsBox";
-
+import { useState, useEffect } from "react";
 
 function Films() {
+
+    const [error, setError] = useState(null);
+    const [loading, setLoading] = useState(true);
+    const [movies, setMovies] = useState([]);
+
+    const fetchData = async () =>{
+        try {
+            const token = localStorage.getItem('token');
+            
+            const response = await fetch('http://localhost:5028/api/Movies', {
+                method: 'GET',
+                headers:{
+                    "Contet-Type": "application/json",
+                    "Authorization": `Bearer ${token}`
+                }
+            });
+
+            if(!response.ok) {
+                throw new Error(`Network response was not ok: ${response.status} ${response.statusText}`);
+            }
+
+            const data = await response.json();
+            setMovies(data);
+            setLoading(false);
+            console.log("pobbrane filmy:", movies)
+        }
+        catch(error){
+            setError(error.message);
+            setLoading(false);
+        }
+    }
+
+    useEffect(()=> {
+        fetchData();
+    }, []);
+
     return (
         <div>
             <h1 className={styles.title}>Tu będzie tytuł</h1>
