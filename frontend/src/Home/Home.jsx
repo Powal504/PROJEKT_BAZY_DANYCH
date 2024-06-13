@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import styles from './Home.module.css';
 import { fetchMoviesWithImages, fetchUserCatalogs } from '../services/apiService';
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -13,6 +13,7 @@ function Home() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const [searchTerm, setSearchTerm] = useState("");
+  const { setMovieNameGlobal } = useContext(GlobalContext);
 
   useEffect(() => {
     const getMovies = async () => {
@@ -52,6 +53,11 @@ function Home() {
     return <div>{error}</div>;
   }
 
+  const handleGlobalName = (movieTitle) => {
+    setMovieNameGlobal(movieTitle);
+    console.log("Nazwa filmu globalnie ustawiona na:", movieTitle);
+  };
+
   return (
     <>
       <div className={styles.searchContainer}>
@@ -76,7 +82,7 @@ function Home() {
             <div key={movie.movie_id} className={styles.movieItem}>
               <p className={styles.name}>{movie.title}</p>
               <Link to="/Films">
-                <img src='src/assets/maska.jpg' alt="maska" className={styles.avatar} />
+                <img src='src/assets/maska.jpg' alt="maska" className={styles.avatar} onClick={handleGlobalName}/>
               </Link>
             </div>
           ))}

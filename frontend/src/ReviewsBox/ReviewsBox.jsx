@@ -35,13 +35,9 @@ function ReviewsBox() {
 
       const data = await response.json();
 
-
-      const usersData = await usersResponse.json();
-
-
       setReviews(data);
       setLoading(false);
-      console.log("Pobrane recenzje: ", reviewsWithUsername);
+      console.log("Pobrane recenzje: ", data);
 
     } catch (error) {
       setError(error.message);
