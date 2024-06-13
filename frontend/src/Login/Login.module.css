@@ -22,6 +22,7 @@
         height: 100vh !important;
     }
 }
+
 .fulllogin{
     margin-top: 55px;
 
@@ -30,6 +31,8 @@
 }
 .card {
     border: none; /* Remove border from the card */
+    max-width: 1800px;
+    margin: auto;
 }
 .btn-primary {
     color: black;
@@ -46,4 +49,17 @@
     justify-content: center;
     border-top-left-radius: .3rem;
     border-bottom-left-radius: .3rem;
+}
+.loginbutton{
+    background-color:#3a2fba;
+}
+.Createnew{
+    border-color: #3a2fba;
+    color: #3a2fba;
+    transition: background-color 0.3s, color 0.3s !important;
+}
+.Createnew:hover{
+    background-color: #3a2fba;
+    border: #3a2fba;
+
 }

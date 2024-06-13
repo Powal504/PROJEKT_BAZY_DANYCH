@@ -1,5 +1,5 @@
 import React, { useState, useContext } from "react";
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Switch, Link } from 'react-router-dom';
 import styles from './Login.module.css';
 import { GlobalContext } from '../GlobalContext/GlobalContext';
 
@@ -68,12 +68,11 @@ function Login() {
                                 <div className="col-lg-6 order-lg-1">
                                     <div className={`card-body p-md-5 mx-md-4 ${styles.cardbody}`}>
                                         <div className="text-center">
-                                        <img src='src\assets\logo.png' style={{ width: '100px', height: '100px'}} alt="logo" />
+                                            <img src='src\assets\logo.png' style={{ width: '100px', height: '100px'}} alt="logo" />
                                             <h4 className="mt-1 mb-5 pb-1">Zaloguj się</h4>
                                         </div>
                                         <form onSubmit={handleSubmit}>
                                             <div className="form-outline mb-4 w-100">
-                                                
                                                 <input
                                                     type="text"
                                                     id="form2Example11"
@@ -84,7 +83,6 @@ function Login() {
                                                 />
                                             </div>
                                             <div className="form-outline mb-4 w-100">
-                                               
                                                 <input
                                                     type="password"
                                                     id="form2Example22"
@@ -98,22 +96,17 @@ function Login() {
                                                 <button
                                                     data-mdb-button-init
                                                     data-mdb-ripple-init
-                                                    className="btn btn-primary btn-block fa-lg gradient-custom-2 mb-3"
+                                                    className={`btn btn-primary btn-block fa-lg gradient-custom-2 mb-3 ${styles.loginbutton}`}
                                                     type="submit">
                                                     Zaloguj
                                                 </button><br></br>
-                                                <a className="text-muted" href="#!">Forgot password?</a>
+                                                <a className="text-muted" href="#!">Zapomniałeś hasła?</a>
                                             </div>
                                             <div className="d-flex align-items-center justify-content-center pb-4">
-                                                <p className="mb-0 me-2">Don't have an account?</p>
-                                                <button
-                                                    type="button"
-                                                    data-mdb-button-init
-                                                    data-mdb-ripple-init
-                                                    className="btn btn-outline-danger"
-                                                >
-                                                    Create new
-                                                </button>
+                                                <p className="mb-0 me-2">Nie masz konta?</p>
+                                                <Link to="/registration" className={`btn btn-outline-danger ${styles.Createnew}`}>
+                                                    Stwórz nowe
+                                                </Link>
                                             </div>
                                         </form>
                                     </div>
@@ -121,7 +114,7 @@ function Login() {
                                 <div className={`col-lg-6 order-lg-2 ${styles.gradient}`}>
                                     <div className="text-white px-3 py-4 p-md-5 mx-md-4">
                                         <h4 className="mb-4">Baza filmów</h4>
-                                        <p className="mb-0">
+                                        <p className={`mb-0 ${styles.prefer}`}>
                                            Odkryj świat rozrywki dzięki naszej obszernej kolekcji filmów różnych gatunków i epok. Nasza platforma została zaprojektowana tak, aby zapewnić płynne i przyjemne doświadczenie dla wszystkich miłośników kina. 
                                         </p>
                                     </div>
