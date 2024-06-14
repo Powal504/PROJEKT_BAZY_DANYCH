@@ -9,8 +9,8 @@ body {
   justify-content: space-between;
   align-items: center;
   border-bottom: 5px none white;
-  box-shadow: 20px 20px 10px 20px #151325;
-  background-color: #151325;
+  box-shadow: 20px 20px 10px 20px #2a264b;
+  background-color: #2a264b;
   top: 0;
   color: grey;
   font-size: 20px;
@@ -38,13 +38,13 @@ body {
 }
 
 .registerLink, .homeLink {
-  background-color: #ffffff;
+  background-color: #3a2fba;
   border: 2px solid #000000;
   width: 120px;
   padding: 10px 15px;
   text-align: center;
   text-decoration: none !important;
-  color: #000000;
+  color: #fff;
   margin-right: 15px;
   white-space: nowrap;
   border-radius: 10px;

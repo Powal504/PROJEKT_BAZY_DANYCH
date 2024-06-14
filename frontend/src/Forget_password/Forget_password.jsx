@@ -1,26 +1,50 @@
-import React, { useState } from "react";
+import React from "react";
 import styles from './Forget_password.module.css';
-import { Link } from "react-router-dom"; 
+import { Link } from "react-router-dom";
 
 function Forget_password() {
     return (
-        <div className={styles.forget}>
-            <h1>PRZYPOMNIJ HASŁO</h1>
-            <form>
-                <div className={styles.formGroup}>
-                    <label htmlFor="usernameOrEmail">Nazwa użytkownika lub mail</label>
-                    <input type="text" id="usernameOrEmail" className={styles.inputField} />
+        <div className={`container ${styles.forgetPassword}`}>
+            <div className="row">
+                <div className="col-md-12 col-md-offset-4">
+                    <div className="panel panel-default">
+                        <div className="panel-body">
+                            <div className="text-center">
+                                <img src="https://i.ibb.co/rshckyB/car-key.png" alt="car-key" border="0" />
+                                <h2 className="text-center">Zapomniałeś hasła?</h2>
+                                <p>Możesz zresetować hasło tutaj:</p>
+                                <form id="register-form" role="form" autoComplete="off" className="form" method="post">
+                                    <div className="form-group">
+                                        <div className="input-group">
+                                            <input className="form-control" id="sel1" placeholder="Email">
+                                                
+                                            </input>
+                                        </div>
+                                    </div>
+                                    <br></br>
+                                    <div className="form-group">
+                                        <div className="input-group">
+                                            <span className="input-group-addon"><i className="glyphicon glyphicon-envelope color-blue"></i></span>
+                                            <input id="forgetpass" name="forgetpass" placeholder="Nowe haslo" className="form-control" type="password" />
+                                        </div>
+                                    </div>
+                                    <br></br>
+                                    <div className="form-group">
+                                        <div className="input-group">
+                                            <span className="input-group-addon"><i className="glyphicon glyphicon-envelope color-blue"></i></span>
+                                            <input id="forgetpass" name="forgetpass" placeholder="Powtórz hasło" className="form-control" type="password" />
+                                        </div>
+                                    </div>
+                                    <br></br>
+                                    <div className="form-group">
+                                        <input name="btnForget" className={`btn btn-lg btn-primary btn-block ${styles.btnForget} `} value="Reset Password" type="submit" />
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                <div className={styles.formGroup}>
-                    <label htmlFor="password">Hasło</label>
-                    <input type="password" id="password" className={styles.inputField} />
-                </div>
-                <div className={styles.formGroup}>
-                    <label htmlFor="confirmPassword">Powtórz hasło</label>
-                    <input type="password" id="confirmPassword" className={styles.inputField} />
-                </div>
-                <button type="submit" className={styles.submitButton}>Resetuj hasło</button>
-            </form>
+            </div>
         </div>
     );
 }

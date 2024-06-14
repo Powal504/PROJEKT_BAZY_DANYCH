@@ -17,7 +17,7 @@
 
    
 
-@media (min-width: 768px) {
+@media (min-width: 500px) {
     .gradient-form {
         height: 100vh !important;
     }
@@ -25,7 +25,8 @@
 
 .fulllogin{
     margin-top: 55px;
-
+    margin-left: 10px;
+    margin-right: 10px;
     border: none;
     
 }
