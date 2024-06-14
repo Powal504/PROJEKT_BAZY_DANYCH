@@ -62,6 +62,9 @@ builder.Services.AddCors(options =>
                    .AllowAnyHeader();
         });
 });
+builder.Services.Configure<IdentityOptions>(
+    opts => {opts.SignIn.RequireConfirmedEmail = true;}
+);
 
 builder.Services.AddIdentity<Users, IdentityRole>(options => {
 

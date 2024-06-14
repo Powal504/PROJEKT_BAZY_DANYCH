@@ -36,95 +36,72 @@ namespace api.controllers
             _tokenService=tokenService;
         }
         [HttpPost("RegistrationPOST")]
-        public async Task<IActionResult> CreateAsync([FromBody] RegistrationDto registrationModel)
+       public async Task<IActionResult> CreateAsync([FromBody] RegistrationDto registrationModel)
+{
+    var existingCandidate = _context.Users.FirstOrDefault(c => c.Email == registrationModel.Email);
+    if (existingCandidate != null) return BadRequest("Konto o podanym adresie email juz istnieje");
+
+    if (registrationModel.Password.Length < 8) return BadRequest("Za slabe haslo (min 8 znakow)");
+
+    if (registrationModel.Password != registrationModel.RepeatPassowrd) return BadRequest("Hasla nie sa identyczne");
+
+    if (!IsValidEmail(registrationModel.Email)) return BadRequest("Niepoprawny email.");
+
+    if (!IsValidPhoneNumber(registrationModel.Phone_number)) return BadRequest("Niepoprawny numer telefonu.");
+
+    if (!IsValidDateOfBirth(registrationModel.Birth_date)) return BadRequest("Niepoprawna albo nieistniejaca data urodzenia. Poprawny format: DD.MM.YYYY");
+
+    var userModel = registrationModel.ToUserFromDto();
+
+    var result = await _userManager.CreateAsync(userModel, registrationModel.Password);
+
+    if (!result.Succeeded)
+    {
+        if (result.Errors.Any(error => error.Code == "DuplicateUserName"))
         {
-            var existingCandidate = _context.Users.FirstOrDefault(c => c.Email == registrationModel.Email);
-            if (existingCandidate != null) return BadRequest("Konto o podanym adresie email juz istnieje");
-
-            if (registrationModel.Password.Length < 8) return BadRequest("Za slabe haslo (min 8 znakow)");
-
-            if (registrationModel.Password != registrationModel.RepeatPassowrd) return BadRequest("Hasla nie sa identyczne");
-
-
-            if (!IsValidEmail(registrationModel.Email)) return BadRequest("Niepoprawny email.");
-
-            if (!IsValidPhoneNumber(registrationModel.Phone_number)) return BadRequest("Niepoprawny numer telefonu.");
-
-            if (!IsValidDateOfBirth(registrationModel.Birth_date)) return BadRequest("Niepoprawna albo nieistniejaca data urodzenia. Poprawny format: DD.MM.YYYY");
-
-            var userModel = registrationModel.ToUserFromDto();
-
-
-        
-
-            var result = await _userManager.CreateAsync(userModel, registrationModel.Password);
-
-
-            if (!result.Succeeded)
-            {
-                if (result.Errors.Any(error => error.Code == "DuplicateUserName"))
-                {
-                    return Conflict("Użytkownik o tej nazwie już istnieje");
-                }
-                else { return BadRequest("cos zle"); }
-            }
-            var roleResult = await _userManager.AddToRoleAsync(userModel, "User");
-
-
-            // return Ok(
-            // new newUserDto
-            // {
-            //     UserName = userModel.UserName,
-            //     Email = userModel.Email,
-            //     Token = _tokenService.CreateToken(userModel)
-            // };
-            //);
-            var code = _tokenService.CreateToken(userModel);
-
-            var callbackUrl = Url.Action(nameof(ConfirmEmail), "RegistrationPage", new
-            {
-                userId = userModel.Id,
-                code = WebUtility.UrlEncode(code)
-            }, protocol: HttpContext.Request.Scheme);
-
-            await SendEmailAsync(userModel.Email, "Confirm your email",
-                $"Please confirm your account by clicking here'{callbackUrl}'");
-
-           new newUserDto
-           {
-                UserName = userModel.UserName,
-                Email = userModel.Email,
-                Token = code
-           };
-
-            return Ok("Registration successful. Please check your email to confirm your account.");
+            return Conflict("Użytkownik o tej nazwie już istnieje");
         }
+        else { return BadRequest("cos zle"); }
+    }
 
-        [HttpGet("confirmemail")]
-        public async Task<IActionResult> ConfirmEmail(string userId, string code)
-        {
-            if (userId == null || code == null)
-            {
-                return BadRequest("Error confirming your email.");
-            }
+    var code = await _userManager.GenerateEmailConfirmationTokenAsync(userModel);
+    var callbackUrl = Url.Action(nameof(ConfirmEmail), "RegistrationPage", new
+    {
+        userId = userModel.Id,
+        code = WebUtility.UrlEncode(code)
+    }, protocol: HttpContext.Request.Scheme);
 
-            var user = await _userManager.FindByIdAsync(userId);
-            if (user == null)
-            {
-                return NotFound($"Unable to load user with ID '{userId}'.");
-            }
+    await SendEmailAsync(userModel.Email, "Confirm your email",
+        $"Please confirm your account by clicking here: '{callbackUrl}'");
 
-            var result = await _userManager.ConfirmEmailAsync(user, code);// _urlEncoder.Decode(code));
-            if (result.Succeeded)
-            {
-                return Ok("Thank you for confirming your email.");
-            }
-            else
-            {
-                return BadRequest("Error confirming your email.");
-            }
-        }
+    return Ok("Registration successful. Please check your email to confirm your account.");
+}
 
+[HttpGet("ConfirmEmail")]
+public async Task<IActionResult> ConfirmEmail(string userId, string code)
+{
+    if (userId == null || code == null)
+    {
+        return BadRequest("Error confirming your email.");
+    }
+
+    var user = await _userManager.FindByIdAsync(userId);
+    if (user == null)
+    {
+        return NotFound($"Unable to load user with ID '{userId}'.");
+    }
+
+    var result = await _userManager.ConfirmEmailAsync(user, WebUtility.UrlDecode(code));
+if (result.Succeeded)
+{
+    var localhostUrl = "http://localhost:5173/login"; // Replace with your actual localhost URL
+    return Ok($"Thank you for confirming your email. You can now copy "{localhostUrl}".");
+}
+    else
+    {
+        return BadRequest("Error confirming your email.");
+    }
+}
 
 
         ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -216,7 +193,7 @@ namespace api.controllers
             return true;
         }
 
-        public static Task SendEmailAsync(string to, string subject, string htmlMessage)
+     public static Task SendEmailAsync(string to, string subject, string htmlMessage)
         {
             string fromMail = "mihaylobs@gmail.com";
             string fromPassword = "pvppewlueiilugnr";
