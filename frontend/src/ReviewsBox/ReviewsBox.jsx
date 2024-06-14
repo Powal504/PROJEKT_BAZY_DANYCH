@@ -35,7 +35,7 @@ function ReviewsBox() {
 
       const data = await response.json();
 
-      setReviews(data);
+      setReviews(data.reverse());
       setLoading(false);
       console.log("Pobrane recenzje: ", data);
 
