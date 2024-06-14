@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styles from "./Reviews.module.css";
 import ReviewsBox from "../ReviewsBox/ReviewsBox";
 
@@ -11,6 +11,10 @@ function Reviews() {
     const movie_id = 2;  // Przykładowy movie_id, powinien być dynamiczny
     const review_date = new Date().toISOString();  // Aktualna data w formacie ISO
     const date = "";
+
+    const [user, setUser] = useState([]);
+    const [loadingFetch, setLoadingFetch] = useState(true);
+    const [errorFetch, setErrorFetch] = useState(null);
 
     const handleDescription = (event) => {
         setDescription(event.target.value);
@@ -59,6 +63,36 @@ function Reviews() {
             setError("Wystąpił problem z dodaniem recenzji!");
         }
     };
+
+    const fetchData = async () => {
+        try {
+            const token = localStorage.getItem('token')
+            
+            const response = await fetch ('http://localhost:5028/api/userinfo',{
+                methode: 'GET',
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": `Bearer ${token}`  // Dodaj nagłówek autoryzacyjny
+                  }
+            });
+
+            if(!response.ok){
+                throw new Error(`Network response was not ok: ${response.status} ${response.statusText}`);
+            }
+            const data = await response.json();
+            setUser(data);
+            setLoadingFetch(false);
+            console.log('uzytkownik: ', data);
+        }
+        catch (error) {
+            setError(error.message);
+            setLoading(false);
+          }
+    }
+
+      useEffect(() => {
+    fetchData();
+  }, []);
 
     return (
         <div className={styles.container_reviews}>
