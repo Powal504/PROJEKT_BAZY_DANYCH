@@ -10,9 +10,12 @@ using NuGet.Protocol.Plugins;
 
 namespace api.Dto
 {
-    public class RemoveFromCatalogDto
+    public class CreateMovie_CatalogDto
     {
-        public int Movie_Catalog_id {get; set;} = 0;
-        public string Title {get; set;} = string.Empty;
+
+        public string Catalog_name{get; set;} = string.Empty;
+
+        public IEnumerable<string> AddMovies {get; set;} = new List<string>{};
+
     }
 }

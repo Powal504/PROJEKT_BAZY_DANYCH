@@ -14,7 +14,7 @@ namespace api.Mappers
             return new Movie_Movie_Catalog
             {
                 Movie_Catalog_id = addToCatalogDto.Movie_Catalog_id,
-                Movie_id = addToCatalogDto.Movie_id
+
                 
 
             };
