@@ -15,7 +15,9 @@
     border-bottom-right-radius: .3rem;
 }
 
-   
+.routetochange{
+    color: #3a2fba;
+}
 
 @media (min-width: 500px) {
     .gradient-form {
