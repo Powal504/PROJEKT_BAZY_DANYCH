@@ -30,7 +30,6 @@ namespace api.Controllers
 {
     [Route("api/userinfo")]
     [ApiController]
-    [Authorize]
     public class UserInfoController : ControllerBase
     {
         private readonly UserManager<Users> _userManager;
@@ -56,6 +55,14 @@ namespace api.Controllers
 
             var userInfoDto = appUser.ToDto();
             return Ok(userInfoDto);
+        }
+
+        [HttpGet("All")]
+         public async Task<IActionResult> GetAllUsers()
+        {
+            var users = await _context.Users.ToListAsync();
+            var userDtos = users.Select(user => user.ToDto()).ToList();
+            return Ok(userDtos);
         }
     }
 }
