@@ -30,7 +30,7 @@ function Films() {
             const data = await response.json();
             setMovies(data);
             setLoading(false);
-            console.log("pobbrane filmy:", movies)
+            console.log("pobbrane filmy:", data)
         }
         catch(error){
             setError(error.message);
@@ -40,6 +40,7 @@ function Films() {
 
     useEffect(()=> {
         fetchData();
+        console.log("Pobrabne filmy: ",movies);
     }, []);
 
     return (

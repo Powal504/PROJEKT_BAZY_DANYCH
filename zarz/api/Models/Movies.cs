@@ -13,7 +13,7 @@ namespace api.Models
         public string? Title { get; set; }
         public DateTime? Release_date { get; set; }
         public string? Description { get; set; }
-        public string? Avatar { get; set; }
+        public string? Avatar { get; set; }// na byte trzeba zmienic
         public ICollection<Genres_Movies> GenresMovies { get; set; } = new List<Genres_Movies>(); 
         public ICollection<Directors_Movies> DirectorsMovies { get; set; }= new List<Directors_Movies>();
         public ICollection<Movie_Production_Companies> MovieProductionCompanies { get; set; }= new List<Movie_Production_Companies>();
