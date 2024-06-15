@@ -9,11 +9,6 @@ body
     height: 600px;
     max-width: 100%;
 }
-.poster {
-    width: 200px;
-    height: 300px;
-    margin-right: 40px;
-}
 .content {
     display: flex;
     flex-direction: column;
@@ -36,7 +31,7 @@ body
 
 .title{
 color: white;
-margin-left: 18%;
+margin-left: 17%;
 margin-top: 40px;
 }
 

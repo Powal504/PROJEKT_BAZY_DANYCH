@@ -2,13 +2,12 @@ import React, { useState, useEffect } from "react";
 import styles from "./Reviews.module.css";
 import ReviewsBox from "../ReviewsBox/ReviewsBox";
 
-function Reviews() {
+function Reviews({ movie_id }) {
     const [rating, setRating] = useState(0);
     const [description, setDescription] = useState("");
     const [error, setError] = useState("");
     const [addSuccess, setAddSuccess] = useState(false);
     const token = localStorage.getItem('token')?.replace(/["']/g, ''); // Usunięcie cudzysłowów
-    const movie_id = 2;  // Przykładowy movie_id, powinien być dynamiczny
     const review_date = new Date().toISOString();  // Aktualna data w formacie ISO
     const date = "";
 
@@ -40,7 +39,7 @@ function Reviews() {
 
             console.log("Wysyłane dane:", reviewData);
 
-            const response = await fetch("http://localhost:5028/api/Reviews", {
+            const response = await fetch("http://157.230.113.110:5028/api/Reviews", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -68,7 +67,7 @@ function Reviews() {
         try {
             const token = localStorage.getItem('token')
             
-            const response = await fetch ('http://localhost:5028/api/userinfo/All',{
+            const response = await fetch ('http://157.230.113.110:5028/api/userinfo/All',{
                 methode: 'GET',
                 headers: {
                     "Content-Type": "application/json",

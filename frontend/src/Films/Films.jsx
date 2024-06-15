@@ -1,69 +1,82 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import styles from "./Films.module.css";
 import Reviews from "../Reviews/Reviews";
 import ReviewsBox from "../ReviewsBox/ReviewsBox";
-import { GlobalContext } from "../GlobalContext/GlobalContext";
-import { useState, useEffect } from "react";
+import { useLocation } from "react-router-dom";
 
 function Films() {
-
     const [error, setError] = useState(null);
     const [loading, setLoading] = useState(true);
-    const [movies, setMovies] = useState([]);
+    const [movie, setMovie] = useState(null);
+    
+    // Użycie useLocation do otrzymania movie_id
+    const location = useLocation();
+    const { movie_id } = location.state || {}; // Pobieranie movie_id z state
 
-    const fetchData = async () =>{
+    const fetchMovie = async () => {
         try {
             const token = localStorage.getItem('token');
             
-            const response = await fetch('http://localhost:5028/api/Movies', {
+            const response = await fetch(`http://157.230.113.110:5028/api/Movies/${movie_id}`, {
                 method: 'GET',
-                headers:{
-                    "Contet-Type": "application/json",
+                headers: {
+                    "Content-Type": "application/json",
                     "Authorization": `Bearer ${token}`
                 }
             });
 
-            if(!response.ok) {
+            if (!response.ok) {
                 throw new Error(`Network response was not ok: ${response.status} ${response.statusText}`);
             }
 
-            const data = await response.json();
-            setMovies(data);
+            const movieData = await response.json();
+            setMovie(movieData);
             setLoading(false);
-            console.log("pobbrane filmy:", data)
-        }
-        catch(error){
+            console.log("Pobrany film:", movieData);
+        } catch (error) {
             setError(error.message);
             setLoading(false);
         }
     }
 
-    useEffect(()=> {
-        fetchData();
-        console.log("Pobrabne filmy: ",movies);
-    }, []);
+    useEffect(() => {
+        if (movie_id) {
+            fetchMovie();
+        }
+    }, [movie_id]);
+
+    useEffect(() => {
+        console.log("Aktualne movie_id:", movie_id);
+    }, [movie_id]);
+
+    if (loading) {
+        return <div>Loading...</div>;
+    }
+
+    if (error) {
+        return <div>Error: {error}</div>;
+    }
 
     return (
         <div>
-            <h1 className={styles.title}>Tu będzie tytuł</h1>
+            <h1 className={styles.title}>{movie.title}</h1>
             <div className={styles.container}>
-                <img src='src/assets/Films.jpg' alt="Poster" className={styles.poster} />
+                <img src={movie.avatar || 'https://via.placeholder.com/150'} alt="Poster" style={{width:"200px", height:"auto", minHeight:"300px"}}/>
                 <div className={styles.content}>
                     <p className={styles.description}>
-                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Nemo, animi inventore! Delectus autem dolorem ex, qui dolorum provident veritatis minima incidunt a corrupti sapiente ea odit exercitationem, nisi iusto. Dicta.
+                        {movie.description}
                     </p>
                     <div className={styles.reviews_component}>
-                        <Reviews /> {/* Dodaj sekcję recenzji */}
+                        <Reviews movie_id={movie_id} /> {/* Przekazywanie movie_id jako prop */}
                     </div>
                 </div>
                 <div className={styles.Comments}></div>
-            </div>{/* Dodaj komponent ReviewsBox poniżej sekcji recenzji */}
+            </div>
             <div className={styles.reviewBox_container}>
-            <ReviewsBox />
+                <ReviewsBox movie_id={movie_id} /> {/* Przekazywanie movie_id jako prop */}
             </div>
         </div>
     );
 }
-
 
 export default Films;

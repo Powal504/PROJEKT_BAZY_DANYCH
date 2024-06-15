@@ -76,7 +76,7 @@ function Home() {
           />
           <Link to="/search" className={styles.searchButton} onClick={handleSearch}>
             <div className={styles.searchIcon}>
-              <FontAwesomeIcon icon={faSearch} />
+              <FontAwesomeIcon icon={faSearch}  />
             </div>
           </Link>
         </div>
@@ -88,15 +88,21 @@ function Home() {
           {searchResults.map((movie) => (
             <div className="col-md-4 mb-4" key={movie.movie_id}>
               <div className="card h-100 w-5">
-                <img
-                  className="card-img-top"
-                  src={movie.avatar || 'https://via.placeholder.com/150'}
-                  alt={movie.title}
-                  style={{ objectFit: 'contain', height: '286px' }} // Используем object-fit для заполнения всей верхней части
+              <Link to={{
+                pathname: "/Films",
+                  state: { movie_id: movie.movie_id }
+                }}>
+                 <img
+                    className="card-img-top"
+                    src={movie.avatar || 'https://via.placeholder.com/150'}
+                    alt={movie.title}
+                   style={{ objectFit: 'contain', height: '286px' }}
                 />
+              </Link>
+
                 <div className="card-body" style={{ maxHeight: '400px', overflowY: 'auto' }}>
                   <h5 className="card-title" style={{ fontSize: '2rem' }}>{movie.title}</h5>
-                  <p className="card-text" style={{ fontSize: '1rem' }}>{movie.description || 'No description available'}</p>
+                  <p className="card-text" style={{ fontSize: '1rem' }}></p>
                 </div>
               </div>
             </div>
