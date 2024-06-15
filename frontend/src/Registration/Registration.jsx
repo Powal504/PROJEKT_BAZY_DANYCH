@@ -33,7 +33,7 @@ function Registration() {
         birth_date: convertDateFormat(formData.birth_date),
       };
 
-      const response = await fetch("http://localhost:5028/api/Registration/RegistrationPOST", {
+      const response = await fetch("http://157.230.113.110:5028/api/Registration/RegistrationPOST", {
         method: "POST",
         headers: {
           "Content-Type": "application/json"
@@ -120,7 +120,7 @@ function Registration() {
                   </Link>                           
                   </div>
                   {error && <div className="alert alert-danger mt-4" role="alert">{error}</div>}
-                  {registrationSuccess && <div className="alert alert-success mt-4" role="alert">Registration successful!</div>}
+                  {registrationSuccess && <div className="alert alert-success mt-4" role="alert">Registration successful! Check your email</div>}
 
                 </form>
               </div>
