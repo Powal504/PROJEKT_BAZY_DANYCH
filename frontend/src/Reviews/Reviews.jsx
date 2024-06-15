@@ -68,7 +68,7 @@ function Reviews() {
         try {
             const token = localStorage.getItem('token')
             
-            const response = await fetch ('http://localhost:5028/api/userinfo',{
+            const response = await fetch ('http://localhost:5028/api/userinfo/All',{
                 methode: 'GET',
                 headers: {
                     "Content-Type": "application/json",
@@ -82,7 +82,7 @@ function Reviews() {
             const data = await response.json();
             setUser(data);
             setLoadingFetch(false);
-            console.log('uzytkownik: ', data);
+            console.log('uzytkownicy: ', data);
         }
         catch (error) {
             setError(error.message);

@@ -14,18 +14,20 @@ import {
 function ReviewsBox() {
   const [reviews, setReviews] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [loadingUsers, setLoadingUsers] = useState(true);
   const [error, setError] = useState(null);
+  const [users, setUsers] = useState([]);
 
   // Funkcja pobierająca recenzje z API
-  const fetchData = async () => {
+  const fetchReviews = async () => {
     try {
       const token = localStorage.getItem('token');
 
-      const response = await fetch('http://localhost:5028/api/Reviews/movie/2', {
+      const response = await fetch('http://localhost:5028/api/Reviews/movie/2', {////////////// Dynamiczna zmiana id potrzebna/////////////
         method: 'GET',
         headers: {
           "Content-Type": "application/json",
-          "Authorization": `Bearer ${token}`  // Dodaj nagłówek autoryzacyjny
+          "Authorization": `Bearer ${token}`
         }
       });
 
@@ -34,7 +36,6 @@ function ReviewsBox() {
       }
 
       const data = await response.json();
-
       setReviews(data.reverse());
       setLoading(false);
       console.log("Pobrane recenzje: ", data);
@@ -45,19 +46,54 @@ function ReviewsBox() {
     }
   };
 
-  // useEffect, który wywołuje fetchData przy pierwszym renderze komponentu
+  const fetchUsers = async () => {
+    try {
+      const token = localStorage.getItem('token');
+
+      const response = await fetch('http://localhost:5028/api/userinfo/All', {
+        method: 'GET',
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${token}`
+        }
+      });
+
+      if (!response.ok) {
+        throw new Error(`Network response was not ok: ${response.status} ${response.statusText}`);
+      }
+
+      const data = await response.json();
+      setUsers(data);
+      setLoadingUsers(false);
+      console.log('Pobrani użytkownicy: ', data);
+
+    } catch (error) {
+      setError(error.message);
+      setLoadingUsers(false);
+    }
+  };
+
   useEffect(() => {
-    fetchData();
+    fetchUsers();
   }, []);
+
+  useEffect(() => {
+    fetchReviews();
+  }, []);
+
+  const getUsernameById = (userId) => {
+    const user = users.find(u => u.id === userId);
+    return user ? user.userName : "Nieznany użytkownik";
+  };
 
   return (
     <section style={{ backgroundColor: "white" }}>
       <MDBContainer className="py-5" style={{ maxWidth: "1000px", maxHeight: "600px", overflow: "auto" }}>
         <MDBRow className="justify-content-center">
-          {loading ? (
-            <p>Loading...</p>
+          {loading || loadingUsers ? (
+            <p>Ładowanie...</p>
           ) : error ? (
-            <p>Error: {error}</p>
+            <p>Błąd: {error}</p>
           ) : (
             reviews.map((review) => (
               <MDBCol key={review.id} md="12" lg="10">
@@ -69,7 +105,6 @@ function ReviewsBox() {
                     <p className="fw-light mb-4 pb-2">
                       {review.description}
                     </p>
-  
                     <div className="d-flex flex-start align-items-center mb-3">
                       <MDBCardImage
                         className="rounded-circle shadow-1-strong me-3"
@@ -78,9 +113,9 @@ function ReviewsBox() {
                         style={{ width: "50px", height: "50px" }}
                       />
                       <MDBTypography tag="h6" className="fw-bold mb-1">
-                        {review.username} dał ocenę: {review.review_mark}
+                        {getUsernameById(review.userId)} dał ocenę: {review.review_mark}
                       </MDBTypography>
-                      <div className="d-flex align-items-center">
+                      <div className="d-flex align-items-center" style={{marginLeft: "10px", textAlign: "justify"}}>
                         <p className="mb-0">
                           {review.review_date}
                           <span className={`badge bg-${review.status === 'Approved' ? 'success' : review.status === 'Pending' ? 'primary' : 'danger'}`}>

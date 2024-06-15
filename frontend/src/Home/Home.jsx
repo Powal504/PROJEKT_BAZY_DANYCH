@@ -15,6 +15,9 @@ function Home() {
   const [searchTerm, setSearchTerm] = useState("");
   const { setMovieNameGlobal } = useContext(GlobalContext);
 
+  const [loadingFetch, setLoadingFetch] = useState(true);
+  const [errorFetch, setErrorFetch] = useState(null);
+
   useEffect(() => {
     const getMovies = async () => {
       try {
@@ -82,7 +85,12 @@ function Home() {
             <div key={movie.movie_id} className={styles.movieItem}>
               <p className={styles.name}>{movie.title}</p>
               <Link to="/Films">
-                <img src='src/assets/maska.jpg' alt="maska" className={styles.avatar} onClick={handleGlobalName}/>
+                <img
+                  src={`src/assets/${movie.title.toLowerCase()}.png`} // Dynamiczna ścieżka na podstawie tytułu filmu
+                  alt={movie.title}
+                  className={styles.avatar}
+                  onClick={() => handleGlobalName(movie.title)} // Przekazanie nazwy filmu do funkcji
+                />
               </Link>
             </div>
           ))}

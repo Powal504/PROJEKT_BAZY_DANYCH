@@ -95,7 +95,7 @@ public async Task<IActionResult> ConfirmEmail(string userId, string code)
 if (result.Succeeded)
 {
     var localhostUrl = "http://localhost:5173/login"; // Replace with your actual localhost URL
-    return Ok($"Thank you for confirming your email. You can now copy "{localhostUrl}".");
+    return Ok($"Thank you for confirming your email. You can now copy \"{localhostUrl}\".");
 }
     else
     {
@@ -186,7 +186,7 @@ if (result.Succeeded)
             int day = (date[0] - '0') * 10 + date[1] - '0';
             if (month == 0 || month > 12) return false;
 
-            int[] NumberOfDays = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
+            int[] NumberOfDays = { 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 };
             if (month == 2 && (year % 400 == 0 || (year % 100 != 0 && year % 4 == 0))) NumberOfDays[1] = 29;
             if (day > NumberOfDays[month - 1] || day == 0) return false;
 
