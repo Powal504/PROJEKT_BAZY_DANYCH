@@ -95,7 +95,7 @@ public async Task<IActionResult> ConfirmEmail(string userId, string code)
 if (result.Succeeded)
 {
     var localhostUrl = "http://localhost:5173/login"; // Replace with your actual localhost URL
-    return Ok($"Thank you for confirming your email. You can now copy "{localhostUrl}".");
+    return Ok($"Thank you for confirming your email. You can now copy \"{localhostUrl}\".");
 }
     else
     {

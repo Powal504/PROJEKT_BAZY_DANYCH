@@ -1,5 +1,5 @@
 import React, { useState, useContext } from "react";
-import { BrowserRouter as Router, Route, Switch, Link } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import styles from './Login.module.css';
 import { GlobalContext } from '../GlobalContext/GlobalContext';
 
@@ -7,9 +7,7 @@ function Login() {
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
     const [error, setError] = useState("");
-    const [loginSuccess, setLoginSuccess] = useState(false);
-    const { setIsUserLogged } = useContext(GlobalContext);
-    const { setUsernameGlobal } = useContext(GlobalContext);
+    const { setIsUserLogged, setUsernameGlobal } = useContext(GlobalContext);
 
     function handleUsername(event) {
         setUsername(event.target.value);
@@ -38,22 +36,18 @@ function Login() {
             const responseData = await response.json();
 
             if (response.ok) {
-                setLoginSuccess(true);
-                setError("");   
                 setIsUserLogged(1);
                 setUsernameGlobal(username);
+                setError("");   
                 console.log("Logowanie udane!", responseData);
-                console.log(responseData.token)
                 localStorage.setItem('token', responseData.token);
 
             } else {
-                setLoginSuccess(false);
                 setError(responseData || "Wystąpił nieznany błąd!");
                 console.error(responseData);
             }
         } catch (error) {
             console.error("Wystąpił problem z logowaniem!", error.message);
-            setLoginSuccess(false);
             setError("Wystąpił problem z logowaniem!");
         }
     }
@@ -71,6 +65,7 @@ function Login() {
                                             <img src='src\assets\logo.png' style={{ width: '100px', height: '100px'}} alt="logo" />
                                             <h4 className="mt-1 mb-5 pb-1">Zaloguj się</h4>
                                         </div>
+                                        {error && <div className="alert alert-danger">{error}</div>}
                                         <form onSubmit={handleSubmit}>
                                             <div className="form-outline mb-4 w-100">
                                                 <input
@@ -94,13 +89,12 @@ function Login() {
                                             </div>
                                             <div className="text-center pt-1 mb-5 pb-1">
                                                 <button
-                                                    data-mdb-button-init
-                                                    data-mdb-ripple-init
                                                     className={`btn btn-primary btn-block fa-lg gradient-custom-2 mb-3 ${styles.loginbutton}`}
                                                     type="submit">
                                                     Zaloguj
-                                                </button><br></br>
-                                                <Link className ={styles.routetochange}to="/Forget_password">Zapomniałeś hasła?</Link>
+                                                </button>
+                                                <br></br>
+                                                <Link className={styles.routetochange} to="/Forget_password">Zapomniałeś hasła?</Link>
                                             </div>
                                             <div className="d-flex align-items-center justify-content-center pb-4">
                                                 <p className="mb-0 me-2">Nie masz konta?</p>
@@ -115,7 +109,7 @@ function Login() {
                                     <div className="text-white px-3 py-4 p-md-5 mx-md-4">
                                         <h4 className="mb-4">Baza filmów</h4>
                                         <p className={`mb-0 ${styles.prefer}`}>
-                                           Odkryj świat rozrywki dzięki naszej obszernej kolekcji filmów różnych gatunków i epok. Nasza platforma została zaprojektowana tak, aby zapewnić płynne i przyjemne doświadczenie dla wszystkich miłośników kina. 
+                                            Odkryj świat rozrywki dzięki naszej obszernej kolekcji filmów różnych gatunków i epok. Nasza platforma została zaprojektowana tak, aby zapewnić płynne i przyjemne doświadczenie dla wszystkich miłośników kina. 
                                         </p>
                                     </div>
                                 </div>
