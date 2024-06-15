@@ -63,7 +63,7 @@ export const fetchUserCatalogs = async () => {
 };
 export const searchMoviesByTitle = async (title) => {
   try {
-    const response = await fetch(`http://localhost:5028/api/Movies/searchTitle/${title}`);
+    const response = await fetch(`http://157.230.113.110/:5028/api/Movies/searchTitle/${title}`);
     if (!response.ok) {
       throw new Error("Network response was not ok");
     }

@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
-import styles from './Search.module.css';
+import { useParams } from "react-router-dom";
+import styles from './search.module.css';
 import { searchMoviesByTitle } from '../services/apiService'; // Importuj funkcję do wyszukiwania filmów
 
 function Search() {

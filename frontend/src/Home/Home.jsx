@@ -1,6 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
-import styles from './Home.module.css';
-import { fetchMoviesWithImages, fetchUserCatalogs } from '../services/apiService';
+import styles from './Home.module.css'; // Предполагается, что в этом файле заданы стили для компонента
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSearch } from '@fortawesome/free-solid-svg-icons';
@@ -13,16 +12,17 @@ function Home() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const [searchTerm, setSearchTerm] = useState("");
+  const [category, setCategory] = useState('');
+  const [searchResults, setSearchResults] = useState([]);
   const { setMovieNameGlobal } = useContext(GlobalContext);
-
-  const [loadingFetch, setLoadingFetch] = useState(true);
-  const [errorFetch, setErrorFetch] = useState(null);
 
   useEffect(() => {
     const getMovies = async () => {
       try {
-        const moviesData = await fetchMoviesWithImages();
+        const response = await fetch('http://157.230.113.110:5028/api/Movies');
+        const moviesData = await response.json();
         setMovies(moviesData);
+        setSearchResults(moviesData); // Set search results initially to all movies
         setLoading(false);
       } catch (error) {
         setError("Error fetching movies.");
@@ -32,6 +32,7 @@ function Home() {
 
     const getCatalogs = async () => {
       try {
+        // Assuming fetchUserCatalogs() is a function that fetches catalogs
         const catalogsData = await fetchUserCatalogs();
         setCatalogs(catalogsData);
       } catch (error) {
@@ -44,22 +45,24 @@ function Home() {
   }, []);
 
   const handleSearch = () => {
-    console.log(searchTerm);
     if (!searchTerm.trim()) {
-      getMovies();
+      setSearchResults(movies);
     } else {
-      // Handle search functionality
+      const filteredMovies = movies.filter((movie) => {
+        const titleMatch = movie.title.toLowerCase().includes(searchTerm.toLowerCase());
+        const categoryMatch = category ? movie.categories.includes(category) : true;
+        return titleMatch && categoryMatch;
+      });
+      setSearchResults(filteredMovies);
     }
   };
-
-  if (error) {
-    return <div>{error}</div>;
-  }
 
   const handleGlobalName = (movieTitle) => {
     setMovieNameGlobal(movieTitle);
     console.log("Nazwa filmu globalnie ustawiona na:", movieTitle);
   };
+
+  const categories = [...new Set(movies.map((movie) => movie.categories).flat())];
 
   return (
     <>
@@ -78,38 +81,24 @@ function Home() {
           </Link>
         </div>
       </div>
+
       <div className={styles.home}>
         <p>Wszystkie filmy</p>
-        <div className={styles.categories}>
-          {movies.map((movie) => (
-            <div key={movie.movie_id} className={styles.movieItem}>
-              <p className={styles.name}>{movie.title}</p>
-              <Link to="/Films">
+        <div className="row">
+          {searchResults.map((movie) => (
+            <div className="col-md-4 mb-4" key={movie.movie_id}>
+              <div className="card h-100 w-5">
                 <img
-                  src={`src/assets/${movie.title.toLowerCase()}.png`} // Dynamiczna ścieżka na podstawie tytułu filmu
+                  className="card-img-top"
+                  src={movie.avatar || 'https://via.placeholder.com/150'}
                   alt={movie.title}
-                  className={styles.avatar}
-                  onClick={() => handleGlobalName(movie.title)} // Przekazanie nazwy filmu do funkcji
+                  style={{ objectFit: 'contain', height: '286px' }} // Используем object-fit для заполнения всей верхней части
                 />
-              </Link>
-            </div>
-          ))}
-        </div>
-        <p className={styles.katalogs}>Katalogi:</p>
-        <div className={styles.catalogsContainer}>
-          {catalogs.map((catalog) => (
-            <div key={catalog.id} className={styles.catalogItem}>
-              <p className={styles.catalogTitle}>{catalog.catalog_name}</p>
-              <ul>
-                {catalog.movies?.map((movieId) => {
-                  const movie = movies.find((m) => m.id === movieId);
-                  return (
-                    <li key={movieId}>
-                      {movie ? movie.title : "Unknown"}
-                    </li>
-                  );
-                })}
-              </ul>
+                <div className="card-body" style={{ maxHeight: '400px', overflowY: 'auto' }}>
+                  <h5 className="card-title" style={{ fontSize: '2rem' }}>{movie.title}</h5>
+                  <p className="card-text" style={{ fontSize: '1rem' }}>{movie.description || 'No description available'}</p>
+                </div>
+              </div>
             </div>
           ))}
         </div>

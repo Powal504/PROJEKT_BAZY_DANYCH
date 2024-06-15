@@ -24,7 +24,7 @@ function App() {
             <Switch>
             <Route exact path="/"> <Home/> </Route>
             <Route exact path="/registration"> <Registration/></Route>
-            <Route exact path="/login"> <Login/></Route>
+            <Route exact path="/Login"> <Login/></Route>
             <Route exact path="/Movie_Add"> <Movie_Add/></Route>
             <Route exact path="/Forget_password"> <Forget_password/></Route>
             <Route exact path="/Films"> <Films/></Route>
