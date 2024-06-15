@@ -25,7 +25,7 @@ function Login() {
                 password: password
             };
 
-            const response = await fetch("http://localhost:5028/api/Login/LoginPost", {
+            const response = await fetch("http://157.230.113.110:5028/api/Login/LoginPost", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json"

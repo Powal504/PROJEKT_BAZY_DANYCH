@@ -59,7 +59,7 @@ function Movie_Add() {
         };
     
         try {
-            const response = await fetch("http://localhost:5028/api/Movies", {
+            const response = await fetch("http://157.230.113.110:5028/api/Movies", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json"
@@ -89,7 +89,7 @@ function Movie_Add() {
         formData.append("image", poster);
     
         try {
-            const response = await fetch("http://localhost:5028/api/LoadImage", {
+            const response = await fetch("http://157.230.113.110:5028/api/LoadImage", {
                 method: "POST",
                 body: formData
             });
