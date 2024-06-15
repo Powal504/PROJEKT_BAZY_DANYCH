@@ -1,12 +1,16 @@
-.lists{
-    color: white;
+.lists {
+  width: 100%;
+  max-width: 400px; /* Przykładowa maksymalna szerokość */
+  margin: auto; /* Centrowanie w poziomie */
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  text-align: center;
+  background-color: white;
 }
-  .movieList {
-    list-style-type: none;
-    padding: 0;
-  }
-  
-  .movieItem {
-    margin: 5px 0;
-  }
-  
+
+.addlists {
+  background-color: #3a2fba !important; /* Kolor przycisku */
+  margin-top: 15px; /* Odstęp od inputu */
+  font-size: 16px; /* Rozmiar czcionki */
+}

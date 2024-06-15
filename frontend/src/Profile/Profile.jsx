@@ -1,8 +1,9 @@
 import React, { useContext, useState, useEffect } from 'react';
 import styles from './Profile.module.css';
 import { GlobalContext } from '../GlobalContext/GlobalContext';
+import Lists from '../Lists/Lists';
 
-function Profile() {
+function Profile({ showBackground }) {
     const { isUserLogged, usernameGlobal } = useContext(GlobalContext);
     const [userData, setUserData] = useState(null);
     const [loading, setLoading] = useState(true);
@@ -56,14 +57,7 @@ function Profile() {
                         </div>
                     </div>
                     <div className={`card mb-4 mb-lg-0 ${styles.cre}`}>
-                        <div className={styles.cre}>
-                            <h3>Stwórz listę:</h3>
-                            <hr />
-                            <div className="form-group">
-                                <label htmlFor="nazwaListy" className="mb-1">Nazwa listy:</label>
-                                <input type="text" className="form-control" id="nazwaListy" placeholder="Nazwa listy" />
-                            </div>
-                        </div>
+                        <Lists></Lists>
                     </div>
                 </div>
                 <div className="col-lg-8">

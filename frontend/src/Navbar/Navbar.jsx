@@ -20,7 +20,7 @@ function Navbar() {
       </div>
       <div className={styles.rightContainer}>
         <div className={styles.linkContainer}>
-          {isUserLogged === 1 && <Link to="Lists" className={styles.homeLink}>Stwórz listę</Link>}
+          {isUserLogged === 1 && <Link to="Lists" className={styles.registerLink}>Stwórz listę</Link>}
           {!isUserLogged && (
             <>
               <Link to="/registration" className={styles.registerLink}>Zarejestruj</Link>
@@ -30,7 +30,7 @@ function Navbar() {
           <Link to="Films" className={styles.homeLink}>Film</Link>
           {isUserLogged === 1 &&  <Link to="profile"><img src='src\assets\avatar.png' alt="Avatar" className={styles.avatar} /></Link>}
           {isUserLogged === 1 && <p className={styles.nazwaUzytkownika}>{usernameGlobal}</p>}
-          {isUserLogged === 1 && <button className={styles.registerLink} onClick={handleLogout}>Wyloguj się</button>}
+          {isUserLogged === 1 && <button className={styles.registerLink}  onClick={handleLogout}>Wyloguj się</button>}
         </div>
       </div>
     </nav>

@@ -2,7 +2,6 @@ import React from 'react';
 import Registration from './Registration/Registration';
 import Home from './Home/Home';
 import Login from './Login/Login';
-
 import Navbar from './Navbar/Navbar';
 import Movie_Add from './Movie_Add/Movie_Add'
 import Forget_password from './Forget_password/Forget_password';

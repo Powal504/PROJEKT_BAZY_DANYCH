@@ -3,29 +3,38 @@ import styles from './Lists.module.css';
 import { fetchMovies } from '../services/apiService'; // Import the fetchMovies function
 
 const Lists = () => {
-  const [catalogName, setCatalogName] = useState(""); // State to manage the catalog name
-  const [error, setError] = useState(""); // State to manage errors
-  const [addSuccess, setAddSuccess] = useState(false); // State to manage success message
-  const [userCatalogs, setUserCatalogs] = useState([]); // State to manage user's catalogs
-  const [selectedCatalogId, setSelectedCatalogId] = useState(null); // State to manage selected catalog ID for each list
-  const [movies, setMovies] = useState([]); // State to manage movies
+  const [catalogName, setCatalogName] = useState("");
+  const [error, setError] = useState("");
+  const [addSuccess, setAddSuccess] = useState(false);
+  const [userCatalogs, setUserCatalogs] = useState([]);
+  const [selectedCatalogId, setSelectedCatalogId] = useState(null);
+  const [movies, setMovies] = useState([]);
   const token = localStorage.getItem('token')?.replace(/["']/g, '');
 
-  // Fetch user's catalogs and movies from the server
+  useEffect(() => {
+    fetchData();
+  }, []);
+
   const fetchData = async () => {
     try {
-      const catalogsResponse = await fetch('http://localhost:5028/api/catalogs', {
+      const catalogsResponse = await fetch('http://157.230.113.110:5028/api/catalogs', {
         headers: {
-          'Authorization': `Bearer ${token}` 
+          'Authorization': `Bearer ${token}`
         }
       });
 
-      const moviesResponse = await fetchMovies();
+      const moviesData = await fetchMovies(); // Assuming fetchMovies returns the array of movies
 
-      if (catalogsResponse.ok && moviesResponse) {
+      if (catalogsResponse.ok && moviesData) {
         const catalogsData = await catalogsResponse.json();
-        const moviesData = moviesResponse;
-        setUserCatalogs(catalogsData);
+
+        // Map through catalogsData and add a list of predefined movies for each new catalog
+        const catalogsWithMovies = catalogsData.map(catalog => ({
+          ...catalog,
+          movies: catalog.addMovies || [] // Assuming addMovies is an array of movie titles
+        }));
+
+        setUserCatalogs(catalogsWithMovies);
         setMovies(moviesData);
       } else {
         setError('Failed to fetch data');
@@ -36,34 +45,28 @@ const Lists = () => {
     }
   };
 
-  useEffect(() => {
-    fetchData();
-  }, []); // Empty dependency array ensures this effect runs only once
-
-  // Function to handle adding catalogs
   const handleAddToCatalog = async (e) => {
-    e.preventDefault(); // Prevent default form submission behavior
-    
+    e.preventDefault();
+
     const data = {
-      catalog_name: catalogName
+      catalog_name: catalogName,
+      addMovies: ["Avatar"] // Example of adding movies when creating a catalog
     };
 
     try {
-      const response = await fetch('http://localhost:5028/api/catalogs/CreateCatalog', {
+      const response = await fetch('http://157.230.113.110:5028/api/catalogs/CreateCatalog', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}` 
+          'Authorization': `Bearer ${token}`
         },
         body: JSON.stringify(data)
       });
-      
+
       if (response.ok) {
         setAddSuccess(true);
-        setCatalogName(""); // Clear input field after successful addition
-        console.log('Catalog added successfully');
-        // Reload user's catalogs after successful addition
-        fetchData();
+        setCatalogName("");
+        fetchData(); // Refresh catalogs after addition
       } else {
         const errorText = await response.text();
         setError(errorText || 'Failed to add catalog');
@@ -74,19 +77,16 @@ const Lists = () => {
     }
   };
 
-  // Function to handle catalog name change
   const handleCatalogNameChange = (event) => {
     setCatalogName(event.target.value);
   };
 
-  // Function to toggle movie list visibility for a specific catalog
   const toggleMovieList = (catalogId) => {
-    setSelectedCatalogId(catalogId === selectedCatalogId ? null : catalogId);
+    setSelectedCatalogId(selectedCatalogId === catalogId ? null : catalogId);
   };
 
-  // Function to handle adding movies to a catalog
   const handleAddMovieToCatalog = (movieId) => {
-    // Logic to add movie to the catalog goes here
+    // Implement logic to add movie to catalog based on selectedCatalogId
     console.log(`Movie ${movieId} added to catalog ${selectedCatalogId}`);
   };
 
@@ -106,22 +106,22 @@ const Lists = () => {
       {addSuccess && <p className={styles.success}>Katalog dodany pomyślnie!</p>}
       <p>Twoje katalogi:</p>
       <div className={styles.catalogsContainer}>
-        {userCatalogs.map((catalog, index) => (
-          <div key={index} className={styles.catalogItem}>
+        {userCatalogs.map((catalog) => (
+          <div key={catalog.id} className={styles.catalogItem}>
             <p>{catalog.catalog_name}</p>
             <button onClick={() => toggleMovieList(catalog.id)}>Pokaż filmy</button>
             {selectedCatalogId === catalog.id && (
               <div>
                 <p>Lista filmów:</p>
                 <ul>
-                  {movies.map((movie, index) => (
-                    <li key={movie.id}>
+                  {catalog.movies.map((movieTitle, index) => (
+                    <li key={index}>
                       <input type="checkbox" id={`movie_${index}`} />
-                      <label htmlFor={`movie_${index}`}>{movie.title}</label>
+                      <label htmlFor={`movie_${index}`}>{movieTitle}</label>
+                      <button onClick={() => handleAddMovieToCatalog(movieTitle)}>Dodaj film</button>
                     </li>
                   ))}
                 </ul>
-                <button onClick={() => handleAddMovieToCatalog(movie.id)}>Dodaj film</button>
               </div>
             )}
           </div>
@@ -129,6 +129,6 @@ const Lists = () => {
       </div>
     </div>
   );
-}
+};
 
 export default Lists;

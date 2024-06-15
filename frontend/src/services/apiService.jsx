@@ -1,6 +1,6 @@
 export const fetchMovies = async () => {
   try {
-    const response = await fetch("http://localhost:5028/api/Movies");
+    const response = await fetch("http://157.230.113.110:5028/api/Movies");
     if (!response.ok) {
       throw new Error("Network response was not ok");
     }
@@ -17,7 +17,7 @@ export const fetchMoviesWithImages = async () => {
     const movies = await fetchMovies();
     const moviesWithImages = await Promise.all(movies.map(async (movie) => {
       if (movie.fileName) {
-        const imageResponse = await fetch(`http://localhost:5028/api/LoadImage/${movie.fileName}`);
+        const imageResponse = await fetch(`http://157.230.113.110:5028/api/LoadImage/${movie.fileName}`);
         if (!imageResponse.ok) {
           throw new Error("Network response was not ok");
         }
@@ -37,7 +37,7 @@ export const fetchMoviesWithImages = async () => {
 
 export const fetchMovieById = async (id) => {
   try {
-    const response = await fetch(`http://localhost:5028/api/Movies/${id}`);
+    const response = await fetch(`http://157.230.113.110:5028/api/Movies/${id}`);
     if (!response.ok) {
       throw new Error("Network response was not ok");
     }
@@ -50,7 +50,7 @@ export const fetchMovieById = async (id) => {
 };
 export const fetchUserCatalogs = async () => {
   const token = localStorage.getItem('token')?.replace(/["']/g, '');
-  const response = await fetch('http://localhost:5028/api/catalogs', {
+  const response = await fetch('http://157.230.113.110:5028/api/catalogs', {
     headers: {
       'Authorization': `Bearer ${token}`
     }

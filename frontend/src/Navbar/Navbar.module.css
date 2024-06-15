@@ -68,6 +68,8 @@ body {
   padding-right:5px;
   justify-content: center;
   transform: scale(1);
+  text-align: center !important;
+  
 }
 
 .avatar {
