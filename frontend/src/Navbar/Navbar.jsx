@@ -32,7 +32,7 @@ function Navbar() {
             </>
           )}
           <Link to="Films" className={styles.homeLink}>Film</Link>
-          {isAuthenticated &&  <Link to="profile"><img src='src\assets\avatar.png' alt="Avatar" className={styles.avatar} /></Link>}
+          {isAuthenticated &&  <Link to="profile"><img src='src\assets\avatar.jpg' alt="Avatar" className={styles.avatar} /></Link>}
           {isAuthenticated && <p className={styles.nazwaUzytkownika}>{usernameGlobal}</p>}
           {isAuthenticated && <button className={styles.registerLink}  onClick={handleLogout}>Wyloguj się</button>}
         </div>

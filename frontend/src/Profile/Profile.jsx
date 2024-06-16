@@ -47,7 +47,7 @@ function Profile({ showBackground }) {
                 <div className="col-lg-4">
                     <div className="card mb-4">
                         <div className="card-body text-center">
-                            <img src='src/assets/avatar.png' alt="avatar" className="rounded-circle img-fluid" style={{ width: '100px' }} />
+                            <img src='src/assets/avatar.jpg' alt="avatar" className="rounded-circle img-fluid" style={{ width: '100px' }} />
                             <h5 className="my-3">
                                 {isUserLogged === 1 && <p className={styles.nazwaUzytkownika}>{usernameGlobal}</p>}
                             </h5>
