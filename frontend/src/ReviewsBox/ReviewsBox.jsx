@@ -120,7 +120,7 @@ function ReviewsBox({ movie_id }) {
                       style={{ width: "50px", height: "50px" }}
                     />
                     <MDBTypography tag="h6" className="fw-bold mb-1">
-                      {getUsernameById(review.userId)} dał ocenę: {review.review_mark} gwiazdek
+                      {getUsernameById(review.userId)} dał filmowi ocenę : {review.review_mark}
                     </MDBTypography>
                     <div className="d-flex align-items-center" style={{marginLeft: "10px", textAlign: "justify"}}>
                       <p className="mb-0">
