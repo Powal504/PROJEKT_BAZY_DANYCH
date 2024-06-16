@@ -66,6 +66,27 @@ namespace api.Controllers
 
             return Ok(userCatalogs);
         }
+
+
+        [Authorize]
+        [AllowAnonymous]
+        [HttpGet("All Catalogs")]
+        public async Task<IActionResult> GetAllCatalogs()
+        {
+            var Catalogs = await _context.Movie_Catalog
+                .Select(c=>new 
+                {
+                    c.Catalog_name,
+                    c.Movie_catalog_id,
+                    c.MovieMovieCatalogs,
+                }).ToListAsync();
+
+            return Ok(Catalogs);
+        }
+
+ 
+
+
         [Authorize]
         [HttpPost("CreateCatalog")]
         public async Task<IActionResult> CreateUserCatalog([FromBody] CreateMovie_CatalogDto newCatalogDto)
@@ -110,9 +131,9 @@ namespace api.Controllers
                 if (movi == null) continue;
 
                 var added = new Movie_Movie_Catalog();
-                added.Movie = _context.Movies.FirstOrDefault(c => c.Movie_id == movi.Movie_id);
+                added.Movie = movi;
                 added.Movie_id = movi.Movie_id;
-                added.Movie_Catalog = _context.Movie_Catalog.FirstOrDefault(c => c.Movie_catalog_id == id);
+                added.Movie_Catalog = catalog;
                 added.Movie_Catalog_id = id;
 
                 await _context.Movie_Movie_Catalog.AddAsync(added);
