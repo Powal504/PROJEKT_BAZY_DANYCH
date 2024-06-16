@@ -1,5 +1,5 @@
 import React, { useState, useContext } from "react";
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import styles from './Login.module.css';
 import { GlobalContext } from '../GlobalContext/GlobalContext';
 
@@ -7,7 +7,9 @@ function Login() {
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
     const [error, setError] = useState("");
+    const [loginSuccess, setLoginSuccess] = useState(false); // Dodaj stan na sukces logowania
     const { setIsUserLogged, setUsernameGlobal } = useContext(GlobalContext);
+    const history = useHistory(); // Inicjalizacja useHistory
 
     function handleUsername(event) {
         setUsername(event.target.value);
@@ -39,9 +41,9 @@ function Login() {
                 setIsUserLogged(1);
                 setUsernameGlobal(username);
                 setError("");   
-                console.log("Logowanie udane!", responseData);
+                setLoginSuccess(true); // Ustawienie sukcesu logowania
                 localStorage.setItem('token', responseData.token);
-
+                history.push('/'); // Przekierowanie do strony głównej lub innej odpowiedniej ścieżki
             } else {
                 setError(responseData || "Wystąpił nieznany błąd!");
                 console.error(responseData);
@@ -66,6 +68,7 @@ function Login() {
                                             <h4 className="mt-1 mb-5 pb-1">Zaloguj się</h4>
                                         </div>
                                         {error && <div className="alert alert-danger">{error}</div>}
+                                        {loginSuccess && <div className="alert alert-success mt-4" role="alert">Zalogowano pomyślnie!</div>} {/* Komunikat sukcesu */}
                                         <form onSubmit={handleSubmit}>
                                             <div className="form-outline mb-4 w-100">
                                                 <input

@@ -3,131 +3,119 @@ import styles from './Lists.module.css';
 import { fetchMovies } from '../services/apiService'; // Import the fetchMovies function
 
 const Lists = () => {
+  const [movies, setMovies] = useState([]);
+  const [selectedMovies, setSelectedMovies] = useState([]);
   const [catalogName, setCatalogName] = useState("");
   const [error, setError] = useState("");
-  const [addSuccess, setAddSuccess] = useState(false);
-  const [userCatalogs, setUserCatalogs] = useState([]);
-  const [selectedCatalogId, setSelectedCatalogId] = useState(null);
-  const [movies, setMovies] = useState([]);
-  const token = localStorage.getItem('token')?.replace(/["']/g, '');
+  const [loading, setLoading] = useState(false);
+  const token = localStorage.getItem('token');
 
   useEffect(() => {
-    fetchData();
-  }, []);
-
-  const fetchData = async () => {
-    try {
-      const catalogsResponse = await fetch('http://157.230.113.110:5028/api/catalogs', {
-        headers: {
-          'Authorization': `Bearer ${token}`
-        }
-      });
-
-      const moviesData = await fetchMovies(); // Assuming fetchMovies returns the array of movies
-
-      if (catalogsResponse.ok && moviesData) {
-        const catalogsData = await catalogsResponse.json();
-
-        // Map through catalogsData and add a list of predefined movies for each new catalog
-        const catalogsWithMovies = catalogsData.map(catalog => ({
-          ...catalog,
-          movies: catalog.addMovies || [] // Assuming addMovies is an array of movie titles
-        }));
-
-        setUserCatalogs(catalogsWithMovies);
+    const fetchMoviesData = async () => {
+      try {
+        const response = await fetch('http://157.230.113.110:5028/api/Movies');
+        const moviesData = await response.json();
         setMovies(moviesData);
-      } else {
-        setError('Failed to fetch data');
+      } catch (error) {
+        console.error('Error fetching movies:', error);
+        setError("Error fetching movies.");
       }
-    } catch (error) {
-      console.error('Error fetching data:', error);
-      setError('Error fetching data');
-    }
-  };
-
-  const handleAddToCatalog = async (e) => {
-    e.preventDefault();
-
-    const data = {
-      catalog_name: catalogName,
-      addMovies: ["Avatar"] // Example of adding movies when creating a catalog
     };
 
+    fetchMoviesData();
+  }, []);
+
+  const handleCheckboxChange = (movieId) => {
+    const updatedSelectedMovies = selectedMovies.includes(movieId)
+      ? selectedMovies.filter(id => id !== movieId)
+      : [...selectedMovies, movieId];
+
+    setSelectedMovies(updatedSelectedMovies);
+  };
+
+  const handleCreateCatalog = async () => {
+    setLoading(true);
     try {
-      const response = await fetch('http://157.230.113.110:5028/api/catalogs/CreateCatalog', {
+      const url = 'http://157.230.113.110:5028/api/catalogs/CreateCatalog';
+      const requestBody = {
+        catalog_name: catalogName,
+        addMovies: selectedMovies.map(movieId => String(movieId)) // Zamień ID filmów na stringi, jeśli potrzeba
+      };
+
+      const response = await fetch(url, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}`
+          'Authorization': `Bearer ${token}` 
         },
-        body: JSON.stringify(data)
+        body: JSON.stringify(requestBody)
       });
 
-      if (response.ok) {
-        setAddSuccess(true);
-        setCatalogName("");
-        fetchData(); // Refresh catalogs after addition
-      } else {
-        const errorText = await response.text();
-        setError(errorText || 'Failed to add catalog');
+      if (!response.ok) {
+        throw new Error('Failed to create catalog');
       }
+
+      setLoading(false);
+      setCatalogName(""); 
+      setSelectedMovies([]); 
+      alert('Katalog został pomyślnie utworzony!'); 
     } catch (error) {
-      console.error('Error adding catalog:', error);
-      setError('Error adding catalog');
+      console.error('Error creating catalog:', error);
+      setError("Error creating catalog.");
+      setLoading(false);
     }
   };
 
-  const handleCatalogNameChange = (event) => {
-    setCatalogName(event.target.value);
-  };
-
-  const toggleMovieList = (catalogId) => {
-    setSelectedCatalogId(selectedCatalogId === catalogId ? null : catalogId);
-  };
-
-  const handleAddMovieToCatalog = (movieId) => {
-    // Implement logic to add movie to catalog based on selectedCatalogId
-    console.log(`Movie ${movieId} added to catalog ${selectedCatalogId}`);
-  };
-
   return (
-    <div className={styles.lists}>
-      <p className={styles.add}>Stwórz listy:</p>
-      <form onSubmit={handleAddToCatalog}>
-        <p>Nazwa listy</p>
-        <input
-          className={styles.listNameInput}
-          value={catalogName}
-          onChange={handleCatalogNameChange}
-        />
-        <button type="submit" disabled={!catalogName.trim()}>Dodaj katalog</button>
-      </form>
-      {error && <p className={styles.error}>{error}</p>}
-      {addSuccess && <p className={styles.success}>Katalog dodany pomyślnie!</p>}
-      <p>Twoje katalogi:</p>
-      <div className={styles.catalogsContainer}>
-        {userCatalogs.map((catalog) => (
-          <div key={catalog.id} className={styles.catalogItem}>
-            <p>{catalog.catalog_name}</p>
-            <button onClick={() => toggleMovieList(catalog.id)}>Pokaż filmy</button>
-            {selectedCatalogId === catalog.id && (
-              <div>
-                <p>Lista filmów:</p>
-                <ul>
-                  {catalog.movies.map((movieTitle, index) => (
-                    <li key={index}>
-                      <input type="checkbox" id={`movie_${index}`} />
-                      <label htmlFor={`movie_${index}`}>{movieTitle}</label>
-                      <button onClick={() => handleAddMovieToCatalog(movieTitle)}>Dodaj film</button>
-                    </li>
-                  ))}
-                </ul>
+    <>
+      <h4 className="mt-1 mb-5 pb-1">Stwórz listę</h4>
+      <input
+        type="text"
+        id="form2Example11"
+        className="form-control"
+        placeholder="Nazwa listy"
+        value={catalogName}
+        onChange={(e) => setCatalogName(e.target.value)}
+      />
+      <br />
+
+      {catalogName && (
+        <div className={styles.moviesList}>
+          {movies.length > 0 ? (
+            movies.map((movie) => (
+              <div key={movie.movie_id}>
+                <div className={`form-check ${styles.customPurpleCheckbox}`}>
+                  <input
+                    className="form-check-input"
+                    type="checkbox"
+                    value={movie.movie_id}
+                    id={`movieCheckbox_${movie.movie_id}`}
+                    checked={selectedMovies.includes(movie.movie_id)}
+                    onChange={() => handleCheckboxChange(movie.movie_id)}
+                  />
+                  <label className="form-check-label" htmlFor={`movieCheckbox_${movie.movie_id}`}>
+                    {movie.title}
+                  </label>
+                </div>
               </div>
-            )}
-          </div>
-        ))}
+            ))
+          ) : (
+            <p>Brak dostępnych filmów.</p>
+          )}
+        </div>
+      )}
+
+      <div className={styles.buttoncenter}>
+        <button
+          className={`btn btn-primary btn-block fa-lg gradient-custom-2 mb-3 ${styles.createbutton}`}
+          onClick={handleCreateCatalog}
+          disabled={loading || selectedMovies.length === 0 || !catalogName.trim()}
+        >
+          {loading ? 'Tworzenie...' : 'Stwórz listę'}
+        </button>
+        {error && <div className="text-danger">{error}</div>}
       </div>
-    </div>
+    </>
   );
 };
 

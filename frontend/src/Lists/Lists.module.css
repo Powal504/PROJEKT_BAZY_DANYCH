@@ -14,3 +14,18 @@
   margin-top: 15px; /* Odstęp od inputu */
   font-size: 16px; /* Rozmiar czcionki */
 }
+.createbutton{
+  max-width: 150px;
+  align-items: center;
+}
+.buttoncenter{
+  align-items: center;
+}
+.customPurpleCheckbox .form-check-input {
+  background-color: #6a0dad; /* Kolor tła checkboxa */
+  border-color: #6a0dad; /* Kolor obramowania checkboxa */
+}
+
+.customPurpleCheckbox .form-check-label {
+  color: #6a0dad; /* Kolor tekstu */
+}
