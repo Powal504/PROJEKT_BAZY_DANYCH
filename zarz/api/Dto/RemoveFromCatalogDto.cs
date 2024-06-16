@@ -12,7 +12,7 @@ namespace api.Dto
 {
     public class RemoveFromCatalogDto
     {
-        public int Movie_Catalog_id {get; set;} = 0;
+        public string Catalog_name {get; set;} = string.Empty;
         public string Title {get; set;} = string.Empty;
     }
 }
