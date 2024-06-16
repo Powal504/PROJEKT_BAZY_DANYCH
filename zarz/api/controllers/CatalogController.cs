@@ -41,7 +41,7 @@ namespace api.Controllers
             _context = context;
         }
         [Authorize]
-        [HttpGet]
+        [HttpGet("UserCatalogs")]
         public async Task<IActionResult> GetUserCatalogs()
         {
 
@@ -70,7 +70,7 @@ namespace api.Controllers
 
         [Authorize]
         [AllowAnonymous]
-        [HttpGet("All Catalogs")]
+        [HttpGet("AllCatalogs")]
         public async Task<IActionResult> GetAllCatalogs()
         {
             var Catalogs = await _context.Movie_Catalog
