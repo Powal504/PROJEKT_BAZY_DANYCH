@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import styles from "./Reviews.module.css";
-import ReviewsBox from "../ReviewsBox/ReviewsBox";
 
 function Reviews({ movie_id }) {
     const [rating, setRating] = useState(0);
@@ -8,12 +7,6 @@ function Reviews({ movie_id }) {
     const [error, setError] = useState("");
     const [addSuccess, setAddSuccess] = useState(false);
     const token = localStorage.getItem('token')?.replace(/["']/g, ''); // Usunięcie cudzysłowów
-    const review_date = new Date().toISOString();  // Aktualna data w formacie ISO
-    const date = "";
-
-    const [user, setUser] = useState([]);
-    const [loadingFetch, setLoadingFetch] = useState(true);
-    const [errorFetch, setErrorFetch] = useState(null);
 
     const handleDescription = (event) => {
         setDescription(event.target.value);
@@ -26,18 +19,24 @@ function Reviews({ movie_id }) {
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        console.log("Token:", token);
+        if (!token) {
+            alert("Zaloguj się!");
+            return;
+        }
+
+        if (rating === 0) {
+            alert("Wybierz ocenę!");
+            return;
+        }
 
         try {
             const reviewData = {
                 review_text: description,
                 review_mark: rating,
                 movie_id: movie_id,
-                review_date: date,
-                userId: "c5966b04-e408-42a9-8a0e-c92da120bdea"
+                review_date: new Date().toISOString(),
+                userId: "c5966b04-e408-42a9-8a0e-c92da120bdea" // Przykładowe ID użytkownika
             };
-
-            console.log("Wysyłane dane:", reviewData);
 
             const response = await fetch("http://157.230.113.110:5028/api/Reviews", {
                 method: "POST",
@@ -51,6 +50,8 @@ function Reviews({ movie_id }) {
             if (response.ok) {
                 setError("");
                 setAddSuccess(true);
+                setDescription(""); // Resetowanie pola opisu po sukcesie
+                setRating(0); // Resetowanie oceny po sukcesie
                 console.log("Recenzja dodana!");
             } else {
                 const errorText = await response.text();
@@ -63,41 +64,17 @@ function Reviews({ movie_id }) {
         }
     };
 
-    const fetchData = async () => {
-        try {
-            const token = localStorage.getItem('token')
-            
-            const response = await fetch ('http://157.230.113.110:5028/api/userinfo/All',{
-                methode: 'GET',
-                headers: {
-                    "Content-Type": "application/json",
-                    "Authorization": `Bearer ${token}`  // Dodaj nagłówek autoryzacyjny
-                  }
-            });
-
-            if(!response.ok){
-                throw new Error(`Network response was not ok: ${response.status} ${response.statusText}`);
-            }
-            const data = await response.json();
-            setUser(data);
-            setLoadingFetch(false);
-            console.log('uzytkownicy: ', data);
+    useEffect(() => {
+        if (!token) {
+            setError("Zaloguj się, aby dodać recenzję.");
         }
-        catch (error) {
-            setError(error.message);
-            setLoading(false);
-          }
-    }
-
-      useEffect(() => {
-    fetchData();
-  }, []);
+    }, [token]);
 
     return (
         <div className={styles.container_reviews}>
             <div className={styles.header}>Dodaj ocenę!</div>
             <div className={styles.stars}>
-                {[...Array(6)].map((_, index) => (
+                {[...Array(5)].map((_, index) => (
                     <Star
                         key={index}
                         filled={index < rating}
@@ -110,8 +87,10 @@ function Reviews({ movie_id }) {
                 className={styles.text_component} 
                 value={description} 
                 onChange={handleDescription} 
+                disabled={!token} // Wyłączone pole, jeśli brak tokenu
+                placeholder={!token ? "Musisz być zalogowany, aby dodać recenzję" : "Napisz swoją recenzję..."}
             />
-            <button onClick={handleSubmit}>Dodaj recenzję!</button>
+            <button onClick={handleSubmit} disabled={!token || rating === 0}>Dodaj recenzję!</button>
             {addSuccess && <p className={styles.message}>Recenzja została dodana pomyślnie!</p>}
             {error && <p className={styles.error_message}>{error}</p>}
         </div>

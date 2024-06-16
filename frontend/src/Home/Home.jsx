@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react';
+ import React, { useContext, useEffect, useState } from 'react';
 import styles from './Home.module.css'; // Предполагается, что в этом файле заданы стили для компонента
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -88,21 +88,24 @@ function Home() {
           {searchResults.map((movie) => (
             <div className="col-md-4 mb-4" key={movie.movie_id}>
               <div className="card h-100 w-5">
-              <Link to={{
-                pathname: "/Films",
-                  state: { movie_id: movie.movie_id }
-                }}>
-                 <img
+                <Link
+                  to={{
+                    pathname: "/Films",
+                    state: { movie_id: movie.movie_id, title: movie.title }
+                  }}
+                  onClick={() => handleGlobalName(movie.title)}
+                >
+                  <img
                     className="card-img-top"
                     src={movie.avatar || 'https://via.placeholder.com/150'}
                     alt={movie.title}
-                   style={{ objectFit: 'contain', height: '286px' }}
-                />
-              </Link>
+                    style={{ objectFit: 'contain', height: '286px' }}
+                  />
+                </Link>
 
                 <div className="card-body" style={{ maxHeight: '400px', overflowY: 'auto' }}>
                   <h5 className="card-title" style={{ fontSize: '2rem' }}>{movie.title}</h5>
-                  <p className="card-text" style={{ fontSize: '1rem' }}></p>
+                  <p className="card-text" style={{ fontSize: '1rem' }}> {movie.mov} </p>
                 </div>
               </div>
             </div>
