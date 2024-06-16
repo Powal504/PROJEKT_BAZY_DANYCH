@@ -14,7 +14,7 @@ namespace api.Dto
         public string? Title { get; set; }
         public DateTime? Release_date { get; set; }
         public string? Description { get; set; }
-        public string? Avatar { get; set; }
+        public string? Avatar { get; set; } // na byte trzeba zmienic
         public ICollection<Genres_MoviesDTO> GenresMovies { get; set; } = new List<Genres_MoviesDTO>();
         public ICollection<Directors_MoviesDTO> DirectorsMovies { get; set; }= new List<Directors_MoviesDTO>();
         public ICollection<Movie_Production_CompaniesDTO> MovieProductionCompanies { get; set; }= new List<Movie_Production_CompaniesDTO>();

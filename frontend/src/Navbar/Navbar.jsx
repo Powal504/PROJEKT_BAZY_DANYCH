@@ -1,23 +1,36 @@
-import styles from './Navbar.module.css';
 import React, { useContext } from 'react';
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import { GlobalContext } from '../GlobalContext/GlobalContext';
 import { Link } from 'react-router-dom';
-function Navbar() {
+import styles from './Navbar.module.css';
 
-  const { isUserLogged } = useContext(GlobalContext);
+function Navbar() {
+  const { isUserLogged, usernameGlobal, setIsUserLogged } = useContext(GlobalContext);
+
+  const handleLogout = () => {
+    setIsUserLogged(0);
+    localStorage.clear();
+  };
 
   return (
-    
     <nav className={styles.navbar}> 
-      <Link to="/" ><img src='src\assets\logo.png' alt="Moje zdjęcie" className={styles.logo}/></Link>
-      <div className={styles.linkContainer}>
-        <Link to="Movie_Add" className={styles.homeLink}>Dodaj film</Link>
-        <Link to="/registration" className={styles.registerLink}>Zarejestruj</Link>
-        <Link to="login" className={styles.homeLink}>login</Link>
-        <Link to="Films" className={styles.homeLink}>Film</Link>
-        {isUserLogged === 1 && <img src='src\assets\avatar.png' alt="Avatar" className={styles.avatar} />}
-        
+      <div>
+        <Link to="/">
+          <img src='src\assets\logo.png' alt="Moje zdjęcie" className={styles.logo}/>
+        </Link>
+      </div>
+      <div className={styles.rightContainer}>
+        <div className={styles.linkContainer}>
+          {!isUserLogged && (
+            <>
+              <Link to="/registration" className={styles.registerLink}>Zarejestruj</Link>
+              <Link to="login" className={styles.homeLink}>login</Link>
+            </>
+          )}
+          
+          {isUserLogged === 1 &&  <Link to="profile"><img src='src\assets\avatar.png' alt="Avatar" className={styles.avatar} /></Link>}
+          {isUserLogged === 1 && <p className={styles.nazwaUzytkownika}>{usernameGlobal}</p>}
+          {isUserLogged === 1 && <button className={styles.registerLink}  onClick={handleLogout}>Wyloguj się</button>}
+        </div>
       </div>
     </nav>
   );

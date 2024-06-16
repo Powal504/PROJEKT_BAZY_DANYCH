@@ -1,0 +1,14 @@
+.background {
+    margin-top: 55px;
+    margin-left: 10px;
+    margin-right: 10px;
+}
+
+
+
+.card-body {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 100%;
+}

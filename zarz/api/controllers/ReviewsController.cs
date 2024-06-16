@@ -1,13 +1,15 @@
 using System;
 using System.Linq;
 using System.Threading.Tasks;
-using api.Data;
+using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
+using api.Data;
 using api.Dto;
 using api.Models;
-using Microsoft.AspNetCore.Authorization;
 using api.Extensions;
-using Microsoft.AspNetCore.Identity;
 using api.Mappers;
 
 namespace api.Controllers
@@ -42,8 +44,8 @@ namespace api.Controllers
                 return Unauthorized("Użytkownik nie został znaleziony.");
             }
 
-            var movieExists = _context.Movies.FirstOrDefault(m => m.Movie_id == reviewDto.Movie_id);
-            if (movieExists == null)
+            var movieExists = await _context.Movies.AnyAsync(m => m.Movie_id == reviewDto.Movie_id);
+            if (!movieExists)
             {
                 return BadRequest("Film o podanym ID nie istnieje.");
             }
@@ -105,6 +107,28 @@ namespace api.Controllers
             await _context.SaveChangesAsync();
 
             return Ok("Recenzja została usunięta.");
+        }
+
+        [HttpGet("movie/{movieId}")]
+        public async Task<ActionResult<IEnumerable<ReviewDto>>> GetReviewsByMovieId(int movieId)
+        {
+            var movieExists = await _context.Movies.AnyAsync(m => m.Movie_id == movieId);
+            if (!movieExists)
+            {
+                return NotFound("Film o podanym ID nie istnieje.");
+            }
+
+            var reviews = await _context.Reviews
+                                        .Where(r => r.Movie_id == movieId)
+                                        .ToListAsync();
+
+            if (reviews == null || reviews.Count == 0)
+            {
+                return NotFound("Brak recenzji dla podanego filmu.");
+            }
+
+            var reviewDtos = reviews.Select(review => ReviewMapper.ToDto(review)).ToList();
+            return Ok(reviewDtos);
         }
     }
 }

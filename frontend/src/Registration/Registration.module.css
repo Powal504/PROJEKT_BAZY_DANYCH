@@ -1,17 +1,35 @@
-.full {
-    background-color: white;
-    width: 50%;
+
+  .card-registration .select-input.form-control[readonly]:not([disabled]) {
+  font-size: 1rem;
+  line-height: 2.15;
+  padding-left: .75em;
+  padding-right: .75em;
+  }
+  .card-registration .select-arrow {
+  top: 13px;
+  }
+  .registr{
     text-align: center;
-    margin-left: 25%;
-    margin-top: 5%;
-    position: relative; 
-    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+  }
+  .logins {
+    border-color: #3a2fba !important;
+    color: #3a2fba !important;
+    background-color: white !important;
+    transition: background-color 0.3s, color 0.3s !important;
   }
   
-  .background {
-    filter: brightness(50%);
-    position: absolute;
-    font-size: 500px; 
-    font-weight: bold; 
-    z-index: -1; 
+  .logins:hover {
+    background-color: #3a2fba !important;
+    color: white !important;
   }
+  .buttonregister {
+    background-color: #3a2fba !important;
+    color: white !important;
+    transition: background-color 0.3s, color 0.3s !important;
+    border-color: #3a2fba !important; /* Dodatkowy styl, jeśli przycisk ma mieć kolor obramowania */
+}
+
+.buttonregister:hover {
+   
+filter: brightness(130%);
+}

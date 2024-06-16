@@ -1,7 +1,9 @@
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using api.Dto;
 
@@ -11,11 +13,13 @@ namespace api.controllers
     [ApiController]
     public class LoadImageController : ControllerBase
     {
-        public static IWebHostEnvironment _webHostEnvironment;
+        private readonly IWebHostEnvironment _webHostEnvironment;
+
         public LoadImageController(IWebHostEnvironment webHostEnvironment)
         {
             _webHostEnvironment = webHostEnvironment;
         }
+
         [HttpPost]
         public async Task<string> Post([FromForm] LoadImageDto load)
         {
@@ -48,11 +52,22 @@ namespace api.controllers
                 return ex.Message;
             }
         }
+
         [HttpGet("{FileName}")]
         public async Task<IActionResult> Get([FromRoute] string FileName)
         {
+            if (string.IsNullOrEmpty(FileName))
+            {
+                return BadRequest("FileName cannot be null or empty.");
+            }
+
+            if (string.IsNullOrEmpty(_webHostEnvironment.WebRootPath))
+            {
+                return StatusCode(500, "Web root path is not configured.");
+            }
+
             string uploadsFolder = Path.Combine(_webHostEnvironment.WebRootPath, "uploads");
-            var filePath = Path.Combine(uploadsFolder, FileName);
+            string filePath = Path.Combine(uploadsFolder, FileName);
 
             if (System.IO.File.Exists(filePath))
             {

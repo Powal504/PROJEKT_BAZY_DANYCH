@@ -2,6 +2,8 @@
   "dependencies": {
     "bootstrap": "^5.3.3",
     "cors": "^2.8.5",
+    "mdb": "^0.1.0",
+    "mdb-react-ui-kit": "^8.0.0",
     "react-bootstrap": "^2.10.2"
   }
 }

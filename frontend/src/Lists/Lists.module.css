@@ -1,26 +1,31 @@
-p {
-    color: white;
-}
 .lists {
-    border: 5px dashed white;
-    width: 15%;
-    height: 2%;
-    margin-left: 2%;
-    text-align: center;
-    background-color: #2b2a3b;
-    font-size: 10em;
-    margin-top: 20
+  width: 100%;
+  max-width: 400px; /* Przykładowa maksymalna szerokość */
+  margin: auto; /* Centrowanie w poziomie */
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  text-align: center;
+  background-color: white;
 }
-.plus {
-    margin-bottom: 20%;
-    
+
+.addlists {
+  background-color: #3a2fba !important; /* Kolor przycisku */
+  margin-top: 15px; /* Odstęp od inputu */
+  font-size: 16px; /* Rozmiar czcionki */
 }
-.lists:hover{
-    filter: brightness(70%);
+.createbutton{
+  max-width: 150px;
+  align-items: center;
 }
-.Add{
-    font-size: 4em;
-    margin-top: 2%;
-    margin-left: 2%;
-    margin-bottom: 2%;
+.buttoncenter{
+  align-items: center;
+}
+.customPurpleCheckbox .form-check-input {
+  background-color: #6a0dad; /* Kolor tła checkboxa */
+  border-color: #6a0dad; /* Kolor obramowania checkboxa */
+}
+
+.customPurpleCheckbox .form-check-label {
+  color: #6a0dad; /* Kolor tekstu */
 }

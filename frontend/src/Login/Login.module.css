@@ -1,56 +1,72 @@
-
-.login_page{
+.gradient {
+    /* fallback for old browsers */
+    background: #fccb90;
+    
+    /* Chrome 10-25, Safari 5.1-6 */
+    background: -webkit-linear-gradient(to right, #8361db, #3a2fba, #060338, #14010e);
+    
+    /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+    background: linear-gradient(to right, #8361db, #3a2fba, #060338, #14010e);
     display: flex;
-    flex-direction: column;
+    align-items: center;
     justify-content: center;
-    align-items: center;
-    margin-top: 30px;
-}
-
-.header{
-    text-align: center;
     color: white;
-    font-weight: bold;
-
+    border-top-right-radius: .3rem;
+    border-bottom-right-radius: .3rem;
 }
 
-.label_component{
-    color: white;
-    text-align: center;
-    font-size: 18px;
-    padding: 5px;
+.routetochange{
+    color: #3a2fba;
 }
 
-.input_component{
-    display: flex;
-    align-items: center;
-    width: 250px;
-    height: 30px;
-    margin: 5px;
+@media (min-width: 500px) {
+    .gradient-form {
+        height: 100vh !important;
+    }
 }
 
-.login_button{
-    color: black;
-    background-color: hsl(245,89%,79%);
-    font-weight: bold;
-    font-size: 1.5em;
+.fulllogin{
+    margin-top: 55px;
+    margin-left: 10px;
+    margin-right: 10px;
     border: none;
-    cursor: pointer;
-    width: 200px;
-    height: 40px;
-    margin: 60px;
-    padding: 10px;
+    
 }
-
-.form_style{
+.card {
+    border: none; /* Remove border from the card */
+    max-width: 1800px;
+    margin: auto;
+}
+.btn-primary {
+    color: black;
+}
+.formlabel{
+    text-align: center;
     display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    margin-top: 30px;
+    margin-left: 13%;
 }
+.left-side {
+    background-color: pink;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-top-left-radius: .3rem;
+    border-bottom-left-radius: .3rem;
+}
+.loginbutton{
+    background-color:#3a2fba;
+}
+.Createnew{
+    border-color: #3a2fba;
+    color: #3a2fba;
+    transition: background-color 0.3s, color 0.3s !important;
+}
+.Createnew:hover{
+    background-color: #3a2fba;
+    border: #3a2fba;
+    filter: brightness(130%);
 
-.message{
-    font-size: 20px;
-    color: rgb(255, 255, 255);
+}
+.prefer{
+    text-align: justify;
 }
