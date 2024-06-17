@@ -22,7 +22,7 @@ function Navbar() {
       </div>
       <div className={styles.rightContainer}>
         <div className={styles.linkContainer}>
-          {isUserLogged === 1 && <Link to="Lists" className={styles.registerLink}>Stwórz listę</Link>}
+         
           {!isAuthenticated && (
             <>
               <Link to="/registration" className={styles.registerLink}>Zarejestruj</Link>

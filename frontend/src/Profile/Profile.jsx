@@ -3,11 +3,13 @@ import styles from './Profile.module.css';
 import { GlobalContext } from '../GlobalContext/GlobalContext';
 import Lists from '../Lists/Lists';
 import { Link } from 'react-router-dom';
+import Home from '../Home/Home';
 
 function Profile({ showBackground }) {
-    const { isUserLogged, usernameGlobal } = useContext(GlobalContext);
+    const { isUserLogged, usernameGlobal, setMovieNameGlobal } = useContext(GlobalContext);
     const [userData, setUserData] = useState(null);
     const [userCatalogs, setUserCatalogs] = useState([]);
+    const [movies, setMovies] = useState([]); // State to store all movies
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
 
@@ -56,8 +58,19 @@ function Profile({ showBackground }) {
             setUserCatalogs(catalogs);
         } catch (error) {
             setError(error.message);
+        } finally {
+            setLoading(false);
         }
-        setLoading(false);
+    };
+
+    const fetchMovies = async () => {
+        try {
+            const response = await fetch('http://157.230.113.110:5028/api/Movies');
+            const moviesData = await response.json();
+            setMovies(moviesData);
+        } catch (error) {
+            console.error('Error fetching movies:', error);
+        }
     };
 
     const handleDeleteCatalog = async (catalogName) => {
@@ -76,7 +89,6 @@ function Profile({ showBackground }) {
                 throw new Error(`Network response was not ok: ${response.status} ${response.statusText}`);
             }
 
-            // Update the state to remove the deleted catalog
             setUserCatalogs(prevCatalogs => prevCatalogs.filter(catalog => catalog.catalog_name !== catalogName));
         } catch (error) {
             setError(error.message);
@@ -87,12 +99,13 @@ function Profile({ showBackground }) {
         if (isUserLogged === 1) {
             fetchUserData();
             fetchUserCatalogs();
+            fetchMovies();
         }
     }, [isUserLogged]);
 
-    const handleGlobalName = (title) => {
-        // Define your global state handling logic here if needed
-        console.log(`Handling global name for ${title}`);
+    const handleGlobalName = (movieTitle) => {
+        setMovieNameGlobal(movieTitle);
+        console.log("Nazwa filmu globalnie ustawiona na:", movieTitle);
     };
 
     return (
@@ -171,19 +184,22 @@ function Profile({ showBackground }) {
                                                 <h5>{catalog.catalog_name}</h5>
                                                 {catalog.movieMovieCatalogs && catalog.movieMovieCatalogs.length > 0 ? (
                                                     <ul>
-                                                        {catalog.movieMovieCatalogs.map((movie) => (
-                                                            <li key={movie.movie_id}>
-                                                                <Link
-                                                                    to={{
-                                                                        pathname: `/films/${movie.movie_id}`,
-                                                                        state: { movie_id: movie.movie_id, title: movie.title }
-                                                                    }}
-                                                                    onClick={() => handleGlobalName(movie.title)}
-                                                                >
-                                                                    {movie.title}
-                                                                </Link>
-                                                            </li>
-                                                        ))}
+                                                        {catalog.movieMovieCatalogs.map((movie) => {
+                                                            const movieDetails = movies.find(m => m.movie_id === movie.movie_id);
+                                                            return (
+                                                                <li key={movie.movie_id}>
+                                                                    <Link
+                                                                        to={{
+                                                                            pathname: "/Films",
+                                                                            state: { movie_id: movie.movie_id, title: movieDetails?.title }
+                                                                        }}
+                                                                        onClick={() => handleGlobalName(movieDetails?.title)}
+                                                                    >
+                                                                        {movieDetails?.title || 'Unknown Movie'}
+                                                                    </Link>
+                                                                </li>
+                                                            );
+                                                        })}
                                                     </ul>
                                                 ) : (
                                                     <p>No movies in this catalog.</p>
