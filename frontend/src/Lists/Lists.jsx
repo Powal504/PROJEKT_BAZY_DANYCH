@@ -10,10 +10,14 @@ const Lists = () => {
   const [loading, setLoading] = useState(false);
   const token = localStorage.getItem('token');
 
+  // Fetch movies on component mount
   useEffect(() => {
     const fetchMoviesData = async () => {
       try {
         const response = await fetch('http://157.230.113.110:5028/api/Movies');
+        if (!response.ok) {
+          throw new Error(`Failed to fetch movies: ${response.status} ${response.statusText}`);
+        }
         const moviesData = await response.json();
         setMovies(moviesData);
       } catch (error) {
@@ -25,43 +29,54 @@ const Lists = () => {
     fetchMoviesData();
   }, []);
 
-  const handleCheckboxChange = (movieId) => {
-    const updatedSelectedMovies = selectedMovies.includes(movieId)
-      ? selectedMovies.filter(id => id !== movieId)
-      : [...selectedMovies, movieId];
+  // Handle checkbox change for selecting movies
+  const handleCheckboxChange = (movie) => {
+    const updatedSelectedMovies = selectedMovies.includes(movie.title)
+      ? selectedMovies.filter(title => title !== movie.title)
+      : [...selectedMovies, movie.title];
 
     setSelectedMovies(updatedSelectedMovies);
   };
 
+  // Handle catalog creation
   const handleCreateCatalog = async () => {
     setLoading(true);
+    setError(""); // Clear previous errors
+
+    const requestBody = {
+      catalog_name: catalogName,
+      addMovies: selectedMovies // Directly use selectedMovies which now contains movie titles
+    };
+
+    console.log("Request Body:", JSON.stringify(requestBody)); // Log the request body
+
     try {
       const url = 'http://157.230.113.110:5028/api/catalogs/CreateCatalog';
-      const requestBody = {
-        catalog_name: catalogName,
-        addMovies: selectedMovies.map(movieId => String(movieId)) // Zamień ID filmów na stringi, jeśli potrzeba
-      };
-
+      
       const response = await fetch(url, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}` 
+          'Authorization': `Bearer ${token}`
         },
         body: JSON.stringify(requestBody)
       });
 
+      const responseData = await response.text(); // Use .text() to get raw response for logging
+      console.log('Response Data:', responseData); // Log the raw response data
+
       if (!response.ok) {
+        console.error('Error response:', responseData); // Log the error response from the server
         throw new Error('Failed to create catalog');
       }
 
       setLoading(false);
       setCatalogName(""); 
       setSelectedMovies([]); 
-      alert('Katalog został pomyślnie utworzony!'); 
+      alert('Catalog created successfully!'); 
     } catch (error) {
       console.error('Error creating catalog:', error);
-      setError("Error creating catalog.");
+      setError(error.message || "Error creating catalog.");
       setLoading(false);
     }
   };
@@ -88,10 +103,10 @@ const Lists = () => {
                   <input
                     className="form-check-input"
                     type="checkbox"
-                    value={movie.movie_id}
+                    value={movie.title} 
                     id={`movieCheckbox_${movie.movie_id}`}
-                    checked={selectedMovies.includes(movie.movie_id)}
-                    onChange={() => handleCheckboxChange(movie.movie_id)}
+                    checked={selectedMovies.includes(movie.title)} 
+                    onChange={() => handleCheckboxChange(movie)}
                   />
                   <label className="form-check-label" htmlFor={`movieCheckbox_${movie.movie_id}`}>
                     {movie.title}
