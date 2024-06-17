@@ -12,7 +12,8 @@ function Profile({ showBackground }) {
     const [movies, setMovies] = useState([]); // State to store all movies
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
-
+    const [newCatalogName, setNewCatalogName] = useState('');
+    const [newMovieTitle, setNewMovieTitle] = useState('');
     const fetchUserData = async () => {
         try {
             const token = localStorage.getItem('token');
@@ -72,7 +73,50 @@ function Profile({ showBackground }) {
             console.error('Error fetching movies:', error);
         }
     };
-
+    const handleAddToCatalog = async () => {
+        try {
+            const token = localStorage.getItem('token');
+            const response = await fetch('http://157.230.113.110:5028/api/catalogs/AddToCatalog', {
+                method: 'POST',
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": `Bearer ${token}`
+                },
+                body: JSON.stringify({ catalog_name: newCatalogName, title: newMovieTitle })
+            });
+    
+            if (!response.ok) {
+                throw new Error(`Network response was not ok: ${response.status} ${response.statusText}`);
+            }
+    
+            // Update the catalogs after adding a new movie
+            fetchUserCatalogs();
+        } catch (error) {
+            setError(error.message);
+        }
+    };
+    const handleRemoveFromCatalog = async (catalogName, movieTitle) => {
+        try {
+            const token = localStorage.getItem('token');
+            const response = await fetch('http://157.230.113.110:5028/api/catalogs/RemoveFromCatalog', {
+                method: 'DELETE',
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": `Bearer ${token}`
+                },
+                body: JSON.stringify({ catalog_name: catalogName, title: movieTitle })
+            });
+    
+            if (!response.ok) {
+                throw new Error(`Network response was not ok: ${response.status} ${response.statusText}`);
+            }
+    
+            // Update the catalogs after removing a movie
+            fetchUserCatalogs();
+        } catch (error) {
+            setError(error.message);
+        }
+    };
     const handleDeleteCatalog = async (catalogName) => {
         try {
             const token = localStorage.getItem('token');
@@ -126,6 +170,32 @@ function Profile({ showBackground }) {
                     <div className={`card mb-4 mb-lg-0 ${styles.cre}`}>
                         <Lists />
                     </div>
+                    <div className="card mb-4">
+    <div className="card-body">
+        <h5>Add Movie to Catalog</h5>
+        <div className="mb-3">
+            <label htmlFor="catalogName" className="form-label">Catalog Name</label>
+            <input 
+                type="text" 
+                className="form-control" 
+                id="catalogName" 
+                value={newCatalogName}
+                onChange={(e) => setNewCatalogName(e.target.value)}
+            />
+        </div>
+        <div className="mb-3">
+            <label htmlFor="movieTitle" className="form-label">Movie Title</label>
+            <input 
+                type="text" 
+                className="form-control" 
+                id="movieTitle" 
+                value={newMovieTitle}
+                onChange={(e) => setNewMovieTitle(e.target.value)}
+            />
+        </div>
+        <button className="btn btn-primary" onClick={handleAddToCatalog}>Add to Catalog</button>
+    </div>
+</div>
                 </div>
                 <div className="col-lg-8">
                     <div className="card mb-4">
@@ -174,46 +244,48 @@ function Profile({ showBackground }) {
                         </div>
                     </div>
                     <div className="card mb-4">
-                        <div className="card-body">
-                            <h5>Your Catalogs</h5>
-                            {userCatalogs.length > 0 ? (
-                                userCatalogs.map((catalog) => (
-                                    <div key={catalog.movie_catalog_id} className="card mb-2">
-                                        <div className="card-body d-flex justify-content-between align-items-center">
-                                            <div>
-                                                <h5>{catalog.catalog_name}</h5>
-                                                {catalog.movieMovieCatalogs && catalog.movieMovieCatalogs.length > 0 ? (
-                                                    <ul>
-                                                        {catalog.movieMovieCatalogs.map((movie) => {
-                                                            const movieDetails = movies.find(m => m.movie_id === movie.movie_id);
-                                                            return (
-                                                                <li key={movie.movie_id}>
-                                                                    <Link
-                                                                        to={{
-                                                                            pathname: "/Films",
-                                                                            state: { movie_id: movie.movie_id, title: movieDetails?.title }
-                                                                        }}
-                                                                        onClick={() => handleGlobalName(movieDetails?.title)}
-                                                                    >
-                                                                        {movieDetails?.title || 'Unknown Movie'}
-                                                                    </Link>
-                                                                </li>
-                                                            );
-                                                        })}
-                                                    </ul>
-                                                ) : (
-                                                    <p>No movies in this catalog.</p>
-                                                )}
-                                            </div>
-                                            <button className="btn btn-danger" onClick={() => handleDeleteCatalog(catalog.catalog_name)}>x</button>
-                                        </div>
-                                    </div>
-                                ))
+    <div className="card-body">
+        <h5>Your Catalogs</h5>
+        {userCatalogs.length > 0 ? (
+            userCatalogs.map((catalog) => (
+                <div key={catalog.movie_catalog_id} className="card mb-2">
+                    <div className="card-body d-flex justify-content-between align-items-center">
+                        <div>
+                            <h5>{catalog.catalog_name}</h5>
+                            {catalog.movieMovieCatalogs && catalog.movieMovieCatalogs.length > 0 ? (
+                                <ul>
+                                    {catalog.movieMovieCatalogs.map((movie) => {
+                                        const movieDetails = movies.find(m => m.movie_id === movie.movie_id);
+                                        return (
+                                            <li key={movie.movie_id} className="d-flex justify-content-between align-items-center">
+                                                <Link
+                                                    to={{
+                                                        pathname: "/Films",
+                                                        state: { movie_id: movie.movie_id, title: movieDetails?.title }
+                                                    }}
+                                                    onClick={() => handleGlobalName(movieDetails?.title)}
+                                                >
+                                                    {movieDetails?.title || 'Unknown Movie'}
+                                                </Link>
+                                                <div className={styles.remove}>
+                                                <button className="btn btn-danger btn-sm" onClick={() => handleRemoveFromCatalog(catalog.catalog_name, movieDetails?.title)}>X</button>
+                                           </div> </li>
+                                        );
+                                    })}
+                                </ul>
                             ) : (
-                                <p>No catalogs available.</p>
+                                <p>No movies in this catalog.</p>
                             )}
                         </div>
+                        <button className="btn btn-danger" onClick={() => handleDeleteCatalog(catalog.catalog_name)}>x</button>
                     </div>
+                </div>
+            ))
+        ) : (
+            <p>No catalogs available.</p>
+        )}
+    </div>
+</div>
                 </div>
             </div>
         </section>
