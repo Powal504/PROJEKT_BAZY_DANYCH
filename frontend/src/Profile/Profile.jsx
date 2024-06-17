@@ -172,9 +172,9 @@ function Profile({ showBackground }) {
                     </div>
                     <div className="card mb-4">
     <div className="card-body">
-        <h5>Add Movie to Catalog</h5>
+        <h5>Dodaj do katalogu</h5>
         <div className="mb-3">
-            <label htmlFor="catalogName" className="form-label">Catalog Name</label>
+            <label htmlFor="catalogName" className="form-label">Nazwa katalogu</label>
             <input 
                 type="text" 
                 className="form-control" 
@@ -184,7 +184,7 @@ function Profile({ showBackground }) {
             />
         </div>
         <div className="mb-3">
-            <label htmlFor="movieTitle" className="form-label">Movie Title</label>
+            <label htmlFor="movieTitle" className="form-label">Tytuł filmu</label>
             <input 
                 type="text" 
                 className="form-control" 
@@ -193,7 +193,7 @@ function Profile({ showBackground }) {
                 onChange={(e) => setNewMovieTitle(e.target.value)}
             />
         </div>
-        <button className="btn btn-primary" onClick={handleAddToCatalog}>Add to Catalog</button>
+        <button className="btn btn-primary btn-purple" onClick={handleAddToCatalog}>Dodaj do katalogów</button>
     </div>
 </div>
                 </div>
@@ -206,7 +206,7 @@ function Profile({ showBackground }) {
                                 <>
                                     <div className="row">
                                         <div className="col-sm-3">
-                                            <p className="mb-0">Full Name</p>
+                                            <p className="mb-0">Nazwa</p>
                                         </div>
                                         <div className="col-sm-9">
                                             <p className={`text-muted mb-0 ${styles.nazwaUzytkownika}`}>{userData.userName}</p>
@@ -224,7 +224,7 @@ function Profile({ showBackground }) {
                                     <hr />
                                     <div className="row">
                                         <div className="col-sm-3">
-                                            <p className="mb-0">Phone</p>
+                                            <p className="mb-0">Telefon</p>
                                         </div>
                                         <div className="col-sm-9">
                                             <p className="text-muted mb-0">{userData.phoneNumber}</p>
@@ -233,7 +233,7 @@ function Profile({ showBackground }) {
                                     <hr />
                                     <div className="row">
                                         <div className="col-sm-3">
-                                            <p className="mb-0">Date of Birth</p>
+                                            <p className="mb-0">Data urodzenia</p>
                                         </div>
                                         <div className="col-sm-9">
                                             <p className="text-muted mb-0">{userData.birth_date}</p>
@@ -245,7 +245,7 @@ function Profile({ showBackground }) {
                     </div>
                     <div className="card mb-4">
     <div className="card-body">
-        <h5>Your Catalogs</h5>
+        <h5>Twoje katalogi</h5>
         {userCatalogs.length > 0 ? (
             userCatalogs.map((catalog) => (
                 <div key={catalog.movie_catalog_id} className="card mb-2">
@@ -282,7 +282,7 @@ function Profile({ showBackground }) {
                 </div>
             ))
         ) : (
-            <p>No catalogs available.</p>
+            <p>NIe ma katalogów.</p>
         )}
     </div>
 </div>
