@@ -1,19 +1,14 @@
-using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using api.Data;
-using api.Models;
 using api.Dto;
-using api.Mappers;
-using Microsoft.AspNetCore.Mvc;
-using System.Globalization;
-using System.Text.RegularExpressions;
-using Microsoft.AspNetCore.Identity;
+using api.Models;
 using api.Interfaces;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
-namespace api.controllers
+namespace api.Controllers
 {
     [Route("api/Login")]
     [ApiController]
@@ -52,14 +47,19 @@ namespace api.controllers
             if (!result.Succeeded)
                 return Unauthorized("Konto nieznalezione");
 
+            // Get roles of the user
+            var roles = await _userManager.GetRolesAsync(existingCandidate);
+
             return Ok(
                 new newUserDto
                 {
                     UserName = existingCandidate.UserName,
                     Email = existingCandidate.Email,
-                    Token = _tokenService.CreateToken(existingCandidate)
+                    Token = _tokenService.CreateToken(existingCandidate),
+                    Roles = roles.ToList()
                 }
             );
         }
     }
 }
+
