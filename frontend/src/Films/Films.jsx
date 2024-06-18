@@ -11,8 +11,7 @@ function Films() {
     const [movieAll, setMovieAll] = useState(null);
 
     const location = useLocation();
-    const { movie_id } = location.state || {};
-    const { title } = location.state || {};
+    const { movie_id, title } = location.state || {};
 
     const fetchMovie = async () => {
         try {
@@ -84,22 +83,28 @@ function Films() {
 
     return (
         <div>
-            <h1 className={styles.title}>{movie.title}</h1>
-            <div className={styles.container}>
-                <img src={movie.avatar || 'https://via.placeholder.com/150'} alt="Plakat" style={{ width:"200px", height:"auto", minHeight:"300px" }}/>
-                <div className={styles.content}>
-                    <p className={styles.description}>
-                        {movie.description}
-                    </p>
-                    <div className={styles.reviews_component}>
-                        <Reviews movie_id={movie_id} />
+            {movie ? (
+                <>
+                    <h1 className={styles.title}>{movie.title}</h1>
+                    <div className={styles.container}>
+                        <img src={movie.avatar || 'https://via.placeholder.com/150'} alt="Plakat" style={{ width:"200px", height:"auto", minHeight:"300px" }}/>
+                        <div className={styles.content}>
+                            <p className={styles.description}>
+                                {movie.description}
+                            </p>
+                            <div className={styles.reviews_component}>
+                                <Reviews movie_id={movie_id} />
+                            </div>
+                        </div>
+                        <div className={styles.comments}></div>
                     </div>
-                </div>
-                <div className={styles.comments}></div>
-            </div>
-            <div className={styles.reviewBox_container}>
-                <ReviewsBox movie_id={movie_id} />
-            </div>
+                    <div className={styles.reviewBox_container}>
+                        <ReviewsBox movie_id={movie_id} />
+                    </div>
+                </>
+            ) : (
+                <div>Film not found</div>
+            )}
         </div>
     );
 }
