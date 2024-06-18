@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
-import styles from './Home.module.css'; // Предполагается, что в этом файле заданы стили для компонента
+import styles from './Home.module.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSearch } from '@fortawesome/free-solid-svg-icons';
@@ -44,16 +44,25 @@ function Home() {
     getCatalogs();
   }, []);
 
+  // Function to fetch movies by title from the backend
+  const fetchMoviesByTitle = async (title) => {
+    try {
+      const response = await fetch(`http://157.230.113.110:5028/api/Movies/searchTitle/${title}`);
+      if (!response.ok) {
+        throw new Error('Error fetching search results');
+      }
+      const data = await response.json();
+      setSearchResults(data);
+    } catch (error) {
+      setError("Error fetching search results.");
+    }
+  };
+
   const handleSearch = () => {
     if (!searchTerm.trim()) {
-      setSearchResults(movies);
+      setSearchResults(movies); // Show all movies if search term is empty
     } else {
-      const filteredMovies = movies.filter((movie) => {
-        const titleMatch = movie.title.toLowerCase().includes(searchTerm.toLowerCase());
-        const categoryMatch = category ? movie.categories.includes(category) : true;
-        return titleMatch && categoryMatch;
-      });
-      setSearchResults(filteredMovies);
+      fetchMoviesByTitle(searchTerm); // Fetch movies by title from the backend
     }
   };
 
@@ -74,11 +83,11 @@ function Home() {
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
           />
-          <Link to="/search" className={styles.searchButton} onClick={handleSearch}>
+          <button className={styles.searchButton} onClick={handleSearch}>
             <div className={styles.searchIcon}>
-              <FontAwesomeIcon icon={faSearch}  />
+              <FontAwesomeIcon icon={faSearch} />
             </div>
-          </Link>
+          </button>
         </div>
       </div>
 
@@ -86,7 +95,7 @@ function Home() {
         <p>Wszystkie filmy</p>
         <div className="row">
           {searchResults.map((movie) => (
-            <div className="col-md-4 mb-4" key={movie.movie_id}>
+            <div className="col-md-4 mb-4 px-5" key={movie.movie_id}>
               <div className="card h-100 w-5">
                 <Link
                   to={{
@@ -115,7 +124,7 @@ function Home() {
         <p>Katalogi filmów</p>
         <div className="row">
           {catalogs.map((catalog) => (
-            <div className="col-md-4 mb-4" key={catalog.movie_catalog_id}>
+            <div className="col-md-4 mb-4 px-5" key={catalog.movie_catalog_id}>
               <div className="card h-100 w-5">
                 <div className="card-body">
                   <h5 className="card-title" style={{ fontSize: '2rem' }}>{catalog.catalog_name}</h5>
