@@ -1,21 +1,18 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styles from './Movie_Add.module.css';
-import { Link } from "react-router-dom";
 
 function Movie_Add() {
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
+
     const [title, setTitle] = useState("");
     const [description, setDescription] = useState("");
-    const [poster, setPoster] = useState(null);
-    const [director, setDirector] = useState("");
-    const [company, setCompany] = useState("");
-    const [genre, setGenre] = useState("");
-    const [error, setError] = useState("");
-    const [addSuccess, setAddSuccess] = useState(false);
+    const [avatar, setAvatar] = useState("");
+    const [genres, setGenres] = useState([]);
+    const [selectedGenres, setSelectedGenres] = useState([]);
 
-    const movie_genre = [
-        'Akcja', 'Animacja', 'Biograficzny', 'Dokumentalny', 'Dramat', 'Familijny', 'Fantasy',
-        'Historyczny', 'Horror', 'Komedia', 'Kryminał', 'Obyczajowy', 'Przygodowy', 'Sci-Fi', 'Sensacyjny', 'Thriller', 'Wojenny'
-    ];
+    const [addSuccess, setAddSuccess] = useState(false);
+    const [release_date, setRelease_Date] = useState("")
 
     function handleTitle(event) {
         setTitle(event.target.value);
@@ -25,116 +22,113 @@ function Movie_Add() {
         setDescription(event.target.value);
     }
 
-    function handlePoster(event) {
-        const file = event.target.files[0];
-        if (file) {
-            setPoster(file);
-        }
-    }
-
-    function handleDirector(event) {
-        setDirector(event.target.value);
-    }
-
-    function handleCompany(event) {
-        setCompany(event.target.value);
+    function handleAvatar(event) {
+        setAvatar(event.target.value);
     }
 
     function handleGenre(event) {
-        setGenre(event.target.value);
+        const options = event.target.options;
+        let selectedGenres = [];
+        for (let i = 0; i < options.length; i++) {
+            if (options[i].selected) {
+                selectedGenres.push(options[i].value);
+            }
+        }
+        setSelectedGenres(selectedGenres);
+    }
+    
+    
+
+    function handleDate(event){
+        setRelease_Date(event.target.value);
     }
 
-///////////////////////////////////////////////////////Dane o filmie
-
-    async function handleSubmitData(e) {
-        e.preventDefault();
-    
-        const data = {
-            title: title,
-            description: description,
-            avatar: avatar,
-            director: director,
-            company: company,
-            genre: genre
-        };
-    
+    const fetchGenres = async () => {
         try {
-            const response = await fetch("http://157.230.113.110:5028/api/Movies", {
-                method: "POST",
+            const token = localStorage.getItem('token');
+            const response = await fetch('http://157.230.113.110:5028/api/films/AllGenres', {
+                method: 'GET',
                 headers: {
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify(data)
+                    "Content-Type": "application/json",
+                    "Authorization": `Bearer ${token}`
+                }
             });
-    
-            const responseData = await response.json();
-    
-            if (response.ok) {
-                setAddSuccess(true);
-                console.log("Film dodany!", responseData);
-            } else {
-                setError(responseData || "Wystąpił nieznany błąd!");
-            }
-        } catch (error) {
-            console.error("Wystąpił problem z dodaniem filmu!", error.message);
-            setError("Wystąpił problem z dodaniem filmu!");
-        }
-    }
-    /////////////////////////////////////////////////////////////////// Plakat
 
-    async function handleSubmitImage(e) {
-        e.preventDefault();
-    
-        const formData = new FormData();
-        formData.append("image", poster);
-    
-        try {
-            const response = await fetch("http://157.230.113.110:5028/api/LoadImage", {
-                method: "POST",
-                body: formData
-            });
-    
-            const responseData = await response.text(); // Tutaj możesz użyć text(), ponieważ oczekujesz tekstu zwrotnego, a nie JSON
-    
-            if (response.ok) {
-                setAddSuccess(true);
-                console.log("Plakat dodany!", responseData);
-            } else {
-                setError(responseData || "Wystąpił nieznany błąd!");
+            if (!response.ok) {
+                throw new Error(`Network response was not ok: ${response.status} ${response.statusText}`);
             }
+
+            const data = await response.json();
+            setGenres(data);
+            console.log("gatunki: ",data);
+            setLoading(false);
+
         } catch (error) {
-            console.error("Wystąpił problem z dodaniem Plakatu!", error.message);
-            setError("Wystąpił problem z dodaniem Plakatu!");
+            setError(error.message);
+            setLoading(false);
         }
-    }
-    
-    function handleSubmitAll(e) {
-        e.preventDefault();
-        handleSubmitData(e);
-        handleSubmitImage(e);
-    }
-    
+    };
+
+    useEffect(() => {
+        fetchGenres();
+    }, []);
+
+    const handleAddMovie = async () => {
+        try {console.log("data:",release_date);
+            console.log(`nazwa gatunku:${selectedGenres}`);
+            console.log("tytul:",title);
+            console.log("description:",description);
+            console.log("avatar:",avatar);
+
+            const token = localStorage.getItem('token');
+            const response = await fetch('http://157.230.113.110:5028/api/films', {
+                method: 'POST',
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": `Bearer ${token}`
+                },
+                body: JSON.stringify({
+                    title: title,
+                    release_date: release_date,
+                    description: description,
+                    avatar: avatar,
+                    genres: selectedGenres
+                })
+            });
+
+            if (!response.ok) {
+                throw new Error(`Error adding movie: ${response.status} ${response.statusText}`);
+            }
+
+            setAddSuccess(true);
+            
+
+        } catch (error) {
+            setError(error.message);
+        }
+    };
+
     return (
         <div className={styles.movie_add}>
             <h1 className={styles.header}>DODAJ FILM</h1>
-            <input type='text' className={styles.input_component} value={title} onChange={handleTitle} />
+            <input type='text' className={styles.input_component} value={title} onChange={handleTitle} placeholder="Podaj tytuł filmu" />
             <label className={styles.label_component}>Podaj tytuł filmu</label>
-            <textarea type='text' className={styles.textarea_component_description} value={description} onChange={handleDescription} />
+            <textarea className={styles.textarea_component_description} value={description} onChange={handleDescription} placeholder="Dodaj opis" />
             <label className={styles.label_component}>Dodaj opis</label>
-            <input type="file" className={styles.file_upload_button} onChange={handlePoster} />
-            <label className={styles.label_component}>Dodaj okładkę</label>
-            <input type='text' className={styles.input_component} value={director} onChange={handleDirector} />
-            <label className={styles.label_component}>Podaj imię i nazwisko reżysera</label>
-            <input type='text' className={styles.input_component} value={company} onChange={handleCompany} />
-            <label className={styles.label_component}>Podaj nazwę wytwórni</label>
-            <select className={styles.select_component_am} value={genre} onChange={handleGenre}>
-                <option value="">Wybierz gatunek</option>
-                {movie_genre.map((category, index) => (
-                    <option key={index} value={category}>{category}</option>
-                ))}
+            <input type="text" className={styles.input_component} value={avatar} onChange={handleAvatar} placeholder="Dodaj link do okładki" />
+            <label className={styles.label_component}>Dodaj link do okładki</label>
+            <input type="text" className={styles.input_component} value={release_date} onChange={handleDate} placeholder="Podaj date" />
+            <label className={styles.label_component}>Podaj date dodania DD.MM.YYYY.</label>
+            <select className={styles.select_component_am} value={selectedGenres} onChange={handleGenre}>
+                <option value="" disabled>Wybierz gatunek</option>
+                {genres.map((genre) => (
+                        <option key={genre.genre_id} value={genre.genre_name}>
+                            {genre.genre_name}
+                        </option>
+                    ))}
             </select>
-            <label className={styles.label_component}>Podaj gatunek filmu</label>
-            <button className={styles.confirm_button} onClick={handleSubmitAll }>Dodaj film</button>
+            <label className={styles.label_component}>Wybierz gatunek filmu</label>
+            <button className={styles.confirm_button} onClick={handleAddMovie}>Dodaj film</button>
             {error && <p className={styles.error}>{error}</p>}
             {addSuccess && <p className={styles.success}>Film dodany pomyślnie!</p>}
         </div>
