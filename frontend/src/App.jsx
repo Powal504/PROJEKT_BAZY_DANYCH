@@ -15,6 +15,7 @@ import Profile from './Profile/Profile';
 import ReviewsBox from './ReviewsBox/ReviewsBox';
 import Admin from './Admin/Admin';
 import Users_Info from './Users_Info/Users_Info';
+import Films_Info from './Films_Info/Films_Info';
 
 function App() {
   return (
@@ -34,6 +35,7 @@ function App() {
             <Route exact path="/Profile"><Profile/></Route>
             <Route exact path="/Admin"><Admin></Admin></Route>
             <Route exact path="/Admin/Users_Info"><Users_Info></Users_Info></Route>
+            <Route exact path="/Admin/Films_Info"><Films_Info></Films_Info></Route>
           </Switch>
         </div>
       </Router>
