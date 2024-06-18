@@ -14,6 +14,7 @@ import Search from './Search/Search';
 import Profile from './Profile/Profile';
 import ReviewsBox from './ReviewsBox/ReviewsBox';
 import Admin from './Admin/Admin';
+import Users_Info from './Users_Info/Users_Info';
 
 function App() {
   return (
@@ -32,6 +33,7 @@ function App() {
             <Route exact path="/Search"> <Search/></Route>
             <Route exact path="/Profile"><Profile/></Route>
             <Route exact path="/Admin"><Admin></Admin></Route>
+            <Route exact path="/Admin/Users_Info"><Users_Info></Users_Info></Route>
           </Switch>
         </div>
       </Router>

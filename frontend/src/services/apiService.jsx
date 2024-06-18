@@ -11,7 +11,25 @@ export const fetchMovies = async () => {
     throw error;
   }
 };
-
+export const fetchAllUsers = async () => {
+  const token = localStorage.getItem('token')?.replace(/["']/g, '');
+  try {
+    const response = await fetch('http://157.230.113.110:5028/api/userinfo/All', {
+      headers: {
+        'Authorization': `Bearer ${token}`,
+        'accept': '*/*'
+      }
+    });
+    if (!response.ok) {
+      throw new Error('Network response was not ok');
+    }
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error('There was a problem with the fetch operation:', error);
+    throw error;
+  }
+};
 export const fetchMoviesWithImages = async () => {
   try {
     const movies = await fetchMovies();

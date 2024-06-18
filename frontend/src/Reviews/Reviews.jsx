@@ -34,7 +34,7 @@ function Reviews({ movie_id }) {
                 review_text: description,
                 review_mark: rating,
                 movie_id: movie_id,
-                review_date: new Date().toISOString(),
+                review_date: "",
                 userId: "c5966b04-e408-42a9-8a0e-c92da120bdea" // Przykładowe ID użytkownika
             };
 

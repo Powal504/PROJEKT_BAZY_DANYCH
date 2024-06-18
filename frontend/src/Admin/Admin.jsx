@@ -11,8 +11,12 @@ function Admin() {
             <Link to="Admin/Movie_Add" className={`btn btn-outline-danger ${styles.ToMovie}`}>
             Dodaj filmy
             </Link><br></br>
-            <Link to="Admin/Users_info" className={`btn btn-outline-danger ${styles.ToMovie}`}>
+            <Link to="Admin/Users_Info" className={`btn btn-outline-danger ${styles.ToMovi}`}>
             Informacje o uzytkownikach
+            </Link>
+            <br></br>
+            <Link to="Admin/Films_Info" className={`btn btn-outline-danger ${styles.ToMovi}`}>
+            Informacje o Filmach
             </Link>
             
             

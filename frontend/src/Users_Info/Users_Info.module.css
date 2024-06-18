@@ -1,0 +1,13 @@
+.buttonadmin {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+}
+
+.ToMovie {
+    width: 200px;
+}
+.UsersInfo{
+    color: white;
+}
