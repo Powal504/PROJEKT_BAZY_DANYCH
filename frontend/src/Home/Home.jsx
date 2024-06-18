@@ -86,7 +86,7 @@ function Home() {
         <p>Wszystkie filmy</p>
         <div className="row">
           {searchResults.map((movie) => (
-            <div className="col-md-4 mb-4" key={movie.movie_id}>
+            <div className="col-md-4 mb-4 px-5" key={movie.movie_id}>
               <div className="card h-100 w-5">
                 <Link
                   to={{
@@ -115,7 +115,7 @@ function Home() {
         <p>Katalogi filmów</p>
         <div className="row">
           {catalogs.map((catalog) => (
-            <div className="col-md-4 mb-4" key={catalog.movie_catalog_id}>
+            <div className="col-md-4 mb-4 px-5" key={catalog.movie_catalog_id}>
               <div className="card h-100 w-5">
                 <div className="card-body">
                   <h5 className="card-title" style={{ fontSize: '2rem' }}>{catalog.catalog_name}</h5>
