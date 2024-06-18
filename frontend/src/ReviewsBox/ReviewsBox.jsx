@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from "react";
 import styles from "./ReviewsBox.module.css";
+import Button from 'react-bootstrap/Button';
+
 import {
   MDBCard,
   MDBCardBody,
@@ -17,72 +19,120 @@ function ReviewsBox({ movie_id }) {
   const [loadingUsers, setLoadingUsers] = useState(true);
   const [error, setError] = useState(null);
   const [users, setUsers] = useState([]);
-
-  const fetchReviews = async () => {
-    try {
-      const token = localStorage.getItem('token');
-      const response = await fetch(`http://157.230.113.110:5028/api/Reviews/movie/${movie_id}`, {
-        method: 'GET',
-        headers: {
-          "Content-Type": "application/json",
-          "Authorization": `Bearer ${token}`
-        }
-      });
-
-      if (!response.ok) {
-        throw new Error(`Network response was not ok: ${response.status} ${response.statusText}`);
-      }
-
-      const data = await response.json();
-      setReviews(data.reverse());
-      setLoading(false);
-      console.log("Pobrane recenzje: ", data);
-
-    } catch (error) {
-      setError(error.message);
-      setLoading(false);
-    }
-  };
-
-  const fetchUsers = async () => {
-    try {
-      const token = localStorage.getItem('token');
-      const response = await fetch('http://157.230.113.110:5028/api/userinfo/All', {
-        method: 'GET',
-        headers: {
-          "Content-Type": "application/json",
-          "Authorization": `Bearer ${token}`
-        }
-      });
-
-      if (!response.ok) {
-        throw new Error(`Network response was not ok: ${response.status} ${response.statusText}`);
-      }
-
-      const data = await response.json();
-      setUsers(data);
-      setLoadingUsers(false);
-      console.log('Pobrani użytkownicy: ', data);
-
-    } catch (error) {
-      setError(error.message);
-      setLoadingUsers(false);
-    }
-  };
+  const [user, setUser] = useState(null); // Zmienione na null, ponieważ user będzie obiektem, a nie tablicą
+  const [currentReviewId, setCurrentReviewId] = useState("");
 
   useEffect(() => {
+    const fetchReviews = async () => {
+      try {
+        const token = localStorage.getItem('token');
+        const response = await fetch(`http://157.230.113.110:5028/api/Reviews/movie/${movie_id}`, {
+          method: 'GET',
+          headers: {
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${token}`
+          }
+        });
+
+        if (!response.ok) {
+          throw new Error(`Network response was not ok: ${response.status} ${response.statusText}`);
+        }
+
+        const data = await response.json();
+        setReviews(data.reverse());
+        setLoading(false);
+        console.log("Pobrane recenzje: ", data);
+
+      } catch (error) {
+        setError(error.message);
+        setLoading(false);
+      }
+    };
+
+    const fetchUsers = async () => {
+      try {
+        const token = localStorage.getItem('token');
+        const response = await fetch('http://157.230.113.110:5028/api/userinfo/All', {
+          method: 'GET',
+          headers: {
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${token}`
+          }
+        });
+
+        if (!response.ok) {
+          throw new Error(`Network response was not ok: ${response.status} ${response.statusText}`);
+        }
+
+        const data = await response.json();
+        setUsers(data);
+        setLoadingUsers(false);
+        console.log('Pobrani użytkownicy: ', data);
+
+      } catch (error) {
+        setError(error.message);
+        setLoadingUsers(false);
+      }
+    };
+
+    const fetchCurrentUser = async () => {
+      try {
+        const token = localStorage.getItem('token');
+        const response = await fetch('http://157.230.113.110:5028/api/userinfo', {
+          method: 'GET',
+          headers: {
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${token}`
+          }
+        });
+
+        if (!response.ok) {
+          throw new Error(`Network response was not ok: ${response.status} ${response.statusText}`);
+        }
+
+        const data = await response.json();
+        setUser(data);
+        setLoadingUsers(false);
+        console.log('Aktywny użytkownik: ', data);
+
+      } catch (error) {
+        setError(error.message);
+        setLoadingUsers(false);
+      }
+    };
+
+    fetchReviews();
     fetchUsers();
-  }, []);
-
-  useEffect(() => {
-    if (movie_id) {
-      fetchReviews();
-    }
+    fetchCurrentUser();
   }, [movie_id]);
 
   const getUsernameById = (userId) => {
-    const user = users.find(u => u.id === userId);
-    return user ? user.userName : "Nieznany użytkownik";
+    const foundUser = users.find(u => u.id === userId);
+    return foundUser ? foundUser.userName : "Nieznany użytkownik";
+  };
+
+  const handleDeleteReview = async (reviewId) => {
+    try {
+      const token = localStorage.getItem('token');
+      const response = await fetch(`http://157.230.113.110:5028/api/Reviews/100`, {
+        method: 'DELETE',
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${token}`
+        }
+      });
+
+      if (!response.ok) {
+        throw new Error(`Network response was not ok: ${response.status} ${response.statusText}`);
+      }
+
+      // Usunięcie recenzji z lokalnego stanu po pomyślnym usunięciu z serwera
+      const updatedReviews = reviews.filter(review => review.id !== reviewId);
+      setReviews(updatedReviews);
+      console.log('Recenzja została usunięta');
+    } catch (error) {
+      console.error('Błąd podczas usuwania recenzji:', error);
+    }
   };
 
   if (loading || loadingUsers) {
@@ -90,12 +140,11 @@ function ReviewsBox({ movie_id }) {
   }
 
   if (error) {
-    return <p></p>;
+    return <p>Wystąpił błąd: {error}</p>;
   }
 
-  // Sprawdzamy czy reviews są puste
   if (reviews.length === 0) {
-    return null; // Jeśli nie ma recenzji, zwracamy null, aby komponent nie renderował niczego
+    return null; // Brak recenzji do wyświetlenia
   }
 
   return (
@@ -120,11 +169,24 @@ function ReviewsBox({ movie_id }) {
                       style={{ width: "50px", height: "50px" }}
                     />
                     <MDBTypography tag="h6" className="fw-bold mb-1">
-                      {getUsernameById(review.userId)} dał filmowi ocenę : {review.review_mark}
+                      {getUsernameById(review.userId)} dał filmowi ocenę: {review.review_mark}
                     </MDBTypography>
                     <div className="d-flex align-items-center" style={{marginLeft: "10px", textAlign: "justify"}}>
                       <p className="mb-0">
-                        {review.review_date}
+                        {review.review_date}{' '}
+                        {user && review.userId === user.id && (
+                          <Button
+                            variant="danger"
+                            style={{marginLeft: "10px"}}
+                            onClick={() => {
+                              setCurrentReviewId(review.id);
+                              handleDeleteReview(review.id);
+                            }}
+                          >
+                            Usuń
+                          </Button>
+                        )}
+                        {' '}
                         <span className={`badge bg-${review.status === 'Approved' ? 'success' : review.status === 'Pending' ? 'primary' : 'danger'}`}>
                           {review.status}
                         </span>
