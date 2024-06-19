@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import styles from "./ReviewsBox.module.css";
 import Button from 'react-bootstrap/Button';
-
+import { GlobalContext } from "../GlobalContext/GlobalContext";
 import {
   MDBCard,
   MDBCardBody,
@@ -19,8 +19,8 @@ function ReviewsBox({ movie_id }) {
   const [loadingUsers, setLoadingUsers] = useState(true);
   const [error, setError] = useState(null);
   const [users, setUsers] = useState([]);
-  const [user, setUser] = useState(null); // Zmienione na null, ponieważ user będzie obiektem, a nie tablicą
-  const [currentReviewId, setCurrentReviewId] = useState("");
+  const [user, setUser] = useState(null);
+  const { currentReviewIdGlobal, setCurrentReviewIdGlobal } = useContext(GlobalContext);
 
   useEffect(() => {
     const fetchReviews = async () => {
@@ -111,10 +111,11 @@ function ReviewsBox({ movie_id }) {
     return foundUser ? foundUser.userName : "Nieznany użytkownik";
   };
 
-  const handleDeleteReview = async (reviewId) => {
+  const handleDeleteReview = async () => {
     try {
+      console.log("Usuwanie recenzji o ID:", currentReviewIdGlobal);
       const token = localStorage.getItem('token');
-      const response = await fetch(`http://157.230.113.110:5028/api/Reviews/100`, {
+      const response = await fetch(`http://157.230.113.110:5028/api/Reviews/${currentReviewIdGlobal}`, {
         method: 'DELETE',
         headers: {
           "Content-Type": "application/json",
@@ -126,8 +127,7 @@ function ReviewsBox({ movie_id }) {
         throw new Error(`Network response was not ok: ${response.status} ${response.statusText}`);
       }
 
-      // Usunięcie recenzji z lokalnego stanu po pomyślnym usunięciu z serwera
-      const updatedReviews = reviews.filter(review => review.id !== reviewId);
+      const updatedReviews = reviews.filter(review => review.review_id !== currentReviewIdGlobal);
       setReviews(updatedReviews);
       console.log('Recenzja została usunięta');
     } catch (error) {
@@ -144,7 +144,7 @@ function ReviewsBox({ movie_id }) {
   }
 
   if (reviews.length === 0) {
-    return null; // Brak recenzji do wyświetlenia
+    return null; 
   }
 
   return (
@@ -152,7 +152,7 @@ function ReviewsBox({ movie_id }) {
       <MDBContainer className="py-5" style={{ maxWidth: "1000px", maxHeight: "600px", overflow: "auto" }}>
         <MDBRow className="justify-content-center">
           {reviews.map((review) => (
-            <MDBCol key={review.id} md="12" lg="10">
+            <MDBCol key={review.review_id} md="12" lg="10">
               <MDBCard className="text-dark mb-4">
                 <MDBCardBody className="p-4">
                   <MDBTypography tag="h4" className="mb-0">
@@ -164,23 +164,23 @@ function ReviewsBox({ movie_id }) {
                   <div className="d-flex flex-start align-items-center mb-3">
                     <MDBCardImage
                       className="rounded-circle shadow-1-strong me-3"
-                      src="src/assets/avatar.png"
+                      src="src/assets/avatar.jpg"
                       alt="avatar"
                       style={{ width: "50px", height: "50px" }}
                     />
                     <MDBTypography tag="h6" className="fw-bold mb-1">
                       {getUsernameById(review.userId)} dał filmowi ocenę: {review.review_mark}
                     </MDBTypography>
-                    <div className="d-flex align-items-center" style={{marginLeft: "10px", textAlign: "justify"}}>
+                    <div className="d-flex align-items-center" style={{ marginLeft: "10px", textAlign: "justify" }}>
                       <p className="mb-0">
                         {review.review_date}{' '}
                         {user && review.userId === user.id && (
                           <Button
                             variant="danger"
-                            style={{marginLeft: "10px"}}
+                            style={{ marginLeft: "10px" }}
                             onClick={() => {
-                              setCurrentReviewId(review.id);
-                              handleDeleteReview(review.id);
+                              setCurrentReviewIdGlobal(review.review_id); 
+                              handleDeleteReview();
                             }}
                           >
                             Usuń

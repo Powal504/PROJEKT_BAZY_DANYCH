@@ -6,7 +6,8 @@ function Reviews({ movie_id }) {
     const [description, setDescription] = useState("");
     const [error, setError] = useState("");
     const [addSuccess, setAddSuccess] = useState(false);
-    const token = localStorage.getItem('token')?.replace(/["']/g, ''); // Usunięcie cudzysłowów
+    const token = localStorage.getItem('token')?.replace(/["']/g, '');
+    const [loading, setLoading] = useState(true);
 
     const handleDescription = (event) => {
         setDescription(event.target.value);
@@ -35,7 +36,7 @@ function Reviews({ movie_id }) {
                 review_mark: rating,
                 movie_id: movie_id,
                 review_date: "",
-                userId: "c5966b04-e408-42a9-8a0e-c92da120bdea" // Przykładowe ID użytkownika
+                userId: "c5966b04-e408-42a9-8a0e-c92da120bdea"  // przykładowe
             };
 
             const response = await fetch("http://157.230.113.110:5028/api/Reviews", {
@@ -50,17 +51,20 @@ function Reviews({ movie_id }) {
             if (response.ok) {
                 setError("");
                 setAddSuccess(true);
-                setDescription(""); // Resetowanie pola opisu po sukcesie
-                setRating(0); // Resetowanie oceny po sukcesie
+                setDescription(""); 
+                setRating(0);
                 console.log("Recenzja dodana!");
             } else {
                 const errorText = await response.text();
                 setError(`Wystąpił błąd podczas dodawania recenzji: ${errorText}`);
                 console.error(`Error: ${response.status} ${response.statusText}`);
+                setLoading(false);
             }
+            
         } catch(error) {
             console.error("Wystąpił problem z dodaniem recenzji!", error.message);
             setError("Wystąpił problem z dodaniem recenzji!");
+            setLoading(false);
         }
     };
 

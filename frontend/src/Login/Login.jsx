@@ -7,7 +7,7 @@ function Login() {
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
     const [error, setError] = useState("");
-    const [loginSuccess, setLoginSuccess] = useState(false); // Dodaj stan na sukces logowania
+    const [loginSuccess, setLoginSuccess] = useState(false);
     const { setIsUserLogged, setUsernameGlobal } = useContext(GlobalContext);
     const history = useHistory(); // Inicjalizacja useHistory
 
@@ -41,7 +41,7 @@ function Login() {
                 setIsUserLogged(1);
                 setUsernameGlobal(username);
                 setError("");   
-                setLoginSuccess(true); // Ustawienie sukcesu logowania
+                setLoginSuccess(true);
                 localStorage.setItem('token', responseData.token);
                 history.push('/'); // Przekierowanie do strony głównej lub innej odpowiedniej ścieżki
             } else {
