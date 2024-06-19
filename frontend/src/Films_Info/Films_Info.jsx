@@ -1,6 +1,7 @@
-import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import React, { useState, useEffect, useContext } from 'react';
+import { Link, useHistory } from 'react-router-dom';
 import styles from './Films_Info.module.css';
+import { GlobalContext } from '../GlobalContext/GlobalContext';
 
 const fetchAllMovies = async () => {
   try {
@@ -42,11 +43,18 @@ const deleteMovie = async (title) => {
 };
 
 function Films_Info() {
+  const { userRole } = useContext(GlobalContext);
+  const history = useHistory();
   const [movies, setMovies] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
   useEffect(() => {
+    if (userRole !== 'Admin') {
+      history.push('/'); // Redirect to home if not an admin
+      return;
+    }
+    
     const fetchMovies = async () => {
       try {
         const data = await fetchAllMovies();
@@ -57,8 +65,9 @@ function Films_Info() {
         setLoading(false);
       }
     };
+
     fetchMovies();
-  }, []);
+  }, [userRole, history]);
 
   const handleDelete = async (title) => {
     const confirmed = window.confirm(`Are you sure you want to delete movie "${title}"?`);
@@ -85,8 +94,6 @@ function Films_Info() {
 
   return (
     <>
-      
-
       <div className="container mt-5">
         <h2 className={styles.FilmsI}>Films Information</h2>
         <table className="table table-striped">
@@ -113,10 +120,10 @@ function Films_Info() {
         </table>
       </div>
       <div className={`text-center ${styles.buttonadmin}`}>
-  <Link to="/Admin" className={`btn btn-outline-danger ${styles.ToMovie}`}>
-    Wróć
-  </Link>
-</div>
+        <Link to="/Admin" className={`btn btn-outline-danger ${styles.ToMovie}`}>
+          Wróć
+        </Link>
+      </div>
     </>
   );
 }

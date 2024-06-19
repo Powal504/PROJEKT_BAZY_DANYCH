@@ -1,18 +1,29 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
+import { useHistory } from "react-router-dom";
 import styles from './Movie_Add.module.css';
+import { GlobalContext } from '../GlobalContext/GlobalContext';
 
 function Movie_Add() {
+    const { userRole } = useContext(GlobalContext);
+    const history = useHistory();
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
-
     const [title, setTitle] = useState("");
     const [description, setDescription] = useState("");
     const [avatar, setAvatar] = useState("");
     const [genres, setGenres] = useState([]);
     const [selectedGenres, setSelectedGenres] = useState([]);
-
     const [addSuccess, setAddSuccess] = useState(false);
-    const [release_date, setRelease_Date] = useState("")
+    const [release_date, setRelease_Date] = useState("");
+
+    useEffect(() => {
+        if (userRole !== 'Admin') {
+            history.push('/'); // Redirect to home if not an admin
+            return;
+        }
+
+        fetchGenres();
+    }, [userRole, history]);
 
     function handleTitle(event) {
         setTitle(event.target.value);
@@ -36,8 +47,6 @@ function Movie_Add() {
         }
         setSelectedGenres(selectedGenres);
     }
-    
-    
 
     function handleDate(event){
         setRelease_Date(event.target.value);
@@ -60,7 +69,6 @@ function Movie_Add() {
 
             const data = await response.json();
             setGenres(data);
-            console.log("gatunki: ",data);
             setLoading(false);
 
         } catch (error) {
@@ -69,17 +77,8 @@ function Movie_Add() {
         }
     };
 
-    useEffect(() => {
-        fetchGenres();
-    }, []);
-
     const handleAddMovie = async () => {
-        try {console.log("data:",release_date);
-            console.log(`nazwa gatunku:${selectedGenres}`);
-            console.log("tytul:",title);
-            console.log("description:",description);
-            console.log("avatar:",avatar);
-
+        try {
             const token = localStorage.getItem('token');
             const response = await fetch('http://157.230.113.110:5028/api/films', {
                 method: 'POST',
@@ -101,12 +100,15 @@ function Movie_Add() {
             }
 
             setAddSuccess(true);
-            
 
         } catch (error) {
             setError(error.message);
         }
     };
+
+    if (loading) {
+        return <div>Loading...</div>;
+    }
 
     return (
         <div className={styles.movie_add}>
@@ -119,13 +121,13 @@ function Movie_Add() {
             <label className={styles.label_component}>Dodaj link do okładki</label>
             <input type="text" className={styles.input_component} value={release_date} onChange={handleDate} placeholder="Podaj date" />
             <label className={styles.label_component}>Podaj date dodania DD.MM.YYYY.</label>
-            <select className={styles.select_component_am} value={selectedGenres} onChange={handleGenre}>
+            <select className={styles.select_component_am} value={selectedGenres} onChange={handleGenre} multiple>
                 <option value="" disabled>Wybierz gatunek</option>
                 {genres.map((genre) => (
-                        <option key={genre.genre_id} value={genre.genre_name}>
-                            {genre.genre_name}
-                        </option>
-                    ))}
+                    <option key={genre.genre_id} value={genre.genre_name}>
+                        {genre.genre_name}
+                    </option>
+                ))}
             </select>
             <label className={styles.label_component}>Wybierz gatunek filmu</label>
             <button className={styles.confirm_button} onClick={handleAddMovie}>Dodaj film</button>
