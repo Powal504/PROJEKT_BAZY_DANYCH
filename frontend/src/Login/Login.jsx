@@ -8,7 +8,7 @@ function Login() {
     const [password, setPassword] = useState("");
     const [error, setError] = useState("");
     const [loginSuccess, setLoginSuccess] = useState(false);
-    const { setIsUserLogged, setUsernameGlobal } = useContext(GlobalContext);
+    const { setIsUserLogged, setUsernameGlobal, setUserRole } = useContext(GlobalContext);
     const history = useHistory(); // Inicjalizacja useHistory
 
 
@@ -43,7 +43,8 @@ function Login() {
                 setUsernameGlobal(username);
                 setUserRole(responseData.roles[0]); // Zapisz rolę użytkownika
                 setError("");
-                setLoginSuccess(true);
+                setLoginSuccess(true); 
+                setError("");
                 localStorage.setItem('token', responseData.token);
                 history.push('/'); 
             } else {
