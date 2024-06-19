@@ -1,7 +1,8 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import styles from './Users_Info.module.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
+import { GlobalContext } from '../GlobalContext/GlobalContext';
 
 const fetchAllUsers = async () => {
   const token = localStorage.getItem('token')?.replace(/["']/g, '');
@@ -45,11 +46,18 @@ const deleteUser = async (username) => {
 };
 
 function Users_Info() {
+  const { userRole } = useContext(GlobalContext);
+  const history = useHistory();
   const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
   useEffect(() => {
+    if (userRole !== 'Admin') {
+      history.push('/'); // Redirect to home if not an admin
+      return;
+    }
+
     const getUsers = async () => {
       try {
         const data = await fetchAllUsers();
@@ -61,17 +69,16 @@ function Users_Info() {
       }
     };
     getUsers();
-  }, []);
+  }, [userRole, history]);
 
   const handleDelete = async (username) => {
     const confirmed = window.confirm(`Are you sure you want to delete user ${username}?`);
     if (confirmed) {
       try {
         await deleteUser(username);
-        // After deletion, you may want to fetch users again to update the list
+        // After deletion, update the users list
         const updatedUsers = users.filter(user => user.userName !== username);
         setUsers(updatedUsers);
-        // Optionally show a success message or update the UI
       } catch (error) {
         setError(error.message);
       }
@@ -88,8 +95,6 @@ function Users_Info() {
 
   return (
     <>
-      
-
       <div className="container mt-5">
         <h2>User Information</h2>
         <table className="table table-striped">
@@ -117,10 +122,10 @@ function Users_Info() {
           </tbody>
         </table>
         <div className={styles.buttonadmin}>
-        <Link to="/Admin" className={`btn btn-outline-danger ${styles.ToMovie}`}>
-          Wróć
-        </Link>
-      </div>
+          <Link to="/Admin" className={`btn btn-outline-danger ${styles.ToMovie}`}>
+            Wróć
+          </Link>
+        </div>
       </div>
     </>
   );

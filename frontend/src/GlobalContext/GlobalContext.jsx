@@ -8,9 +8,10 @@ export const GlobalProvider = ({ children }) => {
   const [movieNameGlobal, setMovieNameGlobal] = useState("");
   const [movieIdGlobal, setMovieIdGlobal] = useState(null);
   const [currentReviewIdGlobal, setCurrentReviewIdGlobal] = useState("");
+  const [userRole, setUserRole] = useState(""); // Dodaj stan dla roli użytkownika
 
   return (
-    <GlobalContext.Provider value={{ isUserLogged, setIsUserLogged, usernameGlobal, setUsernameGlobal,  movieNameGlobal, setMovieNameGlobal, currentReviewIdGlobal, setCurrentReviewIdGlobal}}>
+    <GlobalContext.Provider value={{ isUserLogged, setIsUserLogged, usernameGlobal, setUsernameGlobal,  movieNameGlobal, setMovieNameGlobal, currentReviewIdGlobal, setCurrentReviewIdGlobal, userRole, setUserRole}}>
       {children}
     </GlobalContext.Provider>
   );
