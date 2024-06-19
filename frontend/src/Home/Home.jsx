@@ -12,56 +12,39 @@ function Home() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const [searchTerm, setSearchTerm] = useState("");
+  const [category, setCategory] = useState('');
   const [searchResults, setSearchResults] = useState([]);
   const { setMovieNameGlobal } = useContext(GlobalContext);
 
   useEffect(() => {
-    const fetchData = async () => {
+    const getMovies = async () => {
       try {
-        const moviesResponse = await fetchMovies();
-        const catalogsResponse = await fetchCatalogs();
-
-        setMovies(moviesResponse);
-        setSearchResults(moviesResponse); // Set search results initially to all movies
-        setCatalogs(catalogsResponse);
+        const response = await fetch('http://157.230.113.110:5028/api/Movies');
+        const moviesData = await response.json();
+        setMovies(moviesData);
+        setSearchResults(moviesData); // Set search results initially to all movies
         setLoading(false);
       } catch (error) {
-        setError("Error fetching data.");
+        setError("Error fetching movies.");
         setLoading(false);
       }
     };
 
-    fetchData();
+    const getCatalogs = async () => {
+      try {
+        const response = await fetch('http://157.230.113.110:5028/api/catalogs/AllCatalogs');
+        const catalogsData = await response.json();
+        setCatalogs(catalogsData);
+      } catch (error) {
+        console.error('Error fetching catalogs:', error);
+      }
+    };
+
+    getMovies();
+    getCatalogs();
   }, []);
 
-  const fetchMovies = async () => {
-    try {
-      const response = await fetch('http://157.230.113.110:5028/api/Movies');
-      if (!response.ok) {
-        throw new Error('Error fetching movies');
-      }
-      const data = await response.json();
-      return data;
-    } catch (error) {
-      console.error('Error fetching movies:', error);
-      throw error;
-    }
-  };
-
-  const fetchCatalogs = async () => {
-    try {
-      const response = await fetch('http://157.230.113.110:5028/api/catalogs/AllCatalogs');
-      if (!response.ok) {
-        throw new Error('Error fetching catalogs');
-      }
-      const data = await response.json();
-      return data;
-    } catch (error) {
-      console.error('Error fetching catalogs:', error);
-      throw error;
-    }
-  };
-
+  // Function to fetch movies by title from the backend
   const fetchMoviesByTitle = async (title) => {
     try {
       const response = await fetch(`http://157.230.113.110:5028/api/Movies/searchTitle/${title}`);
@@ -69,23 +52,17 @@ function Home() {
         throw new Error('Error fetching search results');
       }
       const data = await response.json();
-      return data;
+      setSearchResults(data);
     } catch (error) {
-      console.error('Error fetching search results:', error);
-      throw error;
+      setError("Error fetching search results.");
     }
   };
 
-  const handleSearch = async () => {
-    try {
-      if (!searchTerm.trim()) {
-        setSearchResults(movies); // Show all movies if search term is empty
-      } else {
-        const results = await fetchMoviesByTitle(searchTerm); // Fetch movies by title from the backend
-        setSearchResults(results);
-      }
-    } catch (error) {
-      setError("Error fetching search results.");
+  const handleSearch = () => {
+    if (!searchTerm.trim()) {
+      setSearchResults(movies); // Show all movies if search term is empty
+    } else {
+      fetchMoviesByTitle(searchTerm); // Fetch movies by title from the backend
     }
   };
 

@@ -1,5 +1,3 @@
-// GlobalContext.js
-
 import React, { createContext, useState } from 'react';
 
 export const GlobalContext = createContext();
@@ -9,9 +7,10 @@ export const GlobalProvider = ({ children }) => {
   const [usernameGlobal, setUsernameGlobal] = useState("");
   const [movieNameGlobal, setMovieNameGlobal] = useState("");
   const [movieIdGlobal, setMovieIdGlobal] = useState(null);
+  const [userRole, setUserRole] = useState(""); // Dodaj stan dla roli użytkownika
 
   return (
-    <GlobalContext.Provider value={{ isUserLogged, setIsUserLogged, usernameGlobal, setUsernameGlobal,  movieNameGlobal, setMovieNameGlobal}}>
+    <GlobalContext.Provider value={{ isUserLogged, setIsUserLogged, usernameGlobal, setUsernameGlobal, movieNameGlobal, setMovieNameGlobal, userRole, setUserRole }}>
       {children}
     </GlobalContext.Provider>
   );
